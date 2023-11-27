@@ -1,0 +1,149 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Converting masked array from float to uint8 does not convert dtype of fill_value #12070
+Closed
+jarlehr opened this issue on Oct 2, 2018 · 6 comments
+Comments
+@jarlehr
+jarlehr commented on Oct 2, 2018
+When a masked array of dtype float32 is converted to uint8, the dtype of the fill_value persists. When setting the fill_value to a uint8 value, the value is converted to float. Filling such an array yields an array of dtype object.
+
+This was working in numpy==1.14.
+
+Reproducing code example:
+import numpy as np
+
+foo = np.ma.masked_equal(np.arange(10, dtype="float32"), 5)
+foo.fill_value = -1.0
+bar = foo.astype("uint8")
+print(bar.fill_value)
+bar.fill_value = 255
+print(bar.fill_value)
+print(bar.filled().dtype)
+Error message:
+with numpy==1.14.2 this yields:
+
+255
+255
+uint8
+with numpy==1.15.2 this yields:
+
+-1.0
+255.0
+object
+Numpy/Python version information:
+Tested with python 2.7 and 3.5.2
+numpy==1.15
+
+@charris charris added 00 - Bug 06 - Regression labels on Oct 2, 2018
+@charris charris added this to the 1.15.3 release milestone on Oct 2, 2018
+@charris
+Member
+charris commented on Oct 2, 2018
+@eric-wieser ISTR that you made some changes here.
+
+@charris
+Member
+charris commented on Oct 2, 2018
+I think it is probably #10211 from @mhvk.
+
+@charris charris added the 09 - Backport-Candidate label on Oct 2, 2018
+@mhvk
+Contributor
+mhvk commented on Oct 3, 2018
+I fear that this regression is indeed my fault... I'll try to look at it, but as I am a bit overwhelmed right now, I fear it may be a while. The easiest would be to reintroduce the astype override, which just calls super for the main work, and then keeps the deleted part about fill_value (an alternative might add code to __array_finalize__). But this also needs to add some tests, since clearly our existing coverage did not catch this.
+
+@charris
+Member
+charris commented on Oct 3, 2018
+I'll take care of it.
+
+@charris
+Member
+charris commented on Oct 3, 2018
+since clearly our existing coverage did not catch this.
+
+@mhvk Yes, we do a lot of refactoring these days and it exposes the lack of complete test coverage, especially in unloved packages like masked arrays. My experience with tests is that when I make them more complete they invariably turn up bugs.
+
+@charris charris self-assigned this on Oct 3, 2018
+@charris charris mentioned this issue on Oct 19, 2018
+BUG: Fix MaskedArray fill_value type conversion. #12224
+ Merged
+@charris
+Member
+charris commented on Oct 19, 2018
+@mhvk see #12224, needs review.
+
+@charris charris removed the 09 - Backport-Candidate label on Oct 19, 2018
+@charris charris removed this from the 1.15.3 release milestone on Oct 19, 2018
+charris added a commit to charris/numpy that referenced this issue on Oct 20, 2018
+@charris
+BUG: Fix MaskedArray fill_value type conversion. …
+046cd82
+@charris charris closed this as completed in #12224 on Oct 21, 2018
+charris added a commit to charris/numpy that referenced this issue on Oct 21, 2018
+@charris
+BUG: Fix MaskedArray fill_value type conversion. …
+0af23d1
+@charris charris mentioned this issue on Oct 21, 2018
+BUG: Fix MaskedArray fill_value type conversion. #12237
+ Merged
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@charris
+charris
+Labels
+00 - Bug
+06 - Regression
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+3 participants
+@charris
+@mhvk
+@jarlehr
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

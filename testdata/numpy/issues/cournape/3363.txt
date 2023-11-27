@@ -1,0 +1,115 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+test_operand_flags failure on 32 bit #3363
+Closed
+juliantaylor opened this issue on May 25, 2013 · 5 comments · Fixed by #3599
+Comments
+@juliantaylor
+Contributor
+juliantaylor commented on May 25, 2013
+with current git head:
+
+ERROR: test_operand_flags (test_ufunc.TestUfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/local/lib/python2.7/site-packages/numpy/core/tests/test_ufunc.py", line 807, in test_operand_flags
+    opflag_tests.inplace_add(a[:-1,:-1], b)
+TypeError: ufunc 'inplace_add' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+it works on 64 bit.
+
+@ghost ghost assigned cournape on Jun 27, 2013
+@charris
+Member
+charris commented on Aug 5, 2013
+I'm suspecting a 'long' problem since long is different on 64 vs 32 bit linux.
+
+@charris
+Member
+charris commented on Aug 5, 2013
+@juliantaylor But now I look, everything is 'i8'. Is this still failing on 32 bits?
+
+@juliantaylor
+Contributor
+Author
+juliantaylor commented on Aug 5, 2013
+I can still reproduce it on 32 bit debian unstable
+
+@charris
+Member
+charris commented on Aug 11, 2013
+The message is in ufunc_type_resolution.c line 1924.
+
+@charris
+Member
+charris commented on Aug 11, 2013
+The inplace_add is defined in numpy/core/src/umath/operand_flag_tests.c.src where the inner loop uses the long type. I think the test is wrong, 'i8' should be replaced by 'l'. @juliantaylor Julian, could you try that on 32 bits?
+
+charris added a commit to charris/numpy that referenced this issue on Aug 11, 2013
+@charris
+BUG: Fix test_operand_flags test. …
+d10832b
+@charris charris mentioned this issue on Aug 11, 2013
+BUG: Fix test_operand_flags test. #3599
+ Merged
+@charris charris closed this as completed in #3599 on Aug 11, 2013
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@cournape
+cournape
+Labels
+00 - Bug
+component: numpy.core
+Projects
+None yet
+Milestone
+1.8 blockers
+Development
+Successfully merging a pull request may close this issue.
+
+ BUG: Fix test_operand_flags test.
+charris/numpy
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+3 participants
+@cournape
+@charris
+@juliantaylor
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

@@ -1,0 +1,137 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+test_structured_object_indexing seems racy #17381
+Closed
+StefanBruens opened this issue on Sep 27, 2020 · 3 comments · Fixed by #20366
+Comments
+@StefanBruens
+StefanBruens commented on Sep 27, 2020
+On the openSUSE OBS, there are occasional failures of the test_structured_object_indexing test:
+
+[  740s]     def test_structured_object_indexing(self, shape, index, items_changed,
+[  740s]                                         dt, pat, count, singleton):
+[  740s]         """Structured object reference counting for advanced indexing."""
+[  740s]         zero = 0
+[  740s]         one = 1
+[  740s]     
+[  740s]         arr = np.zeros(shape, dt)
+[  740s]     
+[  740s]         gc.collect()
+[  740s]         before_zero = sys.getrefcount(zero)
+[  740s]         before_one = sys.getrefcount(one)
+[  740s]         # Test item getting:
+[  740s]         part = arr[index]
+[  740s]         after_zero = sys.getrefcount(zero)
+[  740s]         assert after_zero - before_zero == count * items_changed
+[  740s]         del part
+[  740s]         # Test item setting:
+[  740s]         arr[index] = one
+[  740s]         gc.collect()
+[  740s]         after_zero = sys.getrefcount(zero)
+[  740s]         after_one = sys.getrefcount(one)
+[  740s] >       assert before_zero - after_zero == count * items_changed
+[  740s] E       assert 11 == 12
+[  740s] E         +11
+[  740s] E         -12
+Integers are full objects in Python, and small integers are always shared, not only when copying.
+
+The tests are run with pytest-xdist, with up to 16 threads (workers have different numbers of cores).
+
+@StefanBruens
+Author
+StefanBruens commented on Oct 6, 2020
+Some more data points:
+
+with 8 workers or less, I have not seen this problem
+happens with both openblas-openmp and netlib blas.
+@rgommers rgommers mentioned this issue on Feb 10, 2021
+numpy v1.20.1 conda-forge/numpy-feedstock#225
+ Merged
+3 tasks
+@rgommers rgommers added 00 - Bug component: numpy.core labels on Feb 10, 2021
+@rgommers
+Member
+rgommers commented on Feb 10, 2021
+Seen on conda-forge as well: conda-forge/numpy-feedstock#225
+
+@seberg seberg added this to the 1.20.2 release milestone on Feb 10, 2021
+@seberg
+Member
+seberg commented on Feb 10, 2021
+Is there some race condition in NumPy or is it just that small integers are shared and their reference count can be affected by a different thread somewhere? (I assume it is the latter, 1.20 did include a bug fix for a similar race-condition though, so happy to be corrected.)
+
+If its just the small integers, we probably should skip the zero and use some unique integer instead of the ones.
+
+@charris charris modified the milestones: 1.20.2 release, 1.21.0 release on Mar 27, 2021
+@seberg seberg self-assigned this on May 19, 2021
+@charris charris modified the milestones: 1.21.0 release, 1.22.0 release on May 22, 2021
+seberg added a commit to seberg/numpy that referenced this issue on Nov 12, 2021
+@seberg
+MAINT,TST: Avoid small positive integers in refcount test …
+b73f84f
+@seberg seberg mentioned this issue on Nov 12, 2021
+MAINT,TST: Avoid small positive integers in refcount test #20366
+ Merged
+@charris charris closed this as completed in #20366 on Nov 13, 2021
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@seberg
+seberg
+Labels
+00 - Bug
+component: numpy.core
+Projects
+None yet
+Milestone
+1.22.0 release
+Development
+Successfully merging a pull request may close this issue.
+
+ MAINT,TST: Avoid small positive integers in refcount test
+seberg/numpy
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+4 participants
+@seberg
+@charris
+@rgommers
+@StefanBruens
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

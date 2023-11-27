@@ -1,0 +1,882 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Building numpy on 3.3 with MSVC 2010 does not work #4245
+Closed
+cournape opened this issue on Jan 30, 2014 · 27 comments
+Comments
+@cournape
+Member
+cournape commented on Jan 30, 2014
+Reported on the distutils-sig by Paul Moore.
+
+A quick test later:
+No BLAS/ATLAS/LAPACK causes a string of warnings, And ignoring the
+rest of the error stack (which I'm frankly not interested in investing
+the time to diagnose and fix) I get "RuntimeError: Broken toolchain:
+cannot link a simple C program". Which is utter rubbish - I routinely
+build extensions with this installation.
+@ghost ghost assigned cournape on Jan 30, 2014
+@pfmoore
+pfmoore commented on Jan 30, 2014
+The environment I used: Python 3.3 on Windows 7 64-bit with MSVC 2010 installed (but not on PATH). This is my standard environment for all installs, and works seamlessly for projects like coverage and zmq that include C extensions.
+
+Output from a clean attempt to install numpy:
+
+PS> virtualenv numpy-test
+Using base prefix 'C:\\Apps\\Python33'
+New python executable in numpy-test\Scripts\python.exe
+Installing setuptools, pip...done.
+PS> numpy-test\scripts\activate.ps1
+(numpy-test) PS> pip install numpy
+Downloading/unpacking numpy
+  Running setup.py (path:C:\Work\Scratch\numpy-test\build\numpy\setup.py) egg_info for package numpy
+    non-existing path in 'numpy\\distutils': 'site.cfg'
+    F2PY Version 2
+    blas_opt_info:
+    blas_mkl_info:
+      libraries mkl,vml,guide not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+    openblas_info:
+      libraries openblas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+    atlas_blas_threads_info:
+    Setting PTATLAS=ATLAS
+      libraries ptf77blas,ptcblas,atlas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+    atlas_blas_info:
+      libraries f77blas,cblas,atlas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+    blas_info:
+      libraries blas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+    blas_src_info:
+      NOT AVAILABLE
+
+      NOT AVAILABLE
+
+    non-existing path in 'numpy\\lib': 'benchmarks'
+    lapack_opt_info:
+    lapack_mkl_info:
+    mkl_info:
+      libraries mkl,vml,guide not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+      NOT AVAILABLE
+
+    atlas_threads_info:
+    Setting PTATLAS=ATLAS
+      libraries ptf77blas,ptcblas,atlas not found in C:\Work\Scratch\numpy-test\lib
+      libraries lapack_atlas not found in C:\Work\Scratch\numpy-test\lib
+      libraries ptf77blas,ptcblas,atlas not found in C:\
+      libraries lapack_atlas not found in C:\
+    <class 'numpy.distutils.system_info.atlas_threads_info'>
+      NOT AVAILABLE
+
+    atlas_info:
+      libraries f77blas,cblas,atlas not found in C:\Work\Scratch\numpy-test\lib
+      libraries lapack_atlas not found in C:\Work\Scratch\numpy-test\lib
+      libraries f77blas,cblas,atlas not found in C:\
+      libraries lapack_atlas not found in C:\
+    <class 'numpy.distutils.system_info.atlas_info'>
+      NOT AVAILABLE
+
+    lapack_info:
+      libraries lapack not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+      NOT AVAILABLE
+
+    lapack_src_info:
+      NOT AVAILABLE
+
+      NOT AVAILABLE
+
+    build_src
+    building py_modules sources
+    building library "npymath" sources
+    No module named 'numpy.distutils.msvccompiler' in numpy.distutils; trying from distutils
+    customize GnuFCompiler
+    Could not locate executable g77
+    Could not locate executable f77
+    customize IntelVisualFCompiler
+    Could not locate executable ifort
+    Could not locate executable ifl
+    customize AbsoftFCompiler
+    Could not locate executable f90
+    customize CompaqVisualFCompiler
+    Found executable C:\Utils\GnuWin32\bin\DF.exe
+    Found executable C:\Utils\GnuWin32\bin\DF.exe
+    Running from numpy source directory.
+    C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1522: UserWarning:
+        Atlas (http://math-atlas.sourceforge.net/) libraries not found.
+        Directories to search for the libraries can be specified in the
+        numpy/distutils/site.cfg file (section [atlas]) or by setting
+        the ATLAS environment variable.
+      warnings.warn(AtlasNotFoundError.__doc__)
+    C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1531: UserWarning:
+        Blas (http://www.netlib.org/blas/) libraries not found.
+        Directories to search for the libraries can be specified in the
+        numpy/distutils/site.cfg file (section [blas]) or by setting
+        the BLAS environment variable.
+      warnings.warn(BlasNotFoundError.__doc__)
+    C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1534: UserWarning:
+        Blas (http://www.netlib.org/blas/) sources not found.
+        Directories to search for the sources can be specified in the
+        numpy/distutils/site.cfg file (section [blas_src]) or by setting
+        the BLAS_SRC environment variable.
+      warnings.warn(BlasSrcNotFoundError.__doc__)
+    C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1439: UserWarning:
+        Lapack (http://www.netlib.org/lapack/) libraries not found.
+        Directories to search for the libraries can be specified in the
+        numpy/distutils/site.cfg file (section [lapack]) or by setting
+        the LAPACK environment variable.
+      warnings.warn(LapackNotFoundError.__doc__)
+    C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1442: UserWarning:
+        Lapack (http://www.netlib.org/lapack/) sources not found.
+        Directories to search for the sources can be specified in the
+        numpy/distutils/site.cfg file (section [lapack_src]) or by setting
+        the LAPACK_SRC environment variable.
+      warnings.warn(LapackSrcNotFoundError.__doc__)
+    C:\Apps\Python33\Lib\distutils\dist.py:257: UserWarning: Unknown distribution option: 'define_macros'
+      warnings.warn(msg)
+    customize IntelItaniumVisualFCompiler
+    Could not locate executable efl
+    customize Gnu95FCompiler
+    Could not locate executable gfortran
+    Could not locate executable f95
+    customize G95FCompiler
+    Could not locate executable g95
+    customize IntelEM64VisualFCompiler
+    customize IntelEM64TFCompiler
+    Could not locate executable efort
+    Could not locate executable efc
+    don't know how to compile Fortran code on platform 'nt'
+    c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\cl.exe /c /nologo /Ox /MD /W3 /GS- /DNDEBUG -Inumpy\core\src\private -Inumpy\core\src -Inumpy\core -Inumpy\core\src\npymath -Inumpy\core\src\multiarray -Inumpy\core\src\umath -Inumpy\core\src\npysort -Inumpy\core\include -IC:\Apps\Python33\include -IC:\Apps\Python33\include /Tc_configtest.c /Fo_configtest.obj
+    Found executable c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\cl.exe
+    c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\link.exe /nologo /INCREMENTAL:NO _configtest.obj /OUT:_configtest.exe /MANIFESTFILE:_configtest.exe.manifest
+    Found executable c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\link.exe
+    mt.exe -nologo -manifest _configtest.exe.manifest -outputresource:_configtest.exe;1
+    Found executable C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\x64\mt.exe
+
+    _configtest.exe.manifest : general error c1010070: Failed to load and parse the manifest. The system cannot find the file specified.
+
+    failure.
+    removing: _configtest.c _configtest.obj
+    Traceback (most recent call last):
+      File "<string>", line 17, in <module>
+      File "C:\Work\Scratch\numpy-test\build\numpy\setup.py", line 192, in <module>
+        setup_package()
+      File "C:\Work\Scratch\numpy-test\build\numpy\setup.py", line 185, in setup_package
+        configuration=configuration )
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\core.py", line 169, in setup
+        return old_setup(**new_attr)
+      File "C:\Apps\Python33\Lib\distutils\core.py", line 148, in setup
+        dist.run_commands()
+      File "C:\Apps\Python33\Lib\distutils\dist.py", line 917, in run_commands
+        self.run_command(cmd)
+      File "C:\Apps\Python33\Lib\distutils\dist.py", line 936, in run_command
+        cmd_obj.run()
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\egg_info.py", line 10, in run
+        self.run_command("build_src")
+      File "C:\Apps\Python33\Lib\distutils\cmd.py", line 313, in run_command
+        self.distribution.run_command(command)
+      File "C:\Apps\Python33\Lib\distutils\dist.py", line 936, in run_command
+        cmd_obj.run()
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 153, in run
+        self.build_sources()
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 164, in build_sources
+        self.build_library_sources(*libname_info)
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 299, in build_library_sources
+        sources = self.generate_sources(sources, (lib_name, build_info))
+      File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 386, in generate_sources
+        source = func(extension, build_dir)
+      File "numpy\core\setup.py", line 674, in get_mathlib_info
+        raise RuntimeError("Broken toolchain: cannot link a simple C program")
+    RuntimeError: Broken toolchain: cannot link a simple C program
+    Complete output from command python setup.py egg_info:
+    non-existing path in 'numpy\\distutils': 'site.cfg'
+
+F2PY Version 2
+
+blas_opt_info:
+
+blas_mkl_info:
+
+  libraries mkl,vml,guide not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+openblas_info:
+
+  libraries openblas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+atlas_blas_threads_info:
+
+Setting PTATLAS=ATLAS
+
+  libraries ptf77blas,ptcblas,atlas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+atlas_blas_info:
+
+  libraries f77blas,cblas,atlas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+blas_info:
+
+  libraries blas not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+blas_src_info:
+
+  NOT AVAILABLE
+
+
+
+  NOT AVAILABLE
+
+
+non-existing path in 'numpy\\lib': 'benchmarks'
+
+lapack_opt_info:
+
+lapack_mkl_info:
+
+mkl_info:
+
+  libraries mkl,vml,guide not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+  NOT AVAILABLE
+
+
+
+atlas_threads_info:
+
+Setting PTATLAS=ATLAS
+
+  libraries ptf77blas,ptcblas,atlas not found in C:\Work\Scratch\numpy-test\lib
+
+  libraries lapack_atlas not found in C:\Work\Scratch\numpy-test\lib
+
+  libraries ptf77blas,ptcblas,atlas not found in C:\
+
+  libraries lapack_atlas not found in C:\
+
+<class 'numpy.distutils.system_info.atlas_threads_info'>
+
+  NOT AVAILABLE
+
+
+
+atlas_info:
+
+  libraries f77blas,cblas,atlas not found in C:\Work\Scratch\numpy-test\lib
+
+  libraries lapack_atlas not found in C:\Work\Scratch\numpy-test\lib
+
+  libraries f77blas,cblas,atlas not found in C:\
+
+  libraries lapack_atlas not found in C:\
+
+<class 'numpy.distutils.system_info.atlas_info'>
+
+  NOT AVAILABLE
+
+
+
+lapack_info:
+
+  libraries lapack not found in ['C:\\Work\\Scratch\\numpy-test\\lib', 'C:\\']
+
+  NOT AVAILABLE
+
+
+
+lapack_src_info:
+
+  NOT AVAILABLE
+
+
+
+  NOT AVAILABLE
+
+
+
+running egg_info
+
+running build_src
+
+build_src
+
+building py_modules sources
+
+creating build
+
+creating build\src.win-amd64-3.3
+
+creating build\src.win-amd64-3.3\numpy
+
+creating build\src.win-amd64-3.3\numpy\distutils
+
+building library "npymath" sources
+
+No module named 'numpy.distutils.msvccompiler' in numpy.distutils; trying from distutils
+
+customize GnuFCompiler
+
+Could not locate executable g77
+
+Could not locate executable f77
+
+customize IntelVisualFCompiler
+
+Could not locate executable ifort
+
+Could not locate executable ifl
+
+customize AbsoftFCompiler
+
+Could not locate executable f90
+
+customize CompaqVisualFCompiler
+
+Found executable C:\Utils\GnuWin32\bin\DF.exe
+
+Found executable C:\Utils\GnuWin32\bin\DF.exe
+
+Running from numpy source directory.
+
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1522: UserWarning:
+
+    Atlas (http://math-atlas.sourceforge.net/) libraries not found.
+
+    Directories to search for the libraries can be specified in the
+
+    numpy/distutils/site.cfg file (section [atlas]) or by setting
+
+    the ATLAS environment variable.
+
+  warnings.warn(AtlasNotFoundError.__doc__)
+
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1531: UserWarning:
+
+    Blas (http://www.netlib.org/blas/) libraries not found.
+
+    Directories to search for the libraries can be specified in the
+
+    numpy/distutils/site.cfg file (section [blas]) or by setting
+
+    the BLAS environment variable.
+
+  warnings.warn(BlasNotFoundError.__doc__)
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1534: UserWarning:
+
+    Blas (http://www.netlib.org/blas/) sources not found.
+
+    Directories to search for the sources can be specified in the
+
+    numpy/distutils/site.cfg file (section [blas_src]) or by setting
+
+    the BLAS_SRC environment variable.
+
+  warnings.warn(BlasSrcNotFoundError.__doc__)
+
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1428: UserWarning:
+
+    Atlas (http://math-atlas.sourceforge.net/) libraries not found.
+
+    Directories to search for the libraries can be specified in the
+
+    numpy/distutils/site.cfg file (section [atlas]) or by setting
+
+    the ATLAS environment variable.
+
+  warnings.warn(AtlasNotFoundError.__doc__)
+
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1439: UserWarning:
+
+    Lapack (http://www.netlib.org/lapack/) libraries not found.
+
+    Directories to search for the libraries can be specified in the
+
+    numpy/distutils/site.cfg file (section [lapack]) or by setting
+
+    the LAPACK environment variable.
+
+  warnings.warn(LapackNotFoundError.__doc__)
+
+C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\system_info.py:1442: UserWarning:
+
+    Lapack (http://www.netlib.org/lapack/) sources not found.
+
+    Directories to search for the sources can be specified in the
+
+    numpy/distutils/site.cfg file (section [lapack_src]) or by setting
+
+    the LAPACK_SRC environment variable.
+
+  warnings.warn(LapackSrcNotFoundError.__doc__)
+
+C:\Apps\Python33\Lib\distutils\dist.py:257: UserWarning: Unknown distribution option: 'define_macros'
+
+  warnings.warn(msg)
+
+customize IntelItaniumVisualFCompiler
+
+Could not locate executable efl
+
+customize Gnu95FCompiler
+
+Could not locate executable gfortran
+
+Could not locate executable f95
+
+customize G95FCompiler
+
+Could not locate executable g95
+
+customize IntelEM64VisualFCompiler
+
+customize IntelEM64TFCompiler
+
+Could not locate executable efort
+
+Could not locate executable efc
+
+don't know how to compile Fortran code on platform 'nt'
+
+c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\cl.exe /c /nologo /Ox /MD /W3 /GS- /DNDEBUG -Inumpy\core\src\private -Inumpy\core\src -Inumpy\core -Inumpy\core\src\npymath -Inumpy\core\src\multiarray -Inumpy\core\src\umath -Inumpy\core\src\npysort -Inumpy\core\include -IC:\Apps\Python33\include -IC:\Apps\Python33\include /Tc_configtest.c /Fo_configtest.obj
+
+Found executable c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\cl.exe
+
+c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\link.exe /nologo /INCREMENTAL:NO _configtest.obj /OUT:_configtest.exe /MANIFESTFILE:_configtest.exe.manifest
+
+Found executable c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\link.exe
+
+mt.exe -nologo -manifest _configtest.exe.manifest -outputresource:_configtest.exe;1
+
+Found executable C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\x64\mt.exe
+
+
+
+_configtest.exe.manifest : general error c1010070: Failed to load and parse the manifest. The system cannot find the file specified.
+
+
+
+failure.
+
+removing: _configtest.c _configtest.obj
+
+Traceback (most recent call last):
+
+  File "<string>", line 17, in <module>
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\setup.py", line 192, in <module>
+
+    setup_package()
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\setup.py", line 185, in setup_package
+
+    configuration=configuration )
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\core.py", line 169, in setup
+
+    return old_setup(**new_attr)
+
+  File "C:\Apps\Python33\Lib\distutils\core.py", line 148, in setup
+
+    dist.run_commands()
+
+  File "C:\Apps\Python33\Lib\distutils\dist.py", line 917, in run_commands
+
+    self.run_command(cmd)
+
+  File "C:\Apps\Python33\Lib\distutils\dist.py", line 936, in run_command
+
+    cmd_obj.run()
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\egg_info.py", line 10, in run
+
+    self.run_command("build_src")
+
+  File "C:\Apps\Python33\Lib\distutils\cmd.py", line 313, in run_command
+
+    self.distribution.run_command(command)
+
+  File "C:\Apps\Python33\Lib\distutils\dist.py", line 936, in run_command
+
+    cmd_obj.run()
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 153, in run
+
+    self.build_sources()
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 164, in build_sources
+
+    self.build_library_sources(*libname_info)
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 299, in build_library_sources
+
+    sources = self.generate_sources(sources, (lib_name, build_info))
+
+  File "C:\Work\Scratch\numpy-test\build\numpy\numpy\distutils\command\build_src.py", line 386, in generate_sources
+
+    source = func(extension, build_dir)
+
+  File "numpy\core\setup.py", line 674, in get_mathlib_info
+
+    raise RuntimeError("Broken toolchain: cannot link a simple C program")
+
+RuntimeError: Broken toolchain: cannot link a simple C program
+
+----------------------------------------
+Cleaning up...
+Command python setup.py egg_info failed with error code 1 in C:\Work\Scratch\numpy-test\build\numpy
+Storing debug log for failure in C:\Users\uk03306\pip\pip.log
+(numpy-test) PS>
+For comparison, here's a coverage install (with --no-use-wheel so I don't get a precompiled wheel!)
+
+(numpy-test) PS> pip install coverage --no-use-wheel
+Downloading/unpacking coverage
+  Running setup.py (path:C:\Work\Scratch\numpy-test\build\coverage\setup.py) egg_info for package coverage
+
+    warning: no previously-included files matching '*.pyc' found anywhere in distribution
+Installing collected packages: coverage
+  Running setup.py install for coverage
+    building 'coverage.tracer' extension
+    c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\cl.exe /c /nologo /Ox /MD /W3 /GS- /DNDEBUG -IC:\Apps\Python33\include -IC:\Apps\Python33\include /Tccoverage/tracer.c /Fobuild\temp.win-amd64-3.3\Release\coverage/tracer.obj
+    tracer.c
+    c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\BIN\amd64\link.exe /DLL /nologo /INCREMENTAL:NO /LIBPATH:C:\Apps\Python33\Libs /LIBPATH:C:\Work\Scratch\numpy-test\libs /LIBPATH:C:\Work\Scratch\numpy-test\PCbuild\amd64 /EXPORT:PyInit_tracer build\temp.win-amd64-3.3\Release\coverage/tracer.obj /OUT:build\lib.win-amd64-3.3\coverage\tracer.pyd /IMPLIB:build\temp.win-amd64-3.3\Release\coverage\tracer.lib /MANIFESTFILE:build\temp.win-amd64-3.3\Release\coverage\tracer.pyd.manifest
+       Creating library build\temp.win-amd64-3.3\Release\coverage\tracer.lib and object build\temp.win-amd64-3.3\Release\coverage\tracer.exp
+
+    warning: no previously-included files matching '*.pyc' found anywhere in distribution
+    Installing coverage-script.py script to C:\Work\Scratch\numpy-test\Scripts
+    Installing coverage.exe script to C:\Work\Scratch\numpy-test\Scripts
+    Installing coverage-3.3-script.py script to C:\Work\Scratch\numpy-test\Scripts
+    Installing coverage-3.3.exe script to C:\Work\Scratch\numpy-test\Scripts
+    Installing coverage3-script.py script to C:\Work\Scratch\numpy-test\Scripts
+    Installing coverage3.exe script to C:\Work\Scratch\numpy-test\Scripts
+Successfully installed coverage
+Cleaning up...
+@juliantaylor
+Contributor
+juliantaylor commented on Jan 30, 2014
+this is most likely a python distutils issue and not numpy:
+
+_configtest.exe.manifest : general error c1010070: Failed to load and parse the manifest. The system cannot find the file specified.
+see #4101 for some solutions
+
+@juliantaylor juliantaylor closed this as completed on Jan 30, 2014
+@pfmoore
+pfmoore commented on Jan 30, 2014
+Well, patching my distutils isn't a useful solution. This issue only seems to affect numpy, so it seems reasonable for numpy to work round it, given that the likelihood of a distutils fix is remote (and guaranteed not to be available any earlier than Python 3.5).
+
+@charris
+Member
+charris commented on Jan 30, 2014
+Is this problem specific to Python 3.*?
+
+@rkern
+Member
+rkern commented on Jan 30, 2014
+Only 3.* uses MSVC 2010.
+
+@rgommers
+Member
+rgommers commented on Jan 31, 2014
+While this does look like a distutils bug, it would be good to (a) spell out why coverage doesn't fail here, (b) submit a fix to Python, and (c) fix it in numpy anyway for 3.2 <= __version__ < 3.5. Monkeypatching MSVCCompiler.manifest_setup_ldargs looks fairly safe (relative to other parts of numpy.distutils anyway).
+
+@rgommers rgommers reopened this on Jan 31, 2014
+@rgommers rgommers mentioned this issue on Feb 4, 2014
+Compiling numpy 1.7.1/1.8.0 for python 3.3 on Windows with VS2010/SDK fails with "broken toolchain" due to missing manifest #4101
+Closed
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+Update:
+
+Compiling numpy 1.7.1/1.8.0 for python 3.3 on Windows with VS2010/SDK fails with "broken toolchain" due to missing manifest #4101 (closed) is a duplicate of this issue with more background and workarounds.
+the patch to Python was already submitted in 2012: http://bugs.python.org/issue16296. But of course stalled, as most distutils patches seem to do.
+a similar patch for MSVC2010 support was proposed as far back as 2008: http://bugs.python.org/issue4431. That one took a turn in a different direction, but the initial one-liner still looks correct.
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+Has anyone tried to build with Bento + MSVC2010? If that works at least we can tell people to use that combo.
+
+@pfmoore
+pfmoore commented on Feb 4, 2014
+The problem is that pip install numpy uses distutils/setuptools. While using bento might work, it won't alter the issue of "pip can't install numpy" which is what triggered this report.
+
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+True. But it's still a whole lot better to just download the source and invoke Bento than not be able to install it at all. Not saying we shouldn't implement a workaround in distutils. Anyway if we commit a fix now it also won't help until the next release is made.
+
+@pfmoore
+pfmoore commented on Feb 4, 2014
+I've added a reminder to http://bugs.python.org/issue16296, but the previous comment on there was a question from Marin Von Loewis which has gone unanswered - so it may be that it's languishing because the impression is that whoever posted the bug doesn't care enough to push it forward :-(
+
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+And maybe pip should grow Bento support, instead of using a "likelihood-of-a-fix-is-remote build system" :)
+
+@pfmoore
+pfmoore commented on Feb 4, 2014
+@rgommers not really - in that case you might as well just download Cristoph Gohlke's build, convert to a wheel and pip install that. The original thread here was about uploading numpy wheels to make the pip install experience work - and someone pointed out that pip install numpy works right now, building from source. When it didn't, I was asked to raise this bug by @cournape (who actually raised the issue for me)..
+
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+OK fair point. pip source install won't work until 1.8.1 at the earliest if you have MSVC2010.
+
+For 1.8.0 we can discuss uploading no-SSE wheels, given that the SSE2 ones were deemed a bad idea.
+
+@pfmoore
+pfmoore commented on Feb 4, 2014
+I've just looked at the patch on http://bugs.python.org/issue16296. It doesn't apply cleanly to Python 3.3, and even when I hand-apply it it doesn't fix the pip install numpy issue. So that's not really going to be relevant or help - it's clearly not in a fit state to go into Python 3.4.
+
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+@pfmoore that's not surprising. Patches almost always take some amount tweaking after they're first submitted by a non-core developer, and especially if they're 1.5 years old. It's so small that a couple of hours spent by someone with a bit of distutils knowledge and the right build env set up should be enough (not suggesting you should do the work).
+
+Any volunteers (also for the numpy.distutils fix)?
+
+@rgommers
+Member
+rgommers commented on Feb 4, 2014
+Again this link, cause it contains a better fix from @cgohlke: http://mail.scipy.org/pipermail/numpy-discussion/2012-November/064524.html. That thread also reports that the patch on the Python tracker did work for Peter Cock.
+
+@bradbell
+bradbell commented on Apr 7, 2014
+I am having a similar problem with, windows 7:
+
+python 3.4 from
+https://www.python.org/downloads/
+
+Visual Studio Express 2013 express for windows Desktop from
+http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx
+
+When I run 'pip install numpy' at the end I get
+Storing debug log for failure in C:\Users\bradbell\pip\pip.log
+Looking in the log I see the following messages:
+
+=== SNIP ===
+Downloading from URL https://pypi.python.org/packages/source/n/numpy/numpy-1.8.1.tar.gz#md5=be95babe263bfa3428363d6db5b64678 (from https://pypi.python.org/simple/numpy/)
+Running setup.py (path:C:\Users\bradbell\AppData\Local\Temp\pip_build_bradbell\numpy\setup.py) egg_info for package numpy
+running egg_info
+creating pip-egg-info\numpy.egg-info
+writing dependency_links to pip-egg-info\numpy.egg-info\dependency_links.txt
+writing pip-egg-info\numpy.egg-info\PKG-INFO
+writing top-level names to pip-egg-info\numpy.egg-info\top_level.txt
+writing manifest file 'pip-egg-info\numpy.egg-info\SOURCES.txt'
+Running from numpy source directory.
+warning: manifest_maker: standard file '-c' not found
+
+reading manifest file 'pip-egg-info\numpy.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'tools\py3tool.py'
+warning: no files found matching '*' under directory 'doc\f2py'
+warning: no previously-included files matching '*.pyc' found anywhere in distribution
+warning: no previously-included files matching '*.pyo' found anywhere in distribution
+warning: no previously-included files matching '*.pyd' found anywhere in distribution
+writing manifest file 'pip-egg-info\numpy.egg-info\SOURCES.txt'
+Source in c:\users\bradbell\appdata\local\temp\pip_build_bradbell\numpy has version 1.8.1, which satisfies requirement numpy
+Installing collected packages: numpy
+Running setup.py install for numpy
+Running command C:\Python34\python.exe -c "import setuptools, tokenize;file='C:\Users\bradbell\AppData\Local\Temp\pip_build_bradbell\numpy\setup.py';exec(compile(getattr(tokenize, 'open', open)(file).read().replace('\r\n', '\n'), file, 'exec'))" install --record C:\Users\bradbell\AppData\Local\Temp\pip-b1kbsaxz-record\install-record.txt --single-version-externally-managed --compile
+non-existing path in 'numpy\distutils': 'site.cfg'
+F2PY Version 2
+blas_opt_info:
+blas_mkl_info:
+libraries mkl,vml,guide not found in ['C:\Python34\lib', 'C:', 'C:\Python34\libs']
+NOT AVAILABLE
+
+openblas_info:
+  libraries  not found in ['C:\\Python34\\lib', 'C:\\', 'C:\\Python34\\libs']
+  NOT AVAILABLE
+=== SNIP ===
+
+File "numpy\core\setup.py", line 682, in get_mathlib_info
+
+raise RuntimeError("Broken toolchain: cannot link a simple C program")
+RuntimeError: Broken toolchain: cannot link a simple C program
+
+@obeleh
+obeleh commented on Apr 30, 2014
+I get the same issue with python 2.7 on windows 7 and MSVC 2012
+
+@mholzel
+mholzel commented on May 27, 2014
+As pointed out above, I believe the issue that you guys are having boils down to the msvc9compiler.py file in Python3.4.0\Lib\distutils. The reason is that the newer versions of Visual Studio do not include the manifest, which apparently distutils needs. Btw, I have tried this on basically a million virtual machines, with different combinations of Windows and Visual Studio. The Windows version appears to be irrelevant, but I could only get this to work for 32-bit compiling in Visual Studio 2010 Express or Professional. Since the Python project was built with 2010, you will run into error in 2012 or 2013. Express 2010 is free, so just install it.
+
+Note on 64 bit: I cannot get the 64-bit compiling to work because of problems compile 64 bit OpenSSL on my machines.
+
+Back to the fix.... In the msvc9compiler file, replace:
+
+    if self.__version >= 7:
+        self.ldflags_shared_debug = [
+            '/DLL', '/nologo', '/INCREMENTAL:no', '/DEBUG', '/pdb:None'
+            ]
+with:
+
+    if self.__version >= 10:
+        self.ldflags_shared = ['/DLL', '/nologo', '/INCREMENTAL:NO', '/Manifest' ]
+        self.ldflags_shared_debug = [
+            '/DLL', '/nologo', '/INCREMENTAL:no', '/DEBUG', '/pdb:None', '/Manifest' 
+            ]
+    elif self.__version >= 7:
+        self.ldflags_shared_debug = [
+            '/DLL', '/nologo', '/INCREMENTAL:no', '/DEBUG', '/pdb:None'
+            ]
+Since this is a .py file, be very careful to ensure that your indenting is done with spaces (not tabs), and that everything is properly aligned. Apparently the source of this is that older versions of Visual Studio (pre 2010) automatically generated a manifest file, which distutils needs.
+
+Once you do this, you might need to rebuild Python. Then can run the "python -m ensurepip" command to get pip, followed by "pip install numpy" to get numpy. Two caviots:
+
+I made a copy of the auto-generated pip3.4 called "pip" for convenience.
+I made a copy of python.exe called python34.exe, since this is the file that pip will look for.
+I hope some of this info is useful.
+
+@mcleu
+mcleu commented on Jul 20, 2014
+Just wanted to leave an update to others that the fix provided in //issues/4101 did the trick for me.
+I just installed Python 3.4 and VS2010, and was getting the broken toolchain error.
+The replacement to "mfinfo = None" fixed the issue.
+
+@charris
+Member
+charris commented on Jul 20, 2014
+Sounds like we should deal with this. @mcleung Want to make a PR?
+
+@mcleu
+mcleu commented on Jul 20, 2014
+@charris I can submit a bug report, but I suggest reopening #4101 as it's already well documented on what are the required changes to get it working. The change is done on Python's code, so I'm not sure what would be in the PR (PR=Pull Request?) for numpy?
+
+@rgommers
+Member
+rgommers commented on Jul 20, 2014
+I don't have a Windows box or MSVC license, but I'll try to put together a patch now for numpy.distutils. Moving one of the issues on the Python bug tracker forward would also be good, but that isn't trivial and won't help for 3.3 and 3.4 anyway.
+
+@rgommers rgommers mentioned this issue on Jul 20, 2014
+BLD: fix build issues with MSVC10 on Windows. Closes gh-4245. #4892
+ Merged
+@rgommers
+Member
+rgommers commented on Jul 20, 2014
+@mcleung could you please test my attempt at fixing this in numpy in gh-4892?
+
+rgommers added a commit to rgommers/numpy that referenced this issue on Jul 20, 2014
+@rgommers
+BLD: fix build issues with MSVC10 on Windows. Closes numpygh-4245. …
+7f382e0
+@rgommers rgommers closed this as completed in fa0ec11 on Jul 20, 2014
+juliantaylor added a commit that referenced this issue on Jul 20, 2014
+@juliantaylor
+Merge pull request #4892 from rgommers/msvc10-fix …
+a28bfa5
+juliantaylor added a commit that referenced this issue on Jul 20, 2014
+@juliantaylor
+Merge pull request #4892 from rgommers/msvc10-fix …
+bd0a4f3
+@rgommers
+Member
+rgommers commented on Jul 20, 2014
+OK fix merged. 1.9.x works with MSVC now, master still has an unrelated issue.
+
+@rgommers
+Member
+rgommers commented on Jul 20, 2014
+I'll comment on the Python bug tracker (once) to point out what's wrong, how to fix it and how we work around it.
+
+tadeu pushed a commit to ESSS/numpy that referenced this issue on Apr 5, 2016
+@rgommers
+@tadeu
+BLD: fix build issues with MSVC10 on Windows. Closes numpygh-4245. …
+ed05e26
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@cournape
+cournape
+Labels
+component: numpy.distutils
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+10 participants
+@cournape
+@bradbell
+@rkern
+@charris
+@rgommers
+@obeleh
+@juliantaylor
+@pfmoore
+@mcleu
+@mholzel
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

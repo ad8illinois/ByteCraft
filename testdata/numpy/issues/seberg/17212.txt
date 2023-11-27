@@ -1,0 +1,157 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+ENH: Set mask=None equivalent to mask=False in np.ma.array() #17212
+ Closed
+kc611 wants to merge 1 commit into numpy:master from kc611:issue_17046
++2 −1 
+ Conversation 9
+ Commits 1
+ Checks 0
+ Files changed 1
+Conversation
+kc611
+kc611 commented on Sep 1, 2020
+Linked Issue: #17046
+
+A minor change in np.ma.array().
+
+Didn't explicitly document or added tests for this change(since it is minor) but suggestions are welcome.
+
+@kc611
+Closes Issue #17046
+72fe79f
+@eric-wieser
+Member
+eric-wieser commented on Sep 1, 2020
+Thanks for the contribution. As I commented in the issue, I don't think this is worth optimizing for. Let's see if anyone else has an opinion in the issue discussion, and if not I'd be inclined to just close both.
+
+@eric-wieser eric-wieser added the component: numpy.ma label on Sep 1, 2020
+@seberg
+Member
+seberg commented on Sep 1, 2020
+The code seems strange in that np.ma.nomask is False, I think, but it checks specifically for False later. I also think None actually has a valid meaning of: Create the full sized mask array (instead of just nomask). And it seems like that is all that is being "slow" here? I.e. making sure that result.mask is an actual array filled with False?
+
+In that case, I think I with Eric here, if all we are saving is that the result has an array as a mask instead of np.ma.nomask, then I am not sure it is worth the optimization, especially since np.ma.nomask can lead to subtle behaviour changes down the road.
+
+@eric-wieser
+Member
+eric-wieser commented on Sep 1, 2020
+@seberg, nomask is np.False_ is not False
+
+@seberg
+Member
+seberg commented on Sep 1, 2020
+Oops, ok, so this ends up using the np.zeros shortcut, and probably shaves of some overheads... Fair enough, not sure its worth it, but if the line of modified code is moved down to where it makes a difference, I would be fine with just putting it in.
+Although, I agree it may not be worth it, and there is a tiny chance of subtleties...
+
+@eric-wieser
+Member
+eric-wieser commented on Sep 1, 2020
+If nothing else, avoiding this patch means that performance users who care about performance are forced to write mask=False instead of mask=None, which is what the documentation expects them to do anyway :)
+
+@saimn
+Contributor
+saimn commented on Sep 2, 2020
+I actually added the shortcut for mask=True/False a few years ago (#6734), because the original way of doing it was very slow and used a lot of extra memory which was a real problem for large arrays. At that time I did not notice or care for the None case, since indeed it is not the expected way to set the mask, but the fact is that None behaves as False, probably since the origins.
+
+So again, if None should not be used there are better ways to make this obvious to users. And it is easy to miss the time/memory overhead for not so big arrays. Do you use time.sleep in your code instead of raise ValueError ? 😛
+
+@seberg
+Member
+seberg commented on Sep 2, 2020
+Well, I agree with you that there is no point in propping users towards the better version by keeping one version slow... I would see two reasons to not do this:
+
+Maintenance burden
+There might be some wonky (or even future) corner cases
+neither probably apply here, so I am OK with doing this. But I do think it is at the wrong place right now. It should be part of the later fast-path. (It also is a bit annoying that half the reason why we have a fast path, is probably that the normal path is so strange, and likely unnecessary slow due to that).
+
+@eric-wieser
+Member
+eric-wieser commented on Sep 2, 2020
+It also is a bit annoying that half the reason why we have a fast path, is probably that the normal path is so strange, and likely unnecessary slow due to that
+
+Right, I'm sure we could speed up the normal path here, which would also speed up:
+
+mask=""
+mask=0
+mask=0.0
+which just like None, are all allowed but non-recommended spelings.
+
+@stefanv stefanv closed this on Mar 3, 2021
+@stefanv stefanv deleted the branch numpy:master 2 years ago
+@seberg seberg self-assigned this on Mar 3, 2021
+@seberg seberg mentioned this pull request on Mar 3, 2021
+MAINT: Closed PRs due to branch rename #18543
+Closed
+@seberg
+Member
+seberg commented on Mar 3, 2021
+It appears that this PR was incorrectly closed by github while renaming the NumPy main (previously master) branch. I suspect because the original repository was also deleted. That seems like a github issue, but I am not sure there is a solution to it aside from opening a new PR.
+
+Sorry about that issue, I did not review the PR. However, even if the local branches were deleted, it seems the work is still available (e.g. using https://github.com/numpy/numpy/pull/<pull-request-number> with the command line interface), so we can assist creating a new PR!
+
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+ ProTip! Add comments to specific lines under Files changed.
+Reviewers
+No reviews
+Assignees
+@seberg
+seberg
+Labels
+component: numpy.ma
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+5 participants
+@kc611
+@eric-wieser
+@seberg
+@saimn
+@stefanv
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

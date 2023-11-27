@@ -1,0 +1,136 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+BUG: revise string_from_pyobj/try_pyarr_from_string with respect to malloc and copy (the second round) #19251
+ Merged
+charris merged 3 commits into numpy:main from pearu:gh-18431-string_from_pyobj-2 on Jun 17, 2021
++310 −68 
+ Conversation 3
+ Commits 3
+ Checks 0
+ Files changed 5
+Conversation
+pearu
+Contributor
+pearu commented on Jun 15, 2021
+Improved #18759 that was reverted by #19235 .
+
+Originally, it was assumed that Fortran treats null values in byte-strings similar to C but that turned out to be wrong and caused failures in scipy tests that use f2py wrapped functions with string intent(inout) arguments for Fortran fixed-width character string arguments.
+
+This PR (in addition to original changes) replaces the trailing nulls in strings with trailing blanks that Fortran treats as "null values" and when Fortran program returns a string with trailing blanks, these will be replaced with trailing nulls because the content of numpy ndarray of strings is interpreted as C strings.
+
+Fixes #18431 (again) and #19201 .
+
+This PR is tested against the current scipy master: all scipy tests pass ok.
+
+@pearu
+BUG: revise string_from_pyobj/try_pyarr_from_string with respect to m… 
+abe3eb2
+@pearu pearu added 00 - Bug component: numpy.f2py labels on Jun 15, 2021
+@pearu pearu self-assigned this on Jun 15, 2021
+@pearu pearu requested review from eric-wieser and rgommers 2 years ago
+@pearu
+Fix lint
+fd51a8e
+@seberg
+Member
+seberg commented on Jun 15, 2021
+On that issue, I was a bit curious if f2py could actually shorten the string length passed to fortran (so it represents the actual length without any padding). That probably achieves the identical behavior as padding with spaces though.
+(In theory, that might allow avoiding the additional copy/buffer, but that would probably be an API change.)
+
+@pearu
+Fix lint - 2
+3ca331b
+@pearu
+Contributor
+Author
+pearu commented on Jun 15, 2021 • 
+On that issue, I was a bit curious if f2py could actually shorten the string length passed to fortran (so it represents the actual length without any padding). That probably achieves the identical behavior as padding with spaces though.
+
+I think this would not work with intent(inout) or intent(out) arguments because if a Fortran program expects a fixed-length character string then f2py must provide memory with the required size (even when initially filled with blanks or nulls) because the Fortran program is allowed to write (read: index) to the string till the end of it.
+
+UPDATE: it would not even work for intent(in) arguments because the Fortran program is allowed to read (read: index) the fixed-width string till the end of it.
+
+@pearu pearu linked an issue on Jun 15, 2021 that may be closed by this pull request
+SciPy crash with nightly numpy wheel--possible f2py issue #19201
+Closed
+@pearu pearu added this to In progress in f2py core via automation on Jun 15, 2021
+@charris charris merged commit 53d74a1 into numpy:main on Jun 17, 2021
+f2py core automation moved this from In progress to Done on Jun 17, 2021
+@charris
+Member
+charris commented on Jun 17, 2021
+Let's give this a shot. Thanks Pearu.
+
+@pearu pearu deleted the gh-18431-string_from_pyobj-2 branch 2 years ago
+@WarrenWeckesser WarrenWeckesser mentioned this pull request on Oct 15, 2021
+optimize tests crashing Python in pre_release_deps_source_dist Azure job scipy/scipy#14203
+Closed
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+ ProTip! Add comments to specific lines under Files changed.
+Reviewers
+@eric-wieser
+eric-wieser
+@rgommers
+rgommers
+Assignees
+@pearu
+pearu
+Labels
+00 - Bug
+component: numpy.f2py
+Projects
+f2py core
+Done
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+ SciPy crash with nightly numpy wheel--possible f2py issue
+ 
+ BUG: F2Py Invalid read in string_from_pyobj
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+3 participants
+@pearu
+@seberg
+@charris
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

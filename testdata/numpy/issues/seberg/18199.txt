@@ -1,0 +1,81 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+DEP: Deprecate error clearing in array-protocol attribute fetching #18199
+Closed
+seberg opened this issue on Jan 20, 2021 · 0 comments · Fixed by #19001
+Comments
+@seberg
+Member
+seberg commented on Jan 20, 2021
+See gh-18197, we currently clear almost all errors that occur when fetching obj.__array_interface__ or just obj.__array__. There is little use for this, since by definition AttributeError can be raised if an object actually wants the error to be ignored. Shapely dependend on this (raising a NotImplementedError).
+
+We should deprecate ignoring these errors entirely. There are more similar cases, although this issue is about the interface/array path.
+
+(Will assign myself, but if anyone wants to look at it, feel free)
+
+@seberg seberg added component: numpy.core 07 - Deprecation labels on Jan 20, 2021
+@seberg seberg added this to the 1.21.0 release milestone on Jan 20, 2021
+@seberg seberg self-assigned this on Jan 20, 2021
+@seberg seberg mentioned this issue on May 13, 2021
+DEP: Deprecate error clearing for special method in array-coercion #19001
+ Merged
+@charris charris closed this as completed in #19001 on May 19, 2021
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@seberg
+seberg
+Labels
+07 - Deprecation
+component: numpy.core
+Projects
+None yet
+Milestone
+1.21.0 release
+Development
+Successfully merging a pull request may close this issue.
+
+ DEP: Deprecate error clearing for special method in array-coercion
+seberg/numpy
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+1 participant
+@seberg
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

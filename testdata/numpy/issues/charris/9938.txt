@@ -1,0 +1,80 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Enable rolling builds on appveyor #9938
+Closed
+ghost opened this issue on Oct 28, 2017 · 2 comments
+Comments
+@ghost
+ghost commented on Oct 28, 2017
+They will reduce the queue time.
+
+@ahaldane
+Member
+ahaldane commented on Nov 17, 2017
+@charris would this be easy to do? I think it is just a checkbox in appveyor settings. I suspect it would greatly decrease my queue times sometimes (eg right now).
+
+@eric-wieser eric-wieser assigned charris on Nov 17, 2017
+@WarrenWeckesser
+Member
+WarrenWeckesser commented on Oct 23, 2021
+We no longer use appveyor.
+
+@WarrenWeckesser WarrenWeckesser closed this as completed on Oct 23, 2021
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@charris
+charris
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+3 participants
+@charris
+@WarrenWeckesser
+@ahaldane
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

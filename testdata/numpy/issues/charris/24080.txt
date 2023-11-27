@@ -1,0 +1,216 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+key missing spin commands for developer workflow #24080
+Open
+3 tasks done
+rgommers opened this issue on Jun 29 · 5 comments
+Comments
+@rgommers
+Member
+rgommers commented on Jun 29 • 
+After the switch to Meson by default, the contributor workflow got a bit disrupted. The key things to address quickly are:
+
+ Building the docs. There is no spin doc.
+ Running the benchmarks. There is no spin bench (most important), and once that's there we also need bench --compare to compare two branches. @rdevulap brought this up as a blocker on Slack already.
+ Testing: spin test should not run the slow tests by default; for further customization to match runtests.py/dev.py (e.g., -s, -t, etc.) see Test command behavior needed for NumPy's use of devpy scientific-python/spin#40.
+The above are the most important ones, and should be enough to fix the immediate pain points (Cc @stefanv).
+
+For the rest, there's still a bit of a gap between NumPy's spin and SciPy's dev.py, see --help on the top-level and individual commands. E.g.,
+
+spin --help:
+
+$ spin --help
+Usage: spin [OPTIONS] COMMAND
+            [ARGS]...
+
+  Developer tool for numpy
+
+Options:
+  --help  Show this message and exit.
+
+Build:
+  build  🔧 Build package with Meson/ninja and install
+  test   🔧 Run tests
+
+Environments:
+  shell    💻 Launch shell with PYTHONPATH set
+  ipython  💻 Launch IPython shell with PYTHONPATH set
+  python   🐍 Launch Python shell with PYTHONPATH set
+
+python dev.py --help
+
+$ python dev.py --help
+                                                                                                   
+ Usage: dev.py [OPTIONS] COMMAND [ARGS]...                                                         
+                                                                                                   
+ Developer Tool for SciPy                                                                          
+ Commands that require a built/installed instance are marked with 🔧.                              
+                                                                                                   
+ python dev.py --build-dir my-build test -s stats                                                  
+                                                                                                   
+╭─ Options ───────────────────────────────────────────────────────────────────────────────────────╮
+│ --help                             Show this message and exit.                                  │
+│ --build-dir           BUILD_DIR    🔧 Relative path to the build directory.                     │
+│                                    [default: build]                                             │
+│ --no-build        -n               🔧 Do not build the project (note event python only          │
+│                                    modification require build).                                 │
+│ --install-prefix      INSTALL_DIR                                                               │
+│                                    🔧 Relative path to the install directory. Default is        │
+│                                    -install.                                                    │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ build & testing ───────────────────────────────────────────────────────────────────────────────╮
+│ build  🔧 Build & install package on path.                                                      │
+│ test   🔧 Run tests.                                                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ static checkers ───────────────────────────────────────────────────────────────────────────────╮
+│ lint  💨 Run linter on modified files and check for disallowed Unicode characters and           │
+│       possibly-invalid test names.                                                              │
+│ mypy  🔧 Run mypy on the codebase.                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ environments ──────────────────────────────────────────────────────────────────────────────────╮
+│ shell    🔧 Start Unix shell with PYTHONPATH set.                                               │
+│ python   🔧 Start a Python shell with PYTHONPATH set.                                           │
+│ ipython  🔧 Start IPython shell with PYTHONPATH set.                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ documentation ─────────────────────────────────────────────────────────────────────────────────╮
+│ doc             🔧 Build documentation.                                                         │
+│ refguide-check  🔧 Run refguide check.                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ release ───────────────────────────────────────────────────────────────────────────────────────╮
+│ notes    📒 Release notes and log generation.                                                   │
+│ authors  📒 Generate list of authors who contributed within revision interval.                  │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ benchmarking ──────────────────────────────────────────────────────────────────────────────────╮
+│ bench  🔧 Run benchmarks.                                                                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+@rgommers rgommers added the 16 - Development label on Jun 29
+@stefanv stefanv mentioned this issue on Jun 30
+ENH: Add spin command gdb; customize docs and test #24083
+ Merged
+@mattip
+Member
+mattip commented on Jul 10 • 
+I think spin test -s is still missing. spin test spin bench and spin doc seem complete?
+The others are still missing:
+
+ spin lint
+ spin mypy
+ spin refguide-check although perhaps energy would be better spent on getting doctest to work
+ spin notes
+ spin authors
+I will try to sneak spin test -m full into another PR where the diff is (still missing a doc change)
+
+diff --git a/.spin/cmds.py b/.spin/cmds.py
+index 3476b043a..53407fe2d 100644
+--- a/.spin/cmds.py
++++ b/.spin/cmds.py
+@@ -126,7 +126,8 @@ def test(ctx, pytest_args, markexpr, n_jobs, tests, verbose):
+         pytest_args = ('numpy',)
+ 
+     if '-m' not in pytest_args:
+-        pytest_args = ('-m', markexpr) + pytest_args
++        if markexpr != "full":
++            pytest_args = ('-m', markexpr) + pytest_args
+ 
+     if (n_jobs != "1") and ('-n' not in pytest_args):
+         pytest_args = ('-n', str(n_jobs)) + pytest_args
+@rgommers
+Member
+Author
+rgommers commented on Jul 11
+Thanks @stefanv for the hard work, and @mattip for following up. This is starting to look much better.
+
+I tested spin docs, and immediately had to Ctrl-C it, because it started running $ pip install -q -r doc_requirements.txt. It's never okay I think for a development command to invoke pip, and in this case it even does so in a conda env which is likely to break that env. What docs should do instead is trigger build and then run make html.
+
+@melissawm
+Member
+melissawm commented on Jul 19
+@charris please add anything you feel is missing here
+
+@charris charris self-assigned this on Jul 19
+This was referenced on Oct 22
+ENH: Added a lint spin command #24983
+ Merged
+ENH: Added changelog spin command #24986
+ Merged
+ENH: Added coverage flag in spin test #24992
+ Open
+@ganesh-k13
+Member
+ganesh-k13 commented on Oct 24
+I'll additionally make changes to the CI to use the new spin commands and flags.
+
+@rgommers
+Member
+Author
+rgommers commented on Oct 24
+Thanks @ganesh-k13, that sounds good.
+
+@ganesh-k13 ganesh-k13 mentioned this issue last month
+ENH: Added notes command for spin #25017
+ Merged
+This was referenced 3 weeks ago
+ENH: Added spin refguide-check #25069
+ Draft
+ENH: Use new spin commands for CI #25103
+ Open
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@charris
+charris
+Labels
+16 - Development
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+5 participants
+@charris
+@rgommers
+@mattip
+@melissawm
+@ganesh-k13
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

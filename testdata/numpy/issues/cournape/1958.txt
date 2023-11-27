@@ -1,0 +1,154 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+numpy.seterr not working for numpy.log10 on windows (Trac #1360) #1958
+Closed
+thouis opened this issue on Oct 19, 2012 · 6 comments
+Comments
+@thouis
+Contributor
+thouis commented on Oct 19, 2012
+Original ticket http://projects.scipy.org/numpy/ticket/1360 on 2010-01-12 by trac user Andrew MacKeith, assigned to unknown.
+
+On Windows, seterr(all='raise') does not raise exceptions when Overflow occurs in numpy.log10. The following uses numpy-1.4.0.
+
+Python 2.6.4 (r264:75708, Oct 26 2009, 08:23:19) [MSC v.1500 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>  import numpy
+>>>  numpy.seterr()
+{'over': 'ignore', 'divide': 'ignore', 'invalid': 'ignore', 'under': 'ignore'}
+>>>  numpy.int16(32000) * numpy.int16(3)
+30464
+>>>  numpy.log10(0.0)
+-inf
+>>>  numpy.seterr(all='raise')
+{'over': 'ignore', 'divide': 'ignore', 'invalid': 'ignore', 'under': 'ignore'}
+>>>  numpy.int16(32000) * numpy.int16(3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in<module>
+FloatingPointError: overflow encountered in short_scalars
+>>>  numpy.log10(0.0)
+-inf
+>>>  numpy.log10(-1.0)
+nan
+>>>  numpy.seterr()
+{'over': 'raise', 'divide': 'raise', 'invalid': 'raise', 'under': 'raise'}
+>>>
+@thouis
+Contributor
+Author
+thouis commented on Oct 19, 2012
+trac user Andrew MacKeith wrote on 2010-01-12
+
+We currently build the Numeric code in-house, and we noticed this change in behavior when we switched compilers from msvc8 to msvc9. This led us to look at the numpy behavior.
+
+@thouis
+Contributor
+Author
+thouis commented on Oct 19, 2012
+@charris wrote on 2010-01-12
+
+I wonder what changed? Can you determine what the windows defaults are for the log10 function for the two different compilers? Here is what the C standard specifies for log10.
+
+These functions shall fail if:
+
+Domain Error
+    The finite value of x is negative, [MX] [Option Start]  or x is -Inf. [Option End]
+
+    If the integer expression (math_errhandling & MATH_ERRNO) is non-zero, then errno shall be set to [EDOM]. If the integer expression (math_errhandling & MATH_ERREXCEPT) is non-zero, then the invalid floating-point exception shall be raised.
+Pole Error
+    The value of x is zero.
+
+    If the integer expression (math_errhandling & MATH_ERRNO) is non-zero, then errno shall be set to [ERANGE]. If the integer expression (math_errhandling & MATH_ERREXCEPT) is non-zero, then the divide-by-zero floating-point exception shall be raised.
+@thouis
+Contributor
+Author
+thouis commented on Oct 19, 2012
+trac user ermancelen wrote on 2010-01-12
+
+There seems to be no change in terms of "errno" behavior between msvc9's and msvc8's implementation of log10. I did a little test when we first found out that issue. I wrote a small C program calling log10(0.0) and checking the value of errno. Compiled it with both compilers and both compilations reported that errno is set as 34 (ERANGE) as expected.
+
+@numpy-gitbot numpy-gitbot mentioned this issue on Oct 22, 2012
+np.log gives RuntimeWarning for arrays with nan values when array is float32 but not float64 (Trac #2161) #617
+Closed
+@ghost ghost assigned cournape on Aug 23, 2013
+@charris
+Member
+charris commented on Feb 18, 2014
+Can someone runnning windows take another look at this? I think the error behavior of msvc can be changed by the compile flags.
+
+@mattip mattip removed the priority: normal label on Oct 21, 2018
+@WarrenWeckesser
+Member
+WarrenWeckesser commented on Oct 26, 2021
+The original report is from 2010, and @charris's request for someone to take another look is from 2014. Is this still an issue? Can any devs using Windows reproduce this?
+
+@seberg
+Member
+seberg commented on Nov 6, 2021
+I agree with Warren, tested on an admittedly random but newer windows. Lets close this, NumPy usually inherits the math libs behaviour, and it feels likely enough that got fixed along the way.
+
+Since the issue also mentions an old MSVC version, I will assume it was an old compiler (or mathlib) bug on windows. If it crops up again/is still present, lets open a new one.
+
+@seberg seberg closed this as completed on Nov 6, 2021
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@cournape
+cournape
+Labels
+00 - Bug
+component: numpy.core
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+6 participants
+@cournape
+@seberg
+@charris
+@WarrenWeckesser
+@thouis
+@mattip
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

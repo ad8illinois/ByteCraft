@@ -1,0 +1,131 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Polynomial.fit() fails for multi-dimensional coefficient arrays #4554
+Open
+xnx opened this issue on Mar 26, 2014 · 9 comments
+Comments
+@xnx
+xnx commented on Mar 26, 2014
+x, y = np.random.rand(100), np.random.rand(100, 25)
+fit = np.polynomial.polynomial.polyfit(x, y, 2)
+works fine, but
+fit = np.polynomial.Polynomial.fit(x, y, 2)
+fails with ValueError: Coefficient array is not 1-d from polyutils.py.
+
+@charris charris added Enhancement and removed Enhancement labels on Mar 26, 2014
+@charris
+Member
+charris commented on Mar 26, 2014
+True, the Polynomial class only does 1-D. I suppose it would not be unreasonable to return a list of Polynomial instances in this circumstance, although for evaluation of the resulting polynomials the first form would be preferable, polyeval can evaluate all of them simultaneously. Check the tensor keyword.
+
+@charris
+Member
+charris commented on Mar 26, 2014
+What would you want to happen in this case?
+
+@xnx
+Author
+xnx commented on Mar 26, 2014
+I would like a list of Polynomial instances, but until then I think the documentation should be fixed - this implies that Polynomial.fit() works the same as polynomial.polyfit():
+http://docs.scipy.org/doc/numpy/reference/generated/numpy.polynomial.polynomial.Polynomial.fit.html#numpy.polynomial.polynomial.Polynomial.fit
+
+@charris
+Member
+charris commented on Mar 26, 2014
+OK, shouldn't be too hard to do. How do you want the y values to be stored, columns or rows?
+
+@xnx
+Author
+xnx commented on Mar 26, 2014
+I think columns, to be consistent with polynomial.polyfit().
+
+@mattip mattip removed the priority: normal label on Oct 21, 2018
+@luckystarufo
+luckystarufo commented on Nov 24, 2018
+similar problems with numpy.polynomial.chebyshev.Chebyshev.fit():
+in the doc, it is said that y : array_like, shape (M,) or (M, K), but if we make the y to be of shape (M, K), we get ValueError: Coefficient array is not 1-d from polyutils.py.
+
+@mandelkow
+mandelkow commented on Feb 7, 2019
+Likewise, the documentation for Legendre.fit is wrong: "y : array_like, shape (M,) or (M, K)" should read only "(M,)". But it would be best to fix the underlying problem in Polynomial.fit()
+
+@charris charris self-assigned this on Feb 7, 2019
+@utf
+utf commented on Apr 17, 2019
+This issue also exists in the documentation of Chebyshev.fit.
+
+@stippingerm
+stippingerm commented on May 14, 2019 • 
+The issue still exists for numpy.polynomial.polynomial.Polynomial but I suggest not changing the documentation. Rather I suggest to fix the code accordingly to the documentation conform to numpy.polyfit. Unfortunately numpy.polyval does not accept the "shape (M, K)" output of polyfit. I would be happy to do the fix but I do not understand yet all the consequences of the widely used "numpy magic" called dispatchers.
+
+@charris charris mentioned this issue on May 26, 2020
+Array-valued np.polynomial.Polynomial doesn't work #16380
+Open
+@wrzadkow wrzadkow mentioned this issue on May 27, 2020
+ENH: Fix Polynomial.fit() for multiple polynomial fitting #16403
+ Closed
+@wrzadkow wrzadkow mentioned this issue on Jun 5, 2020
+DOC: only single-polynomial fitting in np.polynomial.Polynomial.fit() #16506
+ Merged
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@charris
+charris
+Labels
+Proposal
+Projects
+None yet
+Milestone
+No milestone
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+7 participants
+@charris
+@xnx
+@mattip
+@utf
+@luckystarufo
+@stippingerm
+@mandelkow
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

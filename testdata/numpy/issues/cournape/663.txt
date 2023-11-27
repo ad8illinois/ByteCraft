@@ -1,0 +1,137 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Alignment doesn't work for array of structs (Trac #2211) #663
+Closed
+numpy-gitbot opened this issue on Oct 19, 2012 · 4 comments
+Comments
+@numpy-gitbot
+numpy-gitbot commented on Oct 19, 2012
+Original ticket http://projects.scipy.org/numpy/ticket/2211 on 2012-09-05 by trac user Ihor.Melnyk, assigned to unknown.
+
+array of subtype alignment
+
+t = np.dtype([('a', '|i1'), ('b', [('f0', '<i2'), ('f1', '<f4')], 2)], align=True)
+actual dtype
+
+[('a', '|i1'), ('b', [('f0', '<i2'), ('f1', '<f4')], (2,))]
+expected dtype
+
+[('a', '|i1'), (_, '|V3'), ('b', [('f0', '<i2'), (_, '|V2'), ('f1', '<f4')], 2)]
+@ghost ghost assigned cournape on Jun 27, 2013
+@charris
+Member
+charris commented on Feb 17, 2014
+It's definitely not aligned, although I'm not sure it needs to be all on 4 byte boundaries.
+
+Still present in 1.9-devel.
+
+@ahaldane
+Member
+ahaldane commented on Sep 23, 2015
+same bug as #5224. It is because dtype constructor ignores the align keyword for 'list of tuples' style of specification.
+
+@ihormelnyk
+ihormelnyk commented on Oct 30, 2016 • 
+Hi.
+I am wondering whether you plan to fix this bug?
+This fix is very important for our project because we use c++ python extension for high performance computations,, so numpy arrays allocated in python, should be compatible with usual c++ structs.
+And we have to build and patch numpy for every new version.
+
+def test_subtype_alignment(self): 
+        t = np.dtype([('a', '|i1'), ('b', [('f0', '<i2'), ('f1', '<f4')])], align=True)
+        self.assertEqual(t.descr, [('a', '|i1'), ('', '|V3'), ('b', [('f0', '<i2'), ('', '|V2'), ('f1', '<f4')])])
+#PASSED
+
+    def test_array_of_subtype_alignment(self): 
+        t = np.dtype([('a', '|i1'), ('b', [('f0', '<i2'), ('f1', '<f4')], 2)], align=True)        
+        self.assertEqual(t.descr, [('a', '|i1'), ('', '|V3'), ('b', [('f0', '<i2'), ('', '|V2'), ('f1', '<f4')], (2,))])
+#FAILED
+
+@ahaldane
+Member
+ahaldane commented on Oct 31, 2016
+Eventually it should be fixed. I'm not going to work on it until some other PRs get through though, so it's currently up for grabs.
+
+By the way, a workaround is to use the "dict" form of specification instead of the "tuple" form, as that respects "align".
+
+rbalint pushed a commit to rbalint/pywt that referenced this issue on May 5, 2017
+TST: Explicity align data records in test_byte_offset() …
+92276c7
+@rbalint rbalint mentioned this issue on May 5, 2017
+TST: Explicity align data records in test_byte_offset() PyWavelets/pywt#314
+ Merged
+rbalint pushed a commit to rbalint/pywt that referenced this issue on May 8, 2017
+TST: Explicity align data records in test_byte_offset() …
+6b22ec7
+@ihormelnyk ihormelnyk mentioned this issue on Apr 17, 2018
+BUG: fixed dtype alignment for array of structs in case of converting from tuple descr #10923
+ Merged
+ihormelnyk pushed a commit to ihormelnyk/numpy that referenced this issue on Apr 18, 2018
+Fixes numpy#663: fixed dtype alignment for array of structs in case o… …
+ab9953b
+@ahaldane ahaldane closed this as completed in #10923 on Apr 18, 2018
+ahaldane added a commit that referenced this issue on Apr 18, 2018
+@ahaldane
+Merge pull request #10923 from ihormelnyk/master …
+8be088a
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@cournape
+cournape
+Labels
+00 - Bug
+component: numpy.core
+Projects
+None yet
+Milestone
+(historic) NumPy 2.0
+Development
+No branches or pull requests
+
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+5 participants
+@cournape
+@charris
+@ihormelnyk
+@numpy-gitbot
+@ahaldane
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

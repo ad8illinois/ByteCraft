@@ -1,0 +1,513 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+np.float64(np.nan) % 1 gives warning #18170
+Closed
+nschloe opened this issue on Jan 15, 2021 · 15 comments · Fixed by #19316
+Closed
+np.float64(np.nan) % 1 gives warning
+#18170
+nschloe opened this issue on Jan 15, 2021 · 15 comments · Fixed by #19316
+Comments
+@nschloe
+Contributor
+nschloe commented on Jan 15, 2021 • 
+The following operations correctly return nan without warning:
+
+import numpy as np
+
+np.nan + 1
+np.nan - 1
+np.nan * 1
+np.nan / 1
+np.nan % 1
+So do
+
+np.float64(np.nan) + 1
+np.float64(np.nan) - 1
+np.float64(np.nan) * 1
+np.float64(np.nan) / 1
+Taking %, however, does give a warning:
+
+np.float64(np.nan) % 1
+<ipython-input-49-4b0062698971>:1: RuntimeWarning: invalid value encountered in double_scalars
+  np.float64(np.nan) % 1
+This inconsistency extends to all numpy float types.
+
+@arubiales
+Contributor
+arubiales commented on Jan 21, 2021
+Hi! I'm new. Can I work on this issue?
+
+@seberg seberg added 00 - Bug component: numpy.ufunc labels on Jan 21, 2021
+@seberg
+Member
+seberg commented on Jan 21, 2021
+Unless there is a comment that someone is already busy on it (fairly recently), everything is always up for grabs. We don't really assign issues. So of course, go ahead.
+
+@arubiales
+Contributor
+arubiales commented on Jan 23, 2021 • 
+Thank you. I'm working on it! If you give me time I can solve it.
+
+I think the problem is with npy_divmod function because remainder function use divmod. I have see the core/include/numpy/scalarmath.c and other files, However the warning is not raise there. I'm trying to locate where is raised.
+
+The warning is raised by the _error_handler inside extobj.c this function is inside Handleit that also is inside _check_ufunc_fperr. Which is used by PyUFunc_GenericFunction_int, whic is used by ufunc_generic_call that it use by PyTypeObject. So the work flow is the following:
+
+_error_handler -> HANDLEIT -> PyUFunc_handlefperr -> _check_ufunc_fperr -> PyUFunc_GenericFunction_int -> ufunc_generic_call -> PyTypeObject
+
+Now I'm trying to find the connection between np.floatxx, np.nan and the divmod operator.
+
+Any guidance is accepted! meanwhile I will continue working on it. This task is helping me to understand the library internally!
+
+@seberg
+Member
+seberg commented on Jan 23, 2021 • 
+@arubiales if the warning is actually manually set, it would be something like npy_set_floatstatus. But most likely the opposite is the case: The C code (machine code), sets an error flag (the CPU does this, or well, the basic math library) for a certain operation. And our code would have to avoid taking that code path alltogether.
+
+@arubiales
+Contributor
+arubiales commented on Feb 7, 2021
+@seberg I tried to find where the error is originated without success. I have looked for in many files and change many function some of them are:
+
+core/src/umath/umathmodule.c -> initumath: I tried to change this function, but always finish with a lot of errors from others sources.
+core/src/common/npy_longsdouble.c -> npy_longdouble_from_PyLong: I though maybe overflow could lead to this actual error, but it's not.
+core/scr/multiarray/nditer_pywrap.c -> npyiter_dealloc: I change this function thinking that maybe is an allocation problem the origin of the warning, but it's not.
+core/scr/multiarray/flagobject.c: here I didn't find something interesting
+core/src/umath/extobj.c -> _error_handler(): Obviously I can easy change this function and avoid the error, but is like talk about using a sledgehammer to crack a nut!. This will destroy other warnings that have sense.
+After try this things and more, I fell (please confirm if you know) that the error come from npy_double because I realise that we have the same errors if we use np.inf instead of np.nan and both come from npy_double. However I'm not sure, and right know I'm stuck.
+
+@seberg
+Member
+seberg commented on Feb 7, 2021 • 
+Hmmm, I think we may have made a mistake here recently, it might even be a regression (although that would probably 1.20 not 1.19, but I am not sure); and yeah, I did look at those changes also :). We have the code in npy_divmod:
+https://github.com/numpy/numpy/blob/f527a570b7ec9b7c26e3a79601ca19cc989de244/numpy/core/src/npymath/npy_math_internal.h.src#L718L721
+
+Which smells wrong, but I might be forgetting something. And as the comment suggests, there was a reason for that, namely that it algined behaviour between different gcc versions. But, we might have aligned it the wrong way around. (There are a few similar places.)
+
+Assuming that removing those lines does not change this, I am not sure what causes the flag to be set, but it has to happen in the npy_divmod functions. Your other tracking is nice, and many of these may be involved, but I think you can be sure that it originates in divmod itself.
+
+Now I am a bit worried that we got a regression in 1.20 related to this. Was the original report on NumPy master or the pre-release @nschloe?
+
+EDIT: Sorry behaviour is present in 1.19.x, so removing "regression" again (leaving the milestone for now, but just as a remainder for myself to look at it again at some point).
+
+@seberg seberg added this to the 1.20.2 release milestone on Feb 7, 2021
+@seberg seberg added 06 - Regression and removed 06 - Regression labels on Feb 7, 2021
+@seberg
+Member
+seberg commented on Feb 7, 2021
+A bit of digging, this helps a little: https://www.gnu.org/software/libc/manual/html_node/FP-Comparison-Functions.html
+
+The comparison functions are another case where the invalid flag is set (that and functions that create a new NaN), which makes sense, since these functions throw away the information that the input was NaN.
+
+After some annoying gdb stepping through, I found the culprit (the above comparisons basically), so this removes it:
+
+diff --git a/numpy/core/src/npymath/npy_math_internal.h.src b/numpy/core/src/npymath/npy_math_internal.h.src
+index ff4663dc3..b8dc0e77a 100644
+--- a/numpy/core/src/npymath/npy_math_internal.h.src
++++ b/numpy/core/src/npymath/npy_math_internal.h.src
+@@ -519,10 +519,7 @@ NPY_INPLACE @type@
+ npy_@kind@@c@(@type@ x, @type@ y)
+ {
+     int are_inputs_inf = (npy_isinf(x) && npy_isinf(y));
+-    /* force set invalid flag, doesnt raise by default on gcc < 8 */
+-    if (npy_isnan(x) || npy_isnan(y)) {
+-        npy_set_floatstatus_invalid();
+-    }
++
+     if (are_inputs_inf || !y) {
+         if (!npy_isnan(x)) {
+             npy_set_floatstatus_invalid();
+@@ -715,10 +712,6 @@ npy_divmod@c@(@type@ a, @type@ b, @type@ *modulus)
+ {
+     @type@ div, mod, floordiv;
+ 
+-    /* force set invalid flag, doesnt raise by default on gcc < 8 */
+-    if (npy_isnan(a) || npy_isnan(b)) {
+-        npy_set_floatstatus_invalid();
+-    }
+     mod = npy_fmod@c@(a, b);
+     if (NPY_UNLIKELY(!b)) {
+         div = a / b;
+@@ -735,7 +728,7 @@ npy_divmod@c@(@type@ a, @type@ b, @type@ *modulus)
+ 
+     /* adjust fmod result to conform to Python convention of remainder */
+     if (mod) {
+-        if ((b < 0) != (mod < 0)) {
++        if ((b < 0) != (isless(mod, 0))) {
+             mod += b;
+             div -= 1.0@c@;
+         }
+@arubiales are you still up for digging into this more? That would be awesome. I think it needs some more thought and diligence , e.g. with respect to NaN as the second input or so, and maybe more comparisons replaced with these macros.
+
+@arubiales
+Contributor
+arubiales commented on Feb 7, 2021 • 
+@seberg Yes of course. It's my first contribution to Numpy and after all the hours I want to finish the job properly. I didn't enter in the .src  files because I thought it was for Windows SO only...
+
+I have done similar changes to the file to avoid the warning and I get to avoid with NaN as a second input. Right now I will do:
+
+Think the perfect way to do it (now it is a draft)
+Do the same with np.inf to avoid also the error with this constant.
+Thank you very much for your help.
+
+@seberg
+Member
+seberg commented on Mar 10, 2021
+Those are different bugs in clang and apple M1 and unrelated to this issue, there are open issues and even PRs for it.
+
+@cuihantao
+cuihantao commented on Mar 10, 2021
+Those are different bugs in clang and apple M1 and unrelated to this issue, there are open issues and even PRs for it.
+
+Got it. Thanks for pointing it out. Let me pull down my previous comment that diverted from the original discussion.
+
+@charris charris modified the milestones: 1.20.2 release, 1.21.0 release on Mar 27, 2021
+@seberg seberg self-assigned this on May 19, 2021
+@charris charris modified the milestones: 1.21.0 release, 1.22.0 release on May 22, 2021
+arubiales added a commit to arubiales/numpy that referenced this issue on Jun 22, 2021
+@arubiales
+solve the problems of mod operator except for infinite values numpy#1… …
+7428b9c
+@arubiales
+Contributor
+arubiales commented on Jun 22, 2021
+Hi @seberg sorry for the delay but I have been very busy. Is just to inform that I'm working on it. Here are the changes I did:
+
+diff --git a/numpy/core/src/npymath/npy_math_internal.h.src b/numpy/core/src/npymath/npy_math_internal.h.src
+index ff4663dc3..ee22d72ea 100644
+--- a/numpy/core/src/npymath/npy_math_internal.h.src
++++ b/numpy/core/src/npymath/npy_math_internal.h.src
+@@ -423,16 +423,6 @@ NPY_INPLACE @type@ npy_@kind@@c@(@type@ x, @type@ y)
+ NPY_INPLACE @type@
+ npy_@kind@@c@(@type@ x, @type@ y)
+ {
+-    int are_inputs_inf = (npy_isinf(x) && npy_isinf(y));
+-    /* force set invalid flag, doesnt raise by default on gcc < 8 */
+-    if (npy_isnan(x) || npy_isnan(y)) {
+-        npy_set_floatstatus_invalid();
+-    }
+-    if (are_inputs_inf || !y) {
+-        if (!npy_isnan(x)) {
+-            npy_set_floatstatus_invalid();
+-        }
+-    }
+     return (@type@) npy_@kind@((double)x, (double) y);
+ }
+ #endif
+@@ -518,16 +508,7 @@ NPY_INPLACE @type@ npy_@kind@@c@(@type@ x, @type@ y)
+ NPY_INPLACE @type@
+ npy_@kind@@c@(@type@ x, @type@ y)
+ {
+-    int are_inputs_inf = (npy_isinf(x) && npy_isinf(y));
+-    /* force set invalid flag, doesnt raise by default on gcc < 8 */
+-    if (npy_isnan(x) || npy_isnan(y)) {
+-        npy_set_floatstatus_invalid();
+-    }
+-    if (are_inputs_inf || !y) {
+-        if (!npy_isnan(x)) {-        if ((b < 0) != (mod < 0)) {
++        if ((b < 0) != (isless(mod, 0))) {
+-            npy_set_floatstatus_invalid();
+-        }
+-    }
++
+     return @kind@@c@(x, y);
+ }
+ #endif
+@@ -716,9 +697,6 @@ npy_divmod@c@(@type@ a, @type@ b, @type@ *modulus)
+     @type@ div, mod, floordiv;
+ 
+     /* force set invalid flag, doesnt raise by default on gcc < 8 */
+-    if (npy_isnan(a) || npy_isnan(b)) {
+-        npy_set_floatstatus_invalid();
+-    }
+     mod = npy_fmod@c@(a, b);
+     if (NPY_UNLIKELY(!b)) {
+         div = a / b;
+I did't make your last change (this one below) because in my knowledge both lines are the same:
+
+-        if ((b < 0) != (mod < 0)) {
++        if ((b < 0) != (isless(mod, 0))) {
+After this changes I run a very simple file to test if warnings appears
+
+import numpy as np
+
+
+#---------------------------------
+# With an integer
+#---------------------------------
+np.float128(np.nan) % 1
+np.float64(np.nan) % 1
+np.float32(np.nan) % 1
+np.float16(np.nan) % 1
+
+# reversed
+1 % np.float128(np.nan)
+1 % np.float64(np.nan)
+1 % np.float32(np.nan)
+1 % np.float16(np.nan)
+
+
+1 % np.float128(np.inf)
+1 % np.float64(np.inf)
+1 % np.float32(np.inf)
+1 % np.float16(np.inf)
+
+#---------------------------------
+# With nan
+#---------------------------------
+np.float128(np.nan) % np.float128(np.nan)
+np.float128(np.nan) % np.float64(np.nan)
+np.float128(np.nan) % np.float32(np.nan)
+np.float128(np.nan) % np.float16(np.nan)
+
+np.float64(np.nan) % np.float128(np.nan)
+np.float32(np.nan) % np.float128(np.nan)
+np.float16(np.nan) % np.float128(np.nan)
+
+
+np.float64(np.nan) % np.float64(np.nan)
+np.float64(np.nan) % np.float32(np.nan)
+np.float64(np.nan) % np.float16(np.nan)
+
+np.float32(np.nan) % np.float64(np.nan)
+np.float16(np.nan) % np.float64(np.nan)
+
+
+np.float32(np.nan) % np.float32(np.nan)
+np.float32(np.nan) % np.float16(np.nan)
+
+np.float16(np.nan) % np.float32(np.nan)
+
+
+np.float16(np.nan) % np.float16(np.nan)
+
+#---------------------------------
+# With nan and inf
+#---------------------------------
+np.float128(np.inf) % np.float128(np.nan)
+np.float128(np.inf) % np.float64(np.nan)
+np.float128(np.inf) % np.float32(np.nan)
+np.float128(np.inf) % np.float16(np.nan)
+
+np.float64(np.inf) % np.float128(np.nan)
+np.float32(np.inf) % np.float128(np.nan)
+np.float16(np.inf) % np.float128(np.nan)
+
+
+np.float64(np.inf) % np.float64(np.nan)
+np.float64(np.inf) % np.float32(np.nan)
+np.float64(np.inf) % np.float16(np.nan)
+
+np.float32(np.inf) % np.float64(np.nan)
+np.float16(np.inf) % np.float64(np.nan)
+
+
+np.float32(np.inf) % np.float32(np.nan)
+np.float32(np.inf) % np.float16(np.nan)
+
+np.float16(np.inf) % np.float32(np.nan)
+
+
+np.float16(np.inf) % np.float16(np.nan) 
+
+#reversed
+
+np.float128(np.nan) % np.float128(np.inf)
+np.float128(np.nan) % np.float64(np.inf)
+np.float128(np.nan) % np.float32(np.inf)
+np.float128(np.nan) % np.float16(np.inf)
+
+np.float64(np.nan) % np.float128(np.inf)
+np.float32(np.nan) % np.float128(np.inf)
+np.float16(np.nan) % np.float128(np.inf)
+
+
+np.float64(np.nan) % np.float64(np.inf)
+np.float64(np.nan) % np.float32(np.inf)
+np.float64(np.nan) % np.float16(np.inf)
+
+np.float32(np.nan) % np.float64(np.inf)
+np.float16(np.nan) % np.float64(np.inf)
+
+
+np.float32(np.nan) % np.float32(np.inf)
+np.float32(np.nan) % np.float16(np.inf)
+
+np.float16(np.nan) % np.float32(np.inf)
+
+
+np.float16(np.nan) % np.float16(np.nan)
+
+
+
+#NOTE: From here to the end all gives errors
+
+#-------------------------------------------------
+# With both inf
+#-------------------------------------------------
+np.float128(np.inf) % np.float128(np.inf)
+np.float128(np.inf) % np.float64(np.inf)
+np.float128(np.inf) % np.float32(np.inf)
+np.float128(np.inf) % np.float16(np.inf)
+
+np.float64(np.inf) % np.float128(np.inf)
+np.float32(np.inf) % np.float128(np.inf)
+np.float16(np.inf) % np.float128(np.inf)
+
+
+np.float64(np.inf) % np.float64(np.inf)
+np.float64(np.inf) % np.float32(np.inf)
+np.float64(np.inf) % np.float16(np.inf)
+
+np.float32(np.inf) % np.float64(np.inf)
+np.float16(np.inf) % np.float64(np.inf)
+
+
+np.float32(np.inf) % np.float32(np.inf)
+np.float32(np.inf) % np.float16(np.inf)
+
+np.float16(np.inf) % np.float32(np.inf)
+
+
+np.float16(np.inf) % np.float16(np.inf) 
+
+
+#-------------------------------------------------
+# With inf reversed
+#-------------------------------------------------
+np.float128(np.inf) % 1
+np.float64(np.inf) % 1
+np.float32(np.inf) % 1
+np.float16(np.inf) % 1
+And the warnings only appears in the last two sections, when the infinite is in the left and when both numbers are infinite. Right now I'm a bit stuck so any help is welcome. Thanks.
+
+@seberg
+Member
+seberg commented on Jun 22, 2021 • 
+@arubiales I am not sure what your question is? The last two sections should definitely give a warning, since a new NaN is created (inf doesn't count in that regard). So that seems all fine. For example np.inf - np.inf gives a warning and returns NaN.
+
+@arubiales
+Contributor
+arubiales commented on Jun 23, 2021 • 
+@seberg Yes a new NaN is created but if you do np.inf - np.inf or np.inf % 1 or np.inf % np.inf never give a warning. At least not to me using:
+
+Python 3.8.8
+Numpy 1.21.0
+Ubuntu 18.04
+Only gives the warning when you use np.floatxx(np.inf) % x for example np.float64(np.inf) % 1
+
+So we solved the initial issue that was the warning with np.float64(np.nan) + 1 but after it I saw that the same thing was happening with np.inf so that's why I'm trying to solve also!
+
+If you think is not necessary to change the np.inf warning. Them I think the work is done and I can make the PR if you think that the solution is correct.
+
+@seberg
+Member
+seberg commented on Jun 23, 2021
+In [2]: np.array([np.inf]) + np.array([-np.inf])
+<ipython-input-2-95388f195f62>:1: RuntimeWarning: invalid value encountered in add
+  np.array([np.inf]) + np.array([-np.inf])
+If you try np.inf - np.inf that uses Python behaviour, not NumPy behaviour. I am not sure if Python did a choice to not warn there. Most likely they just don't check for it.
+
+The behaviour you listed seems all correct to me, yes, so going with PR is probably best to continue discussion.
+
+@BvB93 BvB93 linked a pull request on Jun 23, 2021 that will close this issue
+BUG: Fix warning problems of the mod operator #19316
+ Merged
+arubiales added a commit to arubiales/numpy that referenced this issue on Jun 23, 2021
+@arubiales
+Solved test fails due to the warnings changed numpy#18170
+e634bd7
+seberg pushed a commit to arubiales/numpy that referenced this issue on Jul 7, 2021
+@arubiales
+@seberg
+solve the problems of mod operator except for infinite values numpy#1… …
+eaf552f
+seberg pushed a commit to arubiales/numpy that referenced this issue on Jul 7, 2021
+@arubiales
+@seberg
+Solved test fails due to the warnings changed numpy#18170
+dff3384
+seberg pushed a commit to arubiales/numpy that referenced this issue on Jul 12, 2021
+@arubiales
+@seberg
+solve the problems of mod operator except for infinite values numpy#1… …
+1823b55
+seberg pushed a commit to arubiales/numpy that referenced this issue on Jul 12, 2021
+@arubiales
+@seberg
+Solved test fails due to the warnings changed numpy#18170
+963caf0
+@mattip mattip closed this as completed in #19316 on Jul 14, 2021
+@nschloe
+Contributor
+Author
+nschloe commented on Jul 14, 2021
+Thanks @arubiales and @seberg!
+
+@rhshadrach rhshadrach mentioned this issue on Apr 21, 2022
+BUG: Runtime warning with groupby/tail when None appears in group column pandas-dev/pandas#46814
+Closed
+3 tasks
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@seberg
+seberg
+Labels
+00 - Bug
+component: numpy.ufunc
+Projects
+None yet
+Milestone
+1.22.0 release
+Development
+Successfully merging a pull request may close this issue.
+
+ BUG: Fix warning problems of the mod operator
+arubiales/numpy
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+5 participants
+@seberg
+@charris
+@nschloe
+@cuihantao
+@arubiales
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

@@ -1,0 +1,215 @@
+Skip to content
+numpy
+/
+numpy
+
+Type / to search
+
+Code
+Issues
+2k
+Pull requests
+230
+Actions
+Projects
+9
+Wiki
+Security
+Insights
+Regression in array creation np.array([...], dtype='(2,2)f4') RuntimeError (Zarr testsuite ) #17173
+Closed
+Carreau opened this issue on Aug 27, 2020 · 9 comments · Fixed by #17419
+Comments
+@Carreau
+Contributor
+Carreau commented on Aug 27, 2020
+Reproducing code example:
+This is used as a test case in the Zarr codebase, it seem to be failing since #16200
+
+import numpy as np
+a = np.array([((0, 1),
+                       (1, 2)),
+                      ((1, 2),
+                       (2, 3)),
+                      ((2, 3),
+                       (3, 4))], dtype='(2,2)f4')
+Error message:
+In [1]: import numpy as np
+   ...: a = np.array([((0, 1),
+   ...:                        (1, 2)),
+   ...:                       ((1, 2),
+   ...:                        (2, 3)),
+   ...:                       ((2, 3),
+   ...:                        (3, 4))], dtype='(2,2)f4')
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+<ipython-input-1-0a6ed20baa50> in <module>
+      5                        (2, 3)),
+      6                       ((2, 3),
+----> 7                        (3, 4))], dtype='(2,2)f4')
+
+RuntimeError: Inconsistent object during array creation? Content of sequences changed (now too shallow).
+Numpy/Python version information:
+2cfcf56cd1f9465871e355620465b0b734f1f56c is the first bad commit
+commit 2cfcf56cd1f9465871e355620465b0b734f1f56c
+Author: Sebastian Berg <sebastian@sipsolutions.net>
+Date:   Fri May 8 09:13:57 2020 -0500
+
+    WIP: Seems pretty good, but needs cleaning up...
+
+:040000 040000 45409277bf118ad5a5e9badfd37f5522f26841b2 7186520518984483cbae2f28001fe883855df00f M	numpy
+Multiple Pythons (3.7, 3.8), Multiple OS (Mac, Linux), though I bisected only on Linux/3.7.
+
+I
+
+@Carreau Carreau mentioned this issue on Aug 27, 2020
+ENH: Rewrite of array-coercion to support new dtypes #16200
+ Merged
+@seberg
+Member
+seberg commented on Aug 27, 2020
+Uggh, I guess I did not realize that this was actually supported before. Can we deprecate it? I find it super weird that the output array can't have the requested dtype (technically), although I suppose it does enforce two additional dimensions with shape (2, 2) at the end – NumPy doesn't actually check that anything is correct at any point!
+
+Its plausible that the error is just overzealous and that is all which is necessary to fix it, lets see...
+
+@seberg seberg self-assigned this on Aug 27, 2020
+@seberg seberg added the 06 - Regression label on Aug 27, 2020
+@seberg seberg added this to the 1.20.0 release milestone on Aug 27, 2020
+@Carreau
+Contributor
+Author
+Carreau commented on Aug 27, 2020
+I didn't knew this was a thing either; if your wish is to deprecate it, it's up to you.
+
+At least you should be aware that it's a thing that might be found in the wild, and you may want to put a warning out, or describe a migration path. I guess on zarr size it would be pretty easy to split the tuple part and check independently the size.
+
+@seberg
+Member
+seberg commented on Aug 27, 2020
+In particular, I think this is incorrect so to speak:
+
+arr = np.arange(5 * 2).reshape(5, 2)
+arr.astype("(2,2)f")  # broadcasting error
+And:
+
+arr = np.arange(2 * 2).reshape(2, 2)
+res1 = np.array(arr, dtype="(2,2)f")
+# is equivalent to:
+res2 = np.zeros_like(arr, dtype="(2,2)f")
+res2.shape == (2, 2, 2, 2)
+res2.dtype == "float32"
+
+res2[...] = arr  # aligns on the last two axes.
+So yeah, I can fix it by ignoring the change in the input shape. But I think we still should deprecate it? I wanted to make this a (good) error in gh-16825 but I guess that would have to be a deprecation for now probably.
+
+@Carreau
+Contributor
+Author
+Carreau commented on Aug 27, 2020
+I you think you want to deprecate it, I'll start making changes to zarr to accommodate that.
+Though something that emit a warning for those dtypes that we can turn into errors in test-suite would be useful.
+
+@Carreau Carreau mentioned this issue on Aug 27, 2020
+Dtype shape deprecation zarr-developers/zarr-python#591
+Open
+@seberg
+Member
+seberg commented on Aug 27, 2020
+Well, if we deprecate it, we will give a deprecation warning. I am leaning towards that, because I think:
+
+>>> arr = np.array([1, 2])
+>>> arr.astype("(2,)i")
+array([[1, 2],
+       [1, 2]], dtype=int32)
+>>> arr.astype("(2,)i")[..., 0]  # ignore the dimension "added" by the dtype!
+array([1, 1], dtype=int32)
+seems actively wrong to me. I would expect each individual element of the original array to be cast to a "subarray" of size (2,) here. And this is not what happens.
+
+But, for your example of a list containing tuple, the result seems well defined, although I am not sure that it is also useful (especially it would be nice to have invariant that np.asarray(something, dtype=requested_dtype).dtype is requested_dtype.
+
+@seberg
+Member
+seberg commented on Aug 27, 2020
+This is much more tricky then I thought. If we can get away with keeping this an error:
+
+a = np.array([((0, 1), (1, 2)), 
+              (((2,),))], dtype='(2,2)f4') 
+I can just transform the dtype manually before everything else (which is a bit silly, but currently supported by doing broadcasting).
+
+The "correct" thing would probably be to pretend the output dtype is in fact (2, 2)f4 during the assignment process. But that will blow up if the requested array is fortran order, since the "subarray" elements, which should be contiguous are not actually contiguous in the output. (There may also be other weird inconsistencies with lists of arrays.)
+
+To be honest, the only certain fix I can think of, is to resurrect the old code which was used for filling the result just for this specific path and finishing with a deprecation warning :(.
+
+@seberg seberg added the triage review label on Aug 27, 2020
+@eric-wieser
+Member
+eric-wieser commented on Aug 27, 2020
+I think that RuntimeError was a "I don't think this can ever happen" path, not something we explicitly disabled...
+
+@seberg
+Member
+seberg commented on Aug 27, 2020
+Yeah, you are right of course. I think I started there from the scalar code path, where it should not be possible but missed that it is possible in the np.array() case.
+
+@seberg seberg added triaged and removed triage review labels on Sep 23, 2020
+@seberg
+Member
+seberg commented on Sep 23, 2020
+We had discussed this briefly a while ago. I have not done so yet, but my plan is to re-add old fallback code temporarily and then deprecate this for real. It is tricky, but I think the current behaviour is too inconsistent to really fix things for good.
+
+@seberg seberg mentioned this issue on Oct 1, 2020
+DEP: Deprecate coercion to subarray dtypes #17419
+ Merged
+seberg added a commit to seberg/numpy that referenced this issue on Oct 1, 2020
+@seberg
+DEP: Deprecate coercion to subarray dtypes …
+e31ae7f
+@mattip mattip closed this as completed in #17419 on Oct 7, 2020
+@mhvk mhvk mentioned this issue on Oct 8, 2020
+Initializing arrays with subarray dtype #17511
+Closed
+@bensivo
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow its contributing guidelines, security policy, and code of conduct.
+Assignees
+@seberg
+seberg
+Labels
+06 - Regression
+triaged
+Projects
+None yet
+Milestone
+1.20.0 release
+Development
+Successfully merging a pull request may close this issue.
+
+ DEP: Deprecate coercion to subarray dtypes
+seberg/numpy
+Notifications
+Customize
+You’re not receiving notifications from this thread.
+3 participants
+@seberg
+@Carreau
+@eric-wieser
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
