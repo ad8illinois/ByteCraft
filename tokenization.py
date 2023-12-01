@@ -47,3 +47,20 @@ for contributor_filename in contributor_filenames:
 #  - Write a function for converting a token array into a TF vector
 #       - NLTK's FreqDist class may be useful here: https://www.nltk.org/api/nltk.probability.FreqDist.html
 # 
+
+# Potential function to convert tokens into TF vectors
+
+from nltk.probability import FreqDist
+
+def tokens_to_tf_vector(tokens):
+    # Calculate term frequencies using NLTK's FreqDist
+    freq_dist = FreqDist(tokens)
+    
+    # Convert FreqDist to a dictionary
+    tf_dict = dict(freq_dist)
+    
+    return tf_dict
+
+tf_vector = tokens_to_tf_vector(tokens)
+print("TF Vector:")
+print(tf_vector)
