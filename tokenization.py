@@ -2,6 +2,7 @@ from typing import List
 import nltk
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
+from sklearn.cluster import AgglomerativeClustering
 import string
 import os
 
@@ -15,6 +16,7 @@ This will open a window giving you corpuses to download. I just downloaded the '
 You only have to do this once for every machine.
 """
 
+
 def tokenize_file(filepath: str):
     """
     Use NLTK to tokenize the given text file.
@@ -25,7 +27,7 @@ def tokenize_file(filepath: str):
     Returns:
         List of strings, each representing a token extracted from the text.
     """
-    with open (filepath, 'r') as file:
+    with open(filepath, 'r') as file:
         text = file.read()
 
         # Make everything lowercase, to prevent duplicates that only differ in casing 
@@ -44,7 +46,8 @@ def tokenize_file(filepath: str):
         """
         return tokens
 
-#  # I wrote this code, but I don't think we actually need it. Because we're using dictionaries instead of vectors for term-frequency, we already know what the tokens are. 
+
+#  # I wrote this code, but I don't think we actually need it. Because we're using dictionaries instead of vectors for term-frequency, we already know what the tokens are.
 #  # We don't need a lookup dictionary. 
 #  # 
 #  # In the future, we may want to go back from dicts to vectors to make computation more efficient, then, it'll be useful to have a single array which defines what each index means.
@@ -56,7 +59,7 @@ def tokenize_file(filepath: str):
 
 #     Args:
 #         filepaths (List[str]): List of filepaths, all the input files in your corpus
-    
+
 #     Returns:
 #         arr of strings, representing all the tokens found in the text
 #     """
@@ -82,6 +85,7 @@ def create_term_frequency_dict(filepath: str) -> List[int]:
 
     return tf_dict
 
+
 if __name__ == '__main__':
     base_dir = './testdata/numpy/issues'
     # base_dir = './testdata/wikipedia'
@@ -93,7 +97,6 @@ if __name__ == '__main__':
         for name in files:
             if name.endswith('.txt'):
                 filepaths.append(os.path.join(root, name))
-    
 
     # # See the comment on create_dictionary
     # 
@@ -118,13 +121,12 @@ if __name__ == '__main__':
             if token not in tf_reverse_index:
                 tf_reverse_index[token] = {}
             tf_reverse_index[token][filepath] = count
-    
+
     # Write the reverse index to a text file
     print('Writing reverse index to file.')
     with open('./tf_reverse_index.txt', 'w') as output_file:
         for token in tf_reverse_index:
             output_file.write(f'{token} - {tf_reverse_index[token]}\n')
-
 
     # TODO / Next Steps
     #  - Given a doc, use the reverse index to calculate a tf-idf vector for that document
@@ -135,3 +137,23 @@ if __name__ == '__main__':
     #       -  Implement smoothing on the LM, so we get on-zero probabilities for every word in the topic
     #       -  Implement the Naive Bayes scoring function, given a topic LM and a doc, what's the log likelihood of generating that doc with that LM, usign bayes rule to account for the distribution of topics themselves
     #       -  Use the Naive bayes to classify any new doc into one of the pre-defined topics
+
+
+# K-means clustering traditionally requires a euclidean or cosine distance between vectors and not a similarity
+# matrix. Popular python libraries provide k-means implementations that expect standard distance metrics conforming
+# to euclidean/cosine distances.
+
+# Agglomerative Clustering is much better suited for using a similarity function out-of-the-box
+# Although the implementation denotes the use of a distance matrix instead of a similarity matrix,
+# they are simply the inverse of each other.
+# So we can precompute a distance matrix as 1-(similairty matrix) before passing it into the clustering function
+# https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
+
+def agglomerative_clustering(similarity_matrix):
+    # precompute a distance matrix as inverse of similarity_matrix before passing it into the clustering function
+    distance_matrix = 1 - similarity_matrix
+    # We can switch back to the default linkage "ward" based on performance
+    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=2).fit(
+        distance_matrix)
+    # Cluster labels [0,1]
+    return clustering_model.labels_
