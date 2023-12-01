@@ -1,0 +1,813 @@
+
+Main menu
+
+WikipediaThe Free Encyclopedia
+Search Wikipedia
+Search
+Create account
+Log in
+
+Personal tools
+Contents hide
+(Top)
+Etymology
+Evolution
+Toggle Evolution subsection
+Anatomy and physiology
+Toggle Anatomy and physiology subsection
+Acoustic communication
+Toggle Acoustic communication subsection
+Diseases
+Toggle Diseases subsection
+Conservation
+Toggle Conservation subsection
+Importance to humans
+Toggle Importance to humans subsection
+Terminology
+Toggle Terminology subsection
+See also
+Notes
+References
+Further reading
+External links
+Fish
+
+Article
+Talk
+Read
+View source
+View history
+
+Tools
+Page semi-protected
+From Wikipedia, the free encyclopedia
+Sorry to interrupt, but our fundraiser won't last long
+This Thursday, we ask you to join the 2% of readers who give. If everyone reading this right now gave just $3, we'd hit our goal in a couple of hours. $3 is all we ask.
+GIVE $3 MAYBE LATER
+November 30: Wikipedia is still not on the market.
+ Please don't skip this 1-minute read. Sorry to interrupt, but it's Thursday, November 30, and it will soon be too late to help in our year-end fundraiser in the United States. Wikipedia is free and doesn't rely on ads. Just 2% of readers donate, so if Wikipedia has given you $3 of knowledge, please give. Any contribution helps, whether it's $3 or $25.
+Give $3
+ Give a different amount
+Wikimedia Foundation Logo
+Proud host of Wikipedia and its sister sites
+
+MAYBE LATER I ALREADY DONATED
+CLOSE 
+For fish as eaten by humans, see Fish as food. For the superclass containing the vast majority of living fish, see Osteichthyes. For other uses, see Fish (disambiguation).
+Fish
+Temporal range: 535–0 Ma 
+PreꞒꞒOSDCPTJKPgN
+Middle Cambrian – Recent
+Diversity of various fishes including Sharks, Stingrays, Bony fishes, Jawless fishes, and Coelacanths.
+Diversity of various fishes including Sharks, Stingrays, Bony fishes, Jawless fishes, and Coelacanths.
+Scientific classificationEdit this classification
+Domain:	Eukaryota
+Kingdom:	Animalia
+Phylum:	Chordata
+Clade:	Olfactores
+Subphylum:	Vertebrata
+Groups included
+Jawless fish
+†Armoured fish
+†Spiny sharks
+Cartilaginous fish
+Bony fish
+Ray-finned fish
+Lobe-finned fish
+Cladistically included but traditionally excluded taxa
+Tetrapods
+A fish (pl.: fish or fishes) is an aquatic, craniate, gill-bearing animal that lacks limbs with digits. Included in this definition are the living hagfish, lampreys, and cartilaginous and bony fish as well as various extinct related groups. Approximately 95% of living fish species are ray-finned fish, belonging to the class Actinopterygii, with around 99% of those being teleosts.
+
+The earliest organisms that can be classified as fish were soft-bodied chordates that first appeared during the Cambrian period. Although they lacked a true spine, they possessed notochords which allowed them to be more agile than their invertebrate counterparts. Fish would continue to evolve through the Paleozoic era, diversifying into a wide variety of forms. Many fish of the Paleozoic developed external armor that protected them from predators. The first fish with jaws appeared in the Silurian period, after which many (such as sharks) became formidable marine predators rather than just the prey of arthropods.
+
+Most fish are ectothermic ("cold-blooded"), allowing their body temperatures to vary as ambient temperatures change, though some of the large active swimmers like white shark and tuna can hold a higher core temperature.[1][2] Fish can acoustically communicate with each other, most often in the context of feeding, aggression or courtship.[3]
+
+Fish are abundant in most bodies of water. They can be found in nearly all aquatic environments, from high mountain streams (e.g., char and gudgeon) to the abyssal and even hadal depths of the deepest oceans (e.g., cusk-eels and snailfish), although no species has yet been documented in the deepest 25% of the ocean.[4] With 34,300 described species, fish exhibit greater species diversity than any other group of vertebrates.[5]
+
+Fish are an important resource for humans worldwide, especially as food. Commercial and subsistence fishers hunt fish in wild fisheries or farm them in ponds or in cages in the ocean (in aquaculture). They are also caught by recreational fishers, kept as pets, raised by fishkeepers, and exhibited in public aquaria. Fish have had a role in culture through the ages, serving as deities, religious symbols, and as the subjects of art, books and movies.
+
+Tetrapods (amphibians, reptiles, birds and mammals) emerged within lobe-finned fishes, so cladistically they are fish as well. However, traditionally fish (pisces or ichthyes) are rendered paraphyletic by excluding the tetrapods, and are therefore not considered a formal taxonomic grouping in systematic biology, unless it is used in the cladistic sense, including tetrapods,[6][7] although usually "vertebrate" is preferred and used for this purpose (fish plus tetrapods) instead. Furthermore, cetaceans, although mammals, have often been considered fish by various cultures and time periods.
+
+Etymology
+The word for fish in English and the other Germanic languages (German Fisch; Gothic fisks) is inherited from Proto-Germanic, and is related to the Latin piscis and Old Irish īasc, though the exact root is unknown; some authorities reconstruct a Proto-Indo-European root *peysk-, attested only in Italic, Celtic, and Germanic.[8][9][10][11]
+
+The English word once had a much broader usage than its current biological meaning. Names such as starfish, jellyfish, shellfish, crayfish/crawfish and cuttlefish attest to almost any fully aquatic animal (including whales) once being fish. "Correcting" such names (e.g. to sea star) is an attempt to retroactively apply the current meaning of fish to words that were coined when it had a different meaning.[citation needed]
+
+Evolution
+Main article: Evolution of fish
+Fish, as vertebrata, developed as sister of the tunicata. As the tetrapods emerged deep within the fishes group, as sister of the lungfish, characteristics of fish are typically shared by tetrapods, including having vertebrae and a cranium.
+
+Drawing of animal with large mouth, long tail, very small dorsal fins, and pectoral fins that attach towards the bottom of the body, resembling lizard legs in scale and development.[12]
+Dunkleosteus was a gigantic prehistoric fish of class Placodermi.
+Early fish from the fossil record are represented by a group of small, jawless, armored fish known as ostracoderms. Jawless fish lineages are mostly extinct. An extant clade, the lampreys may approximate ancient pre-jawed fish. The first jaws are found in Placodermi fossils. They lacked distinct teeth, having instead the oral surfaces of their jaw plates modified to serve the various purposes of teeth. The diversity of jawed vertebrates may indicate the evolutionary advantage of a jawed mouth. It is unclear if the advantage of a hinged jaw is greater biting force, improved respiration, or a combination of factors.
+
+Fish may have evolved from a creature similar to a coral-like sea squirt, whose larvae resemble primitive fish in important ways. The first ancestors of fish may have kept the larval form into adulthood (as some sea squirts do today).
+
+Phylogeny
+Fishes are a paraphyletic group: that is, any clade containing all fish also contains the tetrapods. The latter are not fish, though they include fish-shaped forms, such as Whales and Dolphins (see evolution of cetaceans) or the extinct ichthyosaurs, both of which acquired a fish-like body shape due to secondary aquatic adaptation. In a cladistic sense, tetrapods are a subset of Osteichthyes.
+
+...it is increasingly widely accepted that tetrapods, including ourselves, are simply modified bony fishes, and so we are comfortable with using the taxon Osteichthyes as a clade, which now includes all tetrapods...
+
+Fishes of the World (5th ed) [13]
+The following cladogram shows clades – some with, some without extant relatives – that are traditionally considered as "fishes" (cyan line) and the tetrapods (four-limbed vertebrates), which are mostly terrestrial. Extinct groups are marked with a dagger (†).
+
+Vertebrata/	
+Agnatha/	
+Hyperoartia (lampreys)
+
+Myxini (hagfish) 
+
+Cyclostomes
+†Euconodonta
+
+†Pteraspidomorphi 
+
+†Thelodonti 
+
+†Anaspida
+
+†Galeaspida 
+
+†Pituriaspida
+
+†Osteostraci 
+
+Gnathostomata	
+"†Placodermi" (armoured fishes, paraphyletic)[14]
+
+"†Acanthodii" ("spiny sharks", paraphyletic or polyphyletic)[15] 
+
+Chondrichthyes	
+"†Acanthodii" ("spiny sharks", paraphyletic or polyphyletic)
+
+Holocephali (ratfish)
+
+Euselachii (sharks, rays) 
+
+(cartilaginous fishes)
+Euteleostomi/	
+"†Acanthodii" ("spiny sharks", paraphyletic or polyphyletic)
+
+Actinopterygii	
+Cladistia (bichirs, reedfish) 
+
+Chondrostei (sturgeons, paddlefish)
+
+Neopterygii (includes Teleostei, 96% of living fish species)
+
+(ray‑finned fishes)
+Sarcopterygii	
+†Onychodontiformes 
+
+Actinistia (coelacanths) 
+
+Rhipidistia	
+†Porolepiformes 
+
+Dipnoi (lungfishes) 
+
+Tetrapodomorpha/	
+†Rhizodontimorpha 
+
+†Tristichopteridae 
+
+†Tiktaalik
+
+Tetrapoda	
+†Ichthyostega
+
+crown-group tetrapods    
+
+four‑limbed vertebrates
+(Choanata)
+(lobe‑finned fish)
+Osteichthyes
+(jawed vertebrates)
+"Fishes"
+Craniata
+Taxonomy
+
+Leedsichthys, of the subclass Actinopterygii, is the largest known fish, with estimates in 2005 putting its maximum size at 16 metres (52 ft).
+Fishes are a paraphyletic group and for this reason, groups such as the class Pisces seen in older reference works are no longer used in formal classifications. Traditional classification divides fish into three extant classes, and with extinct forms sometimes classified within the tree, sometimes as their own classes:[16][17]
+
+Class Agnatha (jawless fish)
+Subclass Cyclostomata (hagfish and lampreys)
+Subclass Ostracodermi (armoured jawless fish) †
+Class Chondrichthyes (cartilaginous fish)
+Subclass Elasmobranchii (sharks and rays)
+Subclass Holocephali (chimaeras and extinct relatives)
+Class Placodermi (armoured fish) †
+Class Acanthodii ("spiny sharks", sometimes classified under Actinopterygii) †
+Superclass Osteichthyes (bony fish)
+Class Actinopterygii (ray finned fishes)
+Clade Sarcopterygii (lobe finned fishes, ancestors of tetrapods)
+The above scheme is the one most commonly encountered in non-specialist and general works. Many of the above groups are paraphyletic, in that they have given rise to successive groups: Agnatha are ancestral to Placodermi, who again have given rise to Osteichthyes, as well as to Acanthodii, the ancestors of Chondrichthyes. With the arrival of phylogenetic nomenclature, the fishes has been split up into a more detailed scheme, with the following major groups:
+
+Class Myxini (hagfish)
+Class Pteraspidomorphi † (early jawless fish)
+Class Thelodonti †
+Class Anaspida †
+Class Petromyzontida or Hyperoartia
+Petromyzontidae (lampreys)
+Class Conodonta (conodonts) †
+Class Cephalaspidomorphi † (early jawless fish)
+(unranked) Galeaspida †
+(unranked) Pituriaspida †
+(unranked) Osteostraci †
+Infraphylum Gnathostomata (jawed vertebrates)
+Class Placodermi † (armoured fish)
+Class Chondrichthyes (cartilaginous fish)
+Class Acanthodii † (spiny sharks)
+Superclass Osteichthyes (bony fish)
+Class Actinopterygii (ray-finned fish)
+Subclass Chondrostei
+Order Acipenseriformes (sturgeons and paddlefishes)
+Order Polypteriformes (reedfishes and bichirs).
+Subclass Neopterygii
+Infraclass Holostei (gars and bowfins)
+Infraclass Teleostei (many orders of common fish)
+Class Sarcopterygii (lobe-finned fish)
+Subclass Actinistia (coelacanths)
+Subclass Dipnoi (lungfish, sister group to the tetrapods)
+† – indicates extinct taxon
+Some palaeontologists contend that because Conodonta are chordates, they are primitive fish. For a fuller treatment of this taxonomy, see the vertebrate article.
+
+The position of hagfish in the phylum Chordata is not settled. Phylogenetic research in 1998 and 1999 supported the idea that the hagfish and the lampreys form a natural group, the Cyclostomata, that is a sister group of the Gnathostomata.[18][19]
+
+The various fish groups account for more than half of vertebrate species. As of 2006,[20] there are almost 28,000 known extant species, of which almost 27,000 are bony fish, with 970 sharks, rays, and chimeras and about 108 hagfish and lampreys. A third of these species fall within the nine largest families; from largest to smallest, these families are Cyprinidae, Gobiidae, Cichlidae, Characidae, Loricariidae, Balitoridae, Serranidae, Labridae, and Scorpaenidae. About 64 families are monotypic, containing only one species. The final total of extant species may grow to exceed 32,500.[21] Each year, new species are discovered and scientifically described. As of 2016,[13] there are over 32,000 documented species of bony fish and over 1,100 species of cartilaginous fish. Species are lost through extinction (see biodiversity crisis). Recent examples are the Chinese paddlefish or the smooth handfish.
+
+Diversity
+Main article: Diversity of fish
+Agnatha (Pacific hagfish)
+Agnatha
+(Pacific hagfish)
+
+ 
+Chondrichthyes (Horn shark)
+Chondrichthyes
+(Horn shark)
+
+ 
+Actinopterygii (Brown trout)
+Actinopterygii
+(Brown trout)
+
+ 
+Sarcopterygii (Coelacanth)
+Sarcopterygii
+(Coelacanth)
+
+Photo of fish with many narrow, straight appendages. Some are end in points, and others are longer, ending in two or three approximately flat, triangular flaps, each with a dark spot.
+A relative of the seahorses, the leafy seadragon's appendages allow it to camouflage (in the form of crypsis) with the surrounding seaweed.
+
+The psychedelic mandarin dragonet is one of only two fish species where the blue colouring has been shown to be due to blue pigment containing chromatophores in the skin.[22]
+The term "fish" most precisely describes any non-tetrapod craniate (i.e. an animal with a skull and in most cases a backbone) that has gills throughout life and whose limbs, if any, are in the shape of fins.[23] Unlike groupings such as birds or mammals, fish are not a single clade but a paraphyletic collection of taxa, including hagfishes, lampreys, sharks and rays, ray-finned fish, coelacanths, and lungfish.[24][25] Indeed, lungfish and coelacanths are closer relatives of tetrapods (such as mammals, birds, amphibians, etc.) than of other fish such as ray-finned fish or sharks, so the last common ancestor of all fish is also an ancestor to tetrapods. As paraphyletic groups are no longer recognised in modern systematic biology, the use of the term "fish" as a biological group must be avoided.
+
+Many types of aquatic animals commonly referred to as "fish" are not fish in the sense given above; examples include shellfish, cuttlefish, starfish, crayfish and jellyfish. In earlier times, even biologists did not make a distinction – sixteenth century natural historians classified also seals, whales, amphibians, crocodiles, even hippopotamuses, as well as a host of aquatic invertebrates, as fish.[26] However, according to the definition above, all mammals, including cetaceans like whales and dolphins, are not fish. In some contexts, especially in aquaculture, the true fish are referred to as finfish (or fin fish) to distinguish them from these other animals.
+
+A typical fish is ectothermic, has a streamlined body for rapid swimming, extracts oxygen from water using gills or uses an accessory breathing organ to breathe atmospheric oxygen, has two sets of paired fins, usually one or two (rarely three) dorsal fins, an anal fin, and a tail fin, has jaws, has skin that is usually covered with scales, and lays eggs.
+
+Each criterion has exceptions. Tuna, swordfish, and some species of sharks show some warm-blooded adaptations – they can heat their bodies significantly above ambient water temperature.[24] Streamlining and swimming performance varies from fish such as tuna, salmon, and jacks that can cover 10–20 body-lengths per second to species such as eels and rays that swim no more than 0.5 body-lengths per second.[27] Many groups of freshwater fish extract oxygen from the air as well as from the water using a variety of different structures. Lungfish have paired lungs similar to those of tetrapods, gouramis have a structure called the labyrinth organ that performs a similar function, while many catfish, such as Corydoras extract oxygen via the intestine or stomach.[28] Body shape and the arrangement of the fins is highly variable, covering such seemingly un-fishlike forms as seahorses, pufferfish, anglerfish, and gulpers. Similarly, the surface of the skin may be naked (as in moray eels), or covered with scales of a variety of different types usually defined as placoid (typical of sharks and rays), cosmoid (fossil lungfish and coelacanths), ganoid (various fossil fish but also living gars and bichirs), cycloid, and ctenoid (these last two are found on most bony fish).[29] There are even fish that live mostly on land or lay their eggs on land near water.[30] Mudskippers feed and interact with one another on mudflats and go underwater to hide in their burrows.[31] A single undescribed species of Phreatobius has been called a true "land fish" as this worm-like catfish strictly lives among waterlogged leaf litter.[32][33] Many species live in underground lakes, underground rivers or aquifers and are popularly known as cavefish.[34]
+
+Fish range in size from the huge 16-metre (52 ft) whale shark to the tiny 8-millimetre (0.3 in) stout infantfish.
+
+Fish species diversity is roughly divided equally between marine (oceanic) and freshwater ecosystems. Coral reefs in the Indo-Pacific constitute the center of diversity for marine fishes, whereas continental freshwater fishes are most diverse in large river basins of tropical rainforests, especially the Amazon, Congo, and Mekong basins. More than 5,600 fish species inhabit Neotropical freshwaters alone, such that Neotropical fishes represent about 10% of all vertebrate species on the Earth. Exceptionally rich sites in the Amazon basin, such as Cantão State Park, can contain more freshwater fish species than occur in all of Europe.[35]
+
+The deepest living fish in the ocean so far found is the snailfish (Pseudoliparis belyaevi) which was filmed in the Izu-Ogasawara Trench off the coast of Japan at 8,336 meters in August 2022. The fish was filmed by a robotic lander as part of a scientific expedition funded by Victor Vescovo's Caladan Oceanic with the scientific team led by Professor Alan Jamieson of the University of Western Australia.[36]
+
+The diversity of living fish (finfish) is unevenly distributed among the various groups, with teleosts making up the bulk of living fishes (96%), and over 50% of all vertebrate species.[13] The following cladogram[37] shows the evolutionary relationships of all groups of living fishes (with their respective diversity[13][38]) and the four-limbed vertebrates (tetrapods).
+
+
+Diversity of various groups of fish (and other vertebrates) through time
+
+Lungfish are the closest living relatives of tetrapods (four-limbed vertebrates).
+
+The bowfin Amia calva is one of two surviving species of the halecomorph clade.
+Vertebrates	
+Jawless fish  (118 living species: hagfish, lampreys)
+
+Jawed vertebrates	
+Cartilaginous fishes  (>1,100 living species: sharks, rays, chimaeras)
+
+Bony fishes	
+Lobe-finned fish	
+Rhipidistia	
+Tetrapoda  (>30,000 living species: amphibians, mammals, reptiles, birds)
+
+Dipnoi  (6 living species: lungfish)
+
+Actinistia  (2 living species: coelacanths)
+
+Ray-finned fish	
+Cladistia  (14 living species: bichirs, reedfish)
+
+Actinopteri	
+Chondrostei  (27 living species: sturgeons, paddlefish)
+
+Neopterygii	
+Holostei	
+Ginglymodi  (7 living species: gars, alligator gars)
+
+Halecomorphi  (2 living species: bowfin, eyetail bowfin)
+
+Teleostei  (>32,000 living species)
+
+Anatomy and physiology
+Further information: Fish anatomy and Fish physiology
+
+Organs: 1. Liver, 2. Gas bladder, 3. Roe, 4. Pyloric caeca, 5. Stomach, 6. Intestine
+Respiration
+See also: Aquatic respiration
+Gills
+Photo of fish head split in half longitudinally with gill filaments crossing from top to bottom
+Tuna gills inside the head. The fish head is oriented snout-downwards, with the view looking towards the mouth.
+Most fish exchange gases using gills on either side of the pharynx. Gills consist of threadlike structures called filaments. Each filament contains a capillary network that provides a large surface area for exchanging oxygen and carbon dioxide. Fish exchange gases by pulling oxygen-rich water through their mouths and pumping it over their gills. In some fish, capillary blood flows in the opposite direction to the water, causing countercurrent exchange. The gills push the oxygen-poor water out through openings in the sides of the pharynx. Some fish, like sharks and lampreys, possess multiple gill openings. However, bony fish have a single gill opening on each side. This opening is hidden beneath a protective bony cover called an operculum.
+
+Juvenile bichirs have external gills, a very primitive feature that they share with larval amphibians.
+
+Air breathing
+Fish from multiple groups can live out of the water for extended periods. Amphibious fish such as the mudskipper can live and move about on land for up to several days,[dubious – discuss] or live in stagnant or otherwise oxygen-depleted water. Many such fish can breathe air via a variety of mechanisms. The skin of anguillid eels may absorb oxygen directly. The buccal cavity of the electric eel may breathe air. Catfish of the families Loricariidae, Callichthyidae, and Scoloplacidae absorb air through their digestive tracts.[39] Lungfish, with the exception of the Australian lungfish, and bichirs have paired lungs similar to those of tetrapods and must surface to gulp fresh air through the mouth and pass spent air out through the gills. Gar and bowfin have a vascularized swim bladder that functions in the same way. Loaches, trahiras, and many catfish breathe by passing air through the gut. Mudskippers breathe by absorbing oxygen across the skin (similar to frogs). A number of fish have evolved so-called accessory breathing organs that extract oxygen from the air. Labyrinth fish (such as gouramis and bettas) have a labyrinth organ above the gills that performs this function. A few other fish have structures resembling labyrinth organs in form and function, most notably snakeheads, pikeheads, and the Clariidae catfish family.
+
+Breathing air is primarily of use to fish that inhabit shallow, seasonally variable waters where the water's oxygen concentration may seasonally decline. Fish dependent solely on dissolved oxygen, such as perch and cichlids, quickly suffocate, while air-breathers survive for much longer, in some cases in water that is little more than wet mud. At the extreme, some air-breathing fish are able to survive in damp burrows for weeks without water, entering a state of aestivation (summertime hibernation) until water returns.
+
+Air breathing fish can be divided into obligate air breathers and facultative air breathers. Obligate air breathers, such as the African lungfish, must breathe air periodically or they suffocate. Facultative air breathers, such as the catfish Hypostomus plecostomus, only breathe air if they need to and will otherwise rely on their gills for oxygen. Most air breathing fish are facultative air breathers that avoid the energetic cost of rising to the surface and the fitness cost of exposure to surface predators.[39]
+
+Circulation
+
+Didactic model of a fish heart
+Fish have a closed-loop circulatory system. The heart pumps the blood in a single loop throughout the body. In most fish, the heart consists of four parts, including two chambers and an entrance and exit.[40] The first part is the sinus venosus, a thin-walled sac that collects blood from the fish's veins before allowing it to flow to the second part, the atrium, which is a large muscular chamber. The atrium serves as a one-way antechamber, sends blood to the third part, ventricle. The ventricle is another thick-walled, muscular chamber and it pumps the blood, first to the fourth part, bulbus arteriosus, a large tube, and then out of the heart. The bulbus arteriosus connects to the aorta, through which blood flows to the gills for oxygenation.
+
+Digestion
+Jaws allow fish to eat a wide variety of food, including plants and other organisms. Fish ingest food through the mouth and break it down in the esophagus. In the stomach, food is further digested and, in many fish, processed in finger-shaped pouches called pyloric caeca, which secrete digestive enzymes and absorb nutrients. Organs such as the liver and pancreas add enzymes and various chemicals as the food moves through the digestive tract. The intestine completes the process of digestion and nutrient absorption.
+
+Excretion
+As with many aquatic animals, most fish release their nitrogenous wastes as ammonia. Some of the wastes diffuse through the gills. Blood wastes are filtered by the kidneys.
+
+Saltwater fish tend to lose water because of osmosis. Their kidneys return water to the body. The reverse happens in freshwater fish: they tend to gain water osmotically. Their kidneys produce dilute urine for excretion. Some fish have specially adapted kidneys that vary in function, allowing them to move from freshwater to saltwater.
+
+Scales
+Main article: Fish scale
+The scales of fish originate from the mesoderm (skin); they may be similar in structure to teeth.
+
+Sensory and nervous system
+Anatomical diagram showing the pairs of olfactory, telencephalon, and optic lobes, followed by the cerebellum and the mylencephalon
+Dorsal view of the brain of the rainbow trout
+Central nervous system
+Fish typically have quite small brains relative to body size compared with other vertebrates, typically one-fifteenth the brain mass of a similarly sized bird or mammal.[41] However, some fish have relatively large brains, most notably mormyrids and sharks, which have brains about as massive relative to body weight as birds and marsupials.[42]
+
+Fish brains are divided into several regions. At the front are the olfactory lobes, a pair of structures that receive and process signals from the nostrils via the two olfactory nerves.[41] The olfactory lobes are very large in fish that hunt primarily by smell, such as hagfish, sharks, and catfish. Behind the olfactory lobes is the two-lobed telencephalon, the structural equivalent to the cerebrum in higher vertebrates. In fish the telencephalon is concerned mostly with olfaction.[41] Together these structures form the forebrain.
+
+Connecting the forebrain to the midbrain is the diencephalon (in the diagram, this structure is below the optic lobes and consequently not visible). The diencephalon performs functions associated with hormones and homeostasis.[41] The pineal body lies just above the diencephalon. This structure detects light, maintains circadian rhythms, and controls color changes.[41]
+
+The midbrain (or mesencephalon) contains the two optic lobes. These are very large in species that hunt by sight, such as rainbow trout and cichlids.[41]
+
+The hindbrain (or metencephalon) is particularly involved in swimming and balance.[41] The cerebellum is a single-lobed structure that is typically the biggest part of the brain.[41] Hagfish and lampreys have relatively small cerebellae, while the mormyrid cerebellum is massive and apparently involved in their electrical sense.[41]
+
+The brain stem (or myelencephalon) is the brain's posterior.[41] As well as controlling some muscles and body organs, in bony fish at least, the brain stem governs respiration and osmoregulation.[41]
+
+Sense organs
+Main article: Sensory systems in fish
+Most fish possess highly developed sense organs. Nearly all daylight fish have color vision that is at least as good as a human's (see vision in fishes). Many fish also have chemoreceptors that are responsible for extraordinary senses of taste and smell. Although they have ears, many fish may not hear very well. Most fish have sensitive receptors that form the lateral line system, which detects gentle currents and vibrations, and senses the motion of nearby fish and prey.[43] The sense information obtained from the lateral line system can be considered both a sense of touch and hearing. Blind cave fish navigate almost entirely through the sensations from their lateral line system.[44] Some fish, such as catfish and sharks, have the ampullae of Lorenzini, electroreceptors that detect weak electric currents on the order of millivolt.[45] Other fish, like the South American electric fishes Gymnotiformes, can produce weak electric currents, which they use in navigation and social communication.
+
+Fish orient themselves using landmarks and may use mental maps based on multiple landmarks or symbols. Fish behavior in mazes reveals that they possess spatial memory and visual discrimination.[46]
+
+Vision
+Main article: Vision in fishes
+Vision is an important sensory system for most species of fish. Fish eyes are similar to those of terrestrial vertebrates like birds and mammals, but have a more spherical lens. Their retinas generally have both rods and cones (for scotopic and photopic vision), and most species have colour vision. Some fish can see ultraviolet and some can see polarized light. Amongst jawless fish, the lamprey has well-developed eyes, while the hagfish has only primitive eyespots.[47] Fish vision shows adaptation to their visual environment, for example deep sea fishes have eyes suited to the dark environment.
+
+Hearing
+See also: Hearing in fish
+Hearing is an important sensory system for most species of fish. Fish sense sound using their lateral lines and their ears.
+
+Cognition
+Further information: Fish intelligence
+New research has expanded preconceptions about the cognitive capacities of fish. For example, manta rays have exhibited behavior linked to self-awareness in mirror test cases. Placed in front of a mirror, individual rays engaged in contingency testing, that is, repetitive behavior aiming to check whether their reflection's behavior mimics their body movement.[48]
+
+Wrasses have also passed the mirror test in a 2018 scientific study.[49][50]
+
+Cases of tool use have also been noticed, notably in the Choerodon family, in archerfish and Atlantic cod.[51]
+
+Capacity for pain
+Further information: Pain in fish
+Experiments done by William Tavolga provide evidence that fish have pain and fear responses. For instance, in Tavolga's experiments, toadfish grunted when electrically shocked and over time they came to grunt at the mere sight of an electrode.[52]
+
+In 2003, Scottish scientists at the University of Edinburgh and the Roslin Institute concluded that rainbow trout exhibit behaviors often associated with pain in other animals. Bee venom and acetic acid injected into the lips resulted in fish rocking their bodies and rubbing their lips along the sides and floors of their tanks, which the researchers concluded were attempts to relieve pain, similar to what mammals would do.[53][54] Neurons fired in a pattern resembling human neuronal patterns.[54]
+
+Professor James D. Rose of the University of Wyoming claimed the study was flawed since it did not provide proof that fish possess "conscious awareness, particularly a kind of awareness that is meaningfully like ours".[55] Rose argues that since fish brains are so different from human brains, fish are probably not conscious in the manner humans are, so that reactions similar to human reactions to pain instead have other causes. Rose had published a study a year earlier arguing that fish cannot feel pain because their brains lack a neocortex.[56] However, animal behaviorist Temple Grandin argues that fish could still have consciousness without a neocortex because "different species can use different brain structures and systems to handle the same functions."[54]
+
+Animal welfare advocates raise concerns about the possible suffering of fish caused by angling. Some countries, such as Germany, have banned specific types of fishing, and the British RSPCA now formally prosecutes individuals who are cruel to fish.[57]
+
+Emotion
+In 2019, scientists have shown that members of the monogamous species Amatitlania siquia exhibit pessimistic behavior when they are prevented from being with their partner.[58]
+
+Muscular system
+Main article: Fish locomotion
+
+The anatomy of Lampanyctodes hectoris (1) operculum (gill cover), (2) lateral line, (3) dorsal fin, (4) fat fin, (5) caudal peduncle, (6) caudal fin, (7) anal fin, (8) photophores, (9) pelvic fins (paired), (10) pectoral fins (paired)
+Photo of white bladder that consists of a rectangular section and a banana-shaped section connected by a much thinner element
+Swim bladder of a rudd (Scardinius erythrophthalmus)
+Most fish move by alternately contracting paired sets of muscles on either side of the backbone. These contractions form S-shaped curves that move down the body. As each curve reaches the back fin, backward force is applied to the water, and in conjunction with the fins, moves the fish forward. The fish's fins function like an airplane's flaps. Fins also increase the tail's surface area, increasing speed. The streamlined body of the fish decreases the amount of friction from the water. Since body tissue is denser than water, fish must compensate for the difference or they will sink. Many bony fish have an internal organ called a swim bladder that adjusts their buoyancy through manipulation of gases.
+
+Endothermy
+Although most fish are exclusively ectothermic, there are exceptions. The only known bony fishes (infraclass Teleostei) that exhibit endothermy are in the suborder Scombroidei – which includes the billfishes, tunas, and the butterfly kingfish, a basal species of mackerel[59] – and also the opah. The opah, a lampriform, was demonstrated in 2015 to use "whole-body endothermy", generating heat with its swimming muscles to warm its body while countercurrent exchange (as in respiration) minimizes heat loss.[60] It is able to actively hunt prey such as squid and swim for long distances due to the ability to warm its entire body, including its heart,[61] which is a trait typically found in only mammals and birds (in the form of homeothermy). In the cartilaginous fishes (class Chondrichthyes), sharks of the families Lamnidae (porbeagle, mackerel, salmon, and great white sharks) and Alopiidae (thresher sharks) exhibit endothermy. The degree of endothermy varies from the billfishes, which warm only their eyes and brain, to the bluefin tuna and the porbeagle shark, which maintain body temperatures in excess of 20 °C (68 °F) above ambient water temperatures.[59]
+
+Endothermy, though metabolically costly, is thought to provide advantages such as increased muscle strength, higher rates of central nervous system processing, and higher rates of digestion.
+
+
+Reproductive system
+Further information: Fish reproduction and Spawn (biology)
+
+Ovary of fish (Corumbatá)
+Fish reproductive organs include testicles and ovaries. In most species, gonads are paired organs of similar size, which can be partially or totally fused.[62] There may also be a range of secondary organs that increase reproductive fitness.
+
+In terms of spermatogonia distribution, the structure of teleosts testes has two types: in the most common, spermatogonia occur all along the seminiferous tubules, while in atherinomorph fish they are confined to the distal portion of these structures. Fish can present cystic or semi-cystic spermatogenesis in relation to the release phase of germ cells in cysts to the seminiferous tubules lumen.[62]
+
+Fish ovaries may be of three types: gymnovarian, secondary gymnovarian or cystovarian. In the first type, the oocytes are released directly into the coelomic cavity and then enter the ostium, then through the oviduct and are eliminated. Secondary gymnovarian ovaries shed ova into the coelom from which they go directly into the oviduct. In the third type, the oocytes are conveyed to the exterior through the oviduct.[63] Gymnovaries are the primitive condition found in lungfish, sturgeon, and bowfin. Cystovaries characterize most teleosts, where the ovary lumen has continuity with the oviduct.[62] Secondary gymnovaries are found in salmonids and a few other teleosts.
+
+Oogonia development in teleosts fish varies according to the group, and the determination of oogenesis dynamics allows the understanding of maturation and fertilization processes. Changes in the nucleus, ooplasm, and the surrounding layers characterize the oocyte maturation process.[62]
+
+Postovulatory follicles are structures formed after oocyte release; they do not have endocrine function, present a wide irregular lumen, and are rapidly reabsorbed in a process involving the apoptosis of follicular cells. A degenerative process called follicular atresia reabsorbs vitellogenic oocytes not spawned. This process can also occur, but less frequently, in oocytes in other development stages.[62]
+
+Some fish, like the California sheephead, are hermaphrodites, having both testes and ovaries either at different phases in their life cycle or, as in hamlets, have them simultaneously.
+
+Over 97% of all known fish are oviparous,[64] that is, the eggs develop outside the mother's body. Examples of oviparous fish include salmon, goldfish, cichlids, tuna, and eels. In the majority of these species, fertilisation takes place outside the mother's body, with the male and female fish shedding their gametes into the surrounding water. However, a few oviparous fish practice internal fertilization, with the male using some sort of intromittent organ to deliver sperm into the genital opening of the female, most notably the oviparous sharks, such as the horn shark, and oviparous rays, such as skates. In these cases, the male is equipped with a pair of modified pelvic fins known as claspers.
+
+Marine fish can produce high numbers of eggs which are often released into the open water column. The eggs have an average diameter of 1 millimetre (0.04 in).
+
+Egg of lamprey
+Egg of lamprey
+
+ 
+Egg of catshark (mermaids' purse)
+Egg of catshark (mermaids' purse)
+
+ 
+Egg of bullhead shark
+Egg of bullhead shark
+
+ 
+Egg of chimaera
+Egg of chimaera
+
+The newly hatched young of oviparous fish are called larvae. They are usually poorly formed, carry a large yolk sac (for nourishment), and are very different in appearance from juvenile and adult specimens. The larval period in oviparous fish is relatively short (usually only several weeks), and larvae rapidly grow and change appearance and structure (a process termed metamorphosis) to become juveniles. During this transition larvae must switch from their yolk sac to feeding on zooplankton prey, a process which depends on typically inadequate zooplankton density, starving many larvae.
+
+In ovoviviparous fish the eggs develop inside the mother's body after internal fertilization but receive little or no nourishment directly from the mother, depending instead on the yolk. Each embryo develops in its own egg. Familiar examples of ovoviviparous fish include guppies, angel sharks, and coelacanths.
+
+Some species of fish are viviparous. In such species the mother retains the eggs and nourishes the embryos. Typically, viviparous fish have a structure analogous to the placenta seen in mammals connecting the mother's blood supply with that of the embryo. Examples of viviparous fish include the surf-perches, splitfins, and lemon shark. Some viviparous fish exhibit oophagy, in which the developing embryos eat other eggs produced by the mother. This has been observed primarily among sharks, such as the shortfin mako and porbeagle, but is known for a few bony fish as well, such as the halfbeak Nomorhamphus ebrardtii.[65] Intrauterine cannibalism is an even more unusual mode of vivipary, in which the largest embryos eat weaker and smaller siblings. This behavior is also most commonly found among sharks, such as the grey nurse shark, but has also been reported for Nomorhamphus ebrardtii.[65]
+
+Aquarists commonly refer to ovoviviparous and viviparous fish as livebearers.
+
+Acoustic communication
+See also: Acoustic communication in aquatic animals
+Acoustic communication in fish involves the transmission of acoustic signals from one individual of a species to another. The production of sounds as a means of communication among fish is most often used in the context of feeding, aggression or courtship behaviour.[3] The sounds emitted can vary depending on the species and stimulus involved. Fish can produce either stridulatory sounds by moving components of the skeletal system, or can produce non-stridulatory sounds by manipulating specialized organs such as the swimbladder.[66]
+
+Stridulatory
+
+French grunts – Haemulon flavolineatum
+There are some species of fish that can produce sounds by rubbing or grinding their bones together. These noises produced by bone-on-bone interactions are known as 'stridulatory sounds'.[66]
+
+An example of this is seen in Haemulon flavolineatum, a species commonly referred to as the 'French grunt fish', as it produces a grunting noise by grinding its teeth together.[66] This behaviour is most pronounced when the H. flavolineatum is in distress situations.[66] The grunts produced by this species of fishes generate a frequency of approximately 700 Hz, and last approximately 47 milliseconds.[66] The H. flavolineatum does not emit sounds with frequencies greater than 1000 Hz, and does not detect sounds that have frequencies greater than 1050 Hz.[66]
+
+In a study conducted by Oliveira et al. (2014), the longsnout seahorse, Hippocampus reidi, was recorded producing two different categories of sounds; 'clicks' and 'growls'. The sounds emitted by the H. reidi are accomplished by rubbing their coronet bone across the grooved section of their neurocranium.[67] 'Clicking' sounds were found to be primarily produced during courtship and feeding, and the frequencies of clicks were within the range of 50 Hz-800 Hz.[68] The frequencies were noted to be on the higher end of the range during spawning periods, when the female and male fishes were less than fifteen centimeters apart.[68] Growl sounds were produced when the H. reidi encountered stressful situations, such as handling by researchers.[68] The 'growl' sounds consist of a series of sound pulses and are emitted simultaneously with body vibrations.[68]
+
+Non-stridulatory
+
+Oyster toadfish
+Some fish species create noise by engaging specialized muscles that contract and cause swimbladder vibrations.
+
+Oyster toadfish produce loud grunting sounds by contracting muscles located along the sides of their swim bladder, known as sonic muscles[69] Female and male toadfishes emit short-duration grunts, often as a fright response.[70] In addition to short-duration grunts, male toadfishes produce "boat whistle calls".[71] These calls are longer in duration, lower in frequency, and are primarily used to attract mates.[71] The sounds emitted by the O. tao have frequency range of 140 Hz to 260 Hz.[71] The frequencies of the calls depend on the rate at which the sonic muscles contract.[72][69]
+
+The red drum, Sciaenops ocellatus, produces drumming sounds by vibrating its swimbladder.[73] Vibrations are caused by the rapid contraction of sonic muscles that surround the dorsal aspect of the swimbladder.[73] These vibrations result in repeated sounds with frequencies that range from 100 to >200 Hz.[73] The S. ocellatus can produce different calls depending on the stimuli involved.[73] The sounds created in courtship situations are different from those made during distressing events such as predatorial attacks.[73] Unlike the males of the S. ocellatus species, the females of this species do not produce sounds and lack sound-producing (sonic) muscles.[73]
+
+Diseases
+Main article: Fish diseases and parasites
+Like other animals, fish suffer from diseases and parasites. To prevent disease they have a variety of defenses. Non-specific defenses include the skin and scales, as well as the mucus layer secreted by the epidermis that traps and inhibits the growth of microorganisms. If pathogens breach these defenses, fish can develop an inflammatory response that increases blood flow to the infected region and delivers white blood cells that attempt to destroy pathogens. Specific defenses respond to particular pathogens recognised by the fish's body, i.e., an immune response.[74] In recent years, vaccines have become widely used in aquaculture and also with ornamental fish, for example furunculosis vaccines in farmed salmon and koi herpes virus in koi.[75][76]
+
+Some species use cleaner fish to remove external parasites. The best known of these are the bluestreak cleaner wrasses of the genus Labroides found on coral reefs in the Indian and Pacific oceans. These small fish maintain so-called "cleaning stations" where other fish congregate and perform specific movements to attract the attention of the cleaners.[77] Cleaning behaviors have been observed in a number of fish groups, including an interesting case between two cichlids of the same genus, Etroplus maculatus, the cleaner, and the much larger Etroplus suratensis.[78]
+
+Immune system
+Immune organs vary by type of fish.[79] In the jawless fish (lampreys and hagfish), true lymphoid organs are absent. These fish rely on regions of lymphoid tissue within other organs to produce immune cells. For example, erythrocytes, macrophages and plasma cells are produced in the anterior kidney (or pronephros) and some areas of the gut (where granulocytes mature.) They resemble primitive bone marrow in hagfish. Cartilaginous fish (sharks and rays) have a more advanced immune system. They have three specialized organs that are unique to Chondrichthyes; the epigonal organs (lymphoid tissue similar to mammalian bone) that surround the gonads, the Leydig's organ within the walls of their esophagus, and a spiral valve in their intestine. These organs house typical immune cells (granulocytes, lymphocytes and plasma cells). They also possess an identifiable thymus and a well-developed spleen (their most important immune organ) where various lymphocytes, plasma cells and macrophages develop and are stored. Chondrostean fish (sturgeons, paddlefish, and bichirs) possess a major site for the production of granulocytes within a mass that is associated with the meninges (membranes surrounding the central nervous system.) Their heart is frequently covered with tissue that contains lymphocytes, reticular cells and a small number of macrophages. The chondrostean kidney is an important hemopoietic organ; where erythrocytes, granulocytes, lymphocytes and macrophages develop.
+
+Like chondrostean fish, the major immune tissues of bony fish (or teleostei) include the kidney (especially the anterior kidney), which houses many different immune cells.[80] In addition, teleost fish possess a thymus, spleen and scattered immune areas within mucosal tissues (e.g. in the skin, gills, gut and gonads). Much like the mammalian immune system, teleost erythrocytes, neutrophils and granulocytes are believed to reside in the spleen whereas lymphocytes are the major cell type found in the thymus.[81][82] In 2006, a lymphatic system similar to that in mammals was described in one species of teleost fish, the zebrafish. Although not confirmed as yet, this system presumably will be where naive (unstimulated) T cells accumulate while waiting to encounter an antigen.[83]
+
+B and T lymphocytes bearing immunoglobulins and T cell receptors, respectively, are found in all jawed fishes. Indeed, the adaptive immune system as a whole evolved in an ancestor of all jawed vertebrates.[84]
+
+Conservation
+The 2006 IUCN Red List names 1,173 fish species that are threatened with extinction.[85] Included are species such as Atlantic cod,[86] Devil's Hole pupfish,[87] coelacanths,[88] and great white sharks.[89] Because fish live underwater they are more difficult to study than terrestrial animals and plants, and information about fish populations is often lacking. However, freshwater fish seem particularly threatened because they often live in relatively small water bodies. For example, the Devil's Hole pupfish occupies only a single 3 by 6 metres (10 by 20 ft) pool.[90]
+
+Overfishing
+Photo of shark in profile surrounded by other, much smaller fish in bright sunlight
+Whale sharks, the largest species of fish, are classified as endangered.
+Main article: Overfishing
+Overfishing is a major threat to edible fish such as cod and tuna.[91][92] Overfishing eventually causes population (known as stock) collapse because the survivors cannot produce enough young to replace those removed. Such commercial extinction does not mean that the species is extinct, merely that it can no longer sustain a fishery.
+
+One well-studied example of fishery collapse is the Pacific sardine Sadinops sagax caerulues fishery off the California coast. From a 1937 peak of 790,000 long tons (800,000 t) the catch steadily declined to only 24,000 long tons (24,000 t) in 1968, after which the fishery was no longer economically viable.[93]
+
+The main tension between fisheries science and the fishing industry is that the two groups have different views on the resiliency of fisheries to intensive fishing. In places such as Scotland, Newfoundland, and Alaska the fishing industry is a major employer, so governments are predisposed to support it.[94][95] On the other hand, scientists and conservationists push for stringent protection, warning that many stocks could be wiped out within fifty years.[96][97]
+
+Habitat destruction
+See also: Environmental impact of fishing
+A key stress on both freshwater and marine ecosystems is habitat degradation including water pollution, the building of dams, removal of water for use by humans, and the introduction of exotic species.[98] An example of a fish that has become endangered because of habitat change is the pallid sturgeon, a North American freshwater fish that lives in rivers damaged by human activity.[99]
+
+Exotic species
+Introduction of non-native species occurs in many habitats. A notable case in point is the Mediterranean Sea which has become a major 'hotspot' of exotic invaders since the opening of the Suez Canal in 1869. Since that time a thousand marine species of all sorts – fishes, seaweeds, invertebrates – originating from the Red Sea and more broadly from the Indo-Pacific have crossed the Canal from south to north to settle in the eastern Mediterranean Basin. Nowadays many of these tropical migrants, also called Lessepsian species, have extended their range towards the west, obviously favoured by the general warming of the Mediterranean. The resulting change in biodiversity is without precedent in human memory and is accelerating: a long-term cross-Basin survey engaged by the Mediterranean Science Commission recently documented that in just twenty years, from 2001 till 2021, no less than 107 alien fish species have reached the Mediterranean from both the tropical Atlantic and the Red Sea, which is more than the total recorded during the whole 130 preceding years.[100]
+
+Another mode of introduction for marine species is transport across thousands of kms on ship hulls or in ballast waters. Examples abound of marine organisms being transported in ballast water, among them the invasive comb jelly Mnemiopsis leidyi, the dangerous bacterium Vibrio cholerae, or the fouling zebra mussel. The Mediterranean and Black Seas, with their high volume shipping from exotic harbors, are particularly impacted by this problem.[101]
+
+Deliberate introductions of species with market potential are another frequent vector: one of the best studied examples is the introduction of the Nile perch into Lake Victoria in the 1960s. Nile perch gradually exterminated the lake's 500 endemic cichlid species. Some of them now survive in captive breeding programmes, but others are probably extinct.[102] Carp, snakeheads,[103] tilapia, European perch, brown trout, rainbow trout, and sea lampreys are other examples of fish that have caused problems by being introduced into alien environments.
+
+Importance to humans
+Economic
+Main articles: Commercial fishing, Fishing industry, Aquaculture, and Fish farming
+A row of square artificial ponds, with trees on either side
+These fish-farming ponds were created as a cooperative project in a rural village.
+
+Fish counter display at the Oulu Market Hall in Oulu, Finland.
+Throughout history, humans have used fish as a food source for dietary protein. Historically and today, most fish harvested for human consumption has come by means of catching wild fish. However, fish farming, which has been practiced since about 3,500 BCE in ancient China,[104] is becoming increasingly important in many nations. Overall, about one-sixth of the world's protein is estimated to be provided by fish.[105] That proportion is considerably elevated in some developing nations and regions heavily dependent on seafood. In a similar manner, fish have been tied to primary industry and associated food, feed, pharmaceutical production and service industries.
+
+Catching fish for the purpose of food or sport is known as fishing, while the organized effort by humans to catch fish is called a fishery (which also describes the area where such enterprise operates). Fisheries are a huge global business and provide income for millions of people.[105] The annual yield from all fisheries worldwide is about 154 million tons,[106] with popular species including herring, cod, anchovy, tuna, flounder, and salmon. However, the term fishery is broadly applied, and includes more organisms than just fish, such as mollusks and crustaceans, which are often collectively called "shellfish" when used as food.
+
+Recreation
+
+A Bengali fish vendor from Sylhet
+Fishkeeping
+Main article: Fishkeeping
+Fish have been recognized as a source of beauty for almost as long as used for food, appearing in cave art, being raised as ornamental fish in ponds, and displayed in aquariums in homes, offices, or public settings.
+
+Recreational fishing
+Main articles: Recreational fishing, Angling, and Fishing tournament
+Recreational fishing is fishing primarily for pleasure or competition; it can be contrasted with commercial fishing, which is fishing for profit, or artisanal fishing, which is fishing primarily for food. The most common form of recreational fishing is done with a rod, reel, line, hooks, and any one of a wide range of baits. Recreational fishing is particularly popular in North America and Europe and state, provincial, and federal government agencies actively management target fish species.[107][108] Angling is a method of fishing, specifically the practice of catching fish by means of an "angle" (hook). Anglers must select the right hook, cast accurately, and retrieve at the right speed while considering water and weather conditions, species, fish response, time of the day, and other factors.
+
+Culture
+Main article: Fish in culture
+Photo of painting showing blue-skinned, 4-armed upper body of man standing in the opened mouth of a fish with bent tail with other, paler men facing him with hands raised together
+Avatar of Vishnu as a Matsya
+
+Goldfish by Henri Matisse, 1912, Pushkin Museum of Fine Arts, Moscow
+Fish themes have symbolic significance in many religions. In ancient Mesopotamia, fish offerings were made to the gods from the very earliest times.[109] Fish were also a major symbol of Enki, the god of water.[109] Fish frequently appear as filling motifs in cylinder seals from the Old Babylonian (c. 1830 BC – c. 1531 BC) and Neo-Assyrian (911–609 BC) periods.[109] Starting during the Kassite Period (c. 1600 BC – c. 1155 BC) and lasting until the early Persian Period (550–30 BC), healers and exorcists dressed in ritual garb resembling the bodies of fish.[109] During the Seleucid Period (312–63 BC), the legendary Babylonian culture hero Oannes, described by Berossus, was said to have dressed in the skin of a fish.[109] Fish were sacred to the Syrian goddess Atargatis[110] and, during her festivals, only her priests were permitted to eat them.[110]
+
+
+The ichthus is a Christian symbol of a fish signifying that the person who uses it is a Christian.[110][111]
+In the Book of Jonah, a work of Jewish literature probably written in the fourth century BC, the central figure, a prophet named Jonah, is swallowed by a giant fish after being thrown overboard by the crew of the ship he is travelling on.[112][113][114] The fish later vomits Jonah out on shore after three days.[112][113][114] This book was later included as part of the Hebrew Bible, or Christian Old Testament,[115][116] and a version of the story it contains is summarized in Surah 37:139-148 of the Quran.[117] Early Christians used the ichthys, a symbol of a fish, to represent Jesus,[110][111] because the Greek word for fish, ΙΧΘΥΣ Ichthys, could be used as an acronym for "Ίησοῦς Χριστός, Θεοῦ Υἱός, Σωτήρ" (Iesous Christos, Theou Huios, Soter), meaning "Jesus Christ, Son of God, Saviour".[110][111] The gospels also refer to "fishers of men"[118] and feeding the multitude. In the dhamma of Buddhism, the fish symbolize happiness as they have complete freedom of movement in the water.
+
+Among the deities said to take the form of a fish are Ika-Roa of the Polynesians, Dagon of various ancient Semitic peoples, the shark-gods of Hawaiʻi and Matsya of the Hindus. The astrological symbol Pisces is based on a constellation of the same name, but there is also a second fish constellation in the night sky, Piscis Austrinus.[119]
+
+Fish feature prominently in art and literature, in movies such as Finding Nemo and books such as The Old Man and the Sea. Large fish, particularly sharks, have frequently been the subject of horror movies and thrillers, most notably the novel Jaws, which spawned a series of films of the same name that in turn inspired similar films or parodies such as Shark Tale and Snakehead Terror. Piranhas are shown in a similar light to sharks in films such as Piranha; however, contrary to popular belief, the red-bellied piranha is actually a generally timid scavenger species that is unlikely to harm humans.[120] Legends of half-human, half-fish mermaids have featured in folklore, including the stories of Hans Christian Andersen.
+
+Terminology
+"Fish" or "fishes"
+Though often used interchangeably, in biology these words have different meanings. Fish is used as a singular noun, or as a plural to describe multiple individuals from a single species. Fishes is used to describe different species or species groups.[121][122][123] Thus a pond would be said to contain 120 fish if all were from a single species or 120 fishes if these included a mix of several species. The distinction is similar to that between people and peoples.
+
+"True fish" or "finfish"
+In biology, the term fish is most strictly used to describe any animal with a backbone, gills throughout life, and limbs (if any) in the shape of fins.[23] Many types of aquatic animals with common names ending in "fish" are not fish in this sense; examples include shellfish, cuttlefish, starfish, crayfish and jellyfish. In earlier times, even biologists did not make a distinction – sixteenth century natural historians classified also seals, whales, amphibians, crocodiles, even hippopotamuses, as well as a host of aquatic invertebrates, as fish.[26]
+In fisheries, the term fish is used as a collective term, and includes mollusks, crustaceans and any aquatic animal which is harvested.[124]
+The strict biological definition of a fish, above, is sometimes called a true fish. True fish are also referred to as finfish or fin fish to distinguish them from other aquatic life harvested in fisheries or aquaculture.
+"Shoal" or "school"
+Main article: Shoaling and schooling
+Photo of thousands of fish separated from each other by distances of 2 inches (51 mm) or less
+These goldband fusiliers are schooling because their swimming is synchronised.
+An assemblage of fish merely using some localised resource such as food or nesting sites is known simply as an aggregation. When fish come together in an interactive, social grouping, then they may be forming either a shoal or a school depending on the degree of organisation. A shoal is a loosely organised group where each fish swims and forages independently but is attracted to other members of the group and adjusts its behaviour, such as swimming speed, so that it remains close to the other members of the group. Schools of fish are much more tightly organised, synchronising their swimming so that all fish move at the same speed and in the same direction. Shoaling and schooling behaviour is believed to provide a variety of advantages.[125]
+
+Examples:
+
+Cichlids congregating at lekking sites form an aggregation.
+Many minnows and characins form shoals.
+Anchovies, herrings and silversides are classic examples of schooling fish.
+The most common collective nouns for a group of fish in general are school and shoal. Both the words have evolved from the same common Dutch root 'schole' meaning a troop or crowd. While the words "school" and "shoal" have different meanings within biology, the distinctions are often ignored by non-specialists who treat the words as synonyms. Thus speakers of British English commonly use "shoal" to describe any grouping of fish, and speakers of American English commonly use "school" just as loosely.[126]
+
+See also
+	Fish portal
+Main article: Outline of fish
+For a topical guide to sharks, see Outline of sharks.
+Angling (sport fishing)
+Aquaculture
+Aquarium
+Catch and release
+Deep sea fish
+Fish acute toxicity syndrome
+Fish anatomy
+Fish as food
+Fish development
+Fishing (fishing for food)
+Fishkeeping
+Forage fish
+Ichthyology
+List of fish common names
+List of fish families
+Marine biology
+Marine vertebrates
+Mercury in fish
+Otolith (Bone used for determining the age of a fish)
+Pregnancy (fish)
+Seafood
+Shoaling and schooling
+Walking fish
+Notes
+ Goldman, K.J. (1997). "Regulation of body temperature in the white shark, Carcharodon carcharias". Journal of Comparative Physiology. B Biochemical Systemic and Environmental Physiology. 167 (6): 423–429. doi:10.1007/s003600050092. S2CID 28082417. Archived from the original on 6 April 2012. Retrieved 12 October 2011.
+ Carey, F.G.; Lawson, K.D. (February 1973). "Temperature regulation in free-swimming bluefin tuna". Comparative Biochemistry and Physiology A. 44 (2): 375–392. doi:10.1016/0300-9629(73)90490-8. PMID 4145757.
+ Weinmann, S.R.; Black, A.N.; Richter, M. L.; Itzkowitz, M; Burger, R.M (February 2017). "Territorial vocalization in sympatric damselfish: acoustic characteristics and intruder discrimination". Bioacoustics. 27 (1): 87–102. doi:10.1080/09524622.2017.1286263. S2CID 89625932.
+ Yancey, PH; Gerringer, ME; Drazen, JC; Rowden, AA; Jamieson, A (2014). "Marine fish may be biochemically constrained from inhabiting the deepest ocean depths". Proc Natl Acad Sci USA. 111 (12): 4461–4465. Bibcode:2014PNAS..111.4461Y. doi:10.1073/pnas.1322003111. PMC 3970477. PMID 24591588.
+ "FishBase Search". FishBase. March 2020. Archived from the original on 3 March 2020. Retrieved 19 March 2020.
+ "Zoology" (PDF). Archived (PDF) from the original on 28 June 2021. Retrieved 19 October 2018.
+ Greene, Harry W. (1 January 1998). "We are primates and we are fish: Teaching monophyletic organismal biology". Integrative Biology. 1 (3): 108–111. doi:10.1002/(sici)1520-6602(1998)1:3<108::aid-inbi5>3.0.co;2-t. ISSN 1520-6602.
+ "DWDS – Digitales Wörterbuch der deutschen Sprache". DWDS (in German). Archived from the original on 31 July 2020. Retrieved 21 January 2023.
+ Winfred Philipp Lehmann, Helen-Jo J. Hewitt, Sigmund Feist, A Gothic etymological dictionary, 1986, s.v. fisks p. 118
+ "fish, n.1", OED Online, Oxford University Press, archived from the original on 17 March 2023, retrieved 21 January 2023
+ Carl Darling Buck, A Dictionary of Selected Synonyms in the Principal Indo-European Languages, 1949, s.v., section 3.65, p. 184
+ "Monster fish crushed opposition with strongest bite ever". Smh.com.au. 30 November 2006. Archived from the original on 2 April 2013. Retrieved 26 February 2013.
+ Nelson, Joseph, S. (2016). Fishes of the World. John Wiley & Sons, Inc. ISBN 978-1-118-34233-6.
+ closed access Giles, Sam; Friedman, Matt; Brazeau, Martin D. (12 January 2015). "Osteichthyan-like cranial conditions in an Early Devonian stem gnathostome". Nature. 520 (7545): 82–85. Bibcode:2015Natur.520...82G. doi:10.1038/nature14065. ISSN 1476-4687. PMC 5536226. PMID 25581798.
+ Davis, S; Finarelli, J; Coates, M (2012). "Acanthodes and shark-like conditions in the last common ancestor of modern gnathostomes". Nature. 486 (7402): 247–250. Bibcode:2012Natur.486..247D. doi:10.1038/nature11080. PMID 22699617. S2CID 4304310.
+ Romer, A.S. & T.S. Parsons. 1977. The Vertebrate Body. 5th ed. Saunders, Philadelphia. (6th ed. 1985)
+ Benton, M.J. (1998) The quality of the fossil record of vertebrates. pp. 269–303, in Donovan, S.K. and Paul, C.R.C. (eds), The adequacy of the fossil record, Fig. 2. Wiley, New York, 312 pp.
+ Shigehiro Kuraku, Daisuke Hoshiyama, Kazutaka Katoh, Hiroshi Suga, Takashi Miyata (1999) Monophyly of Lampreys and Hagfishes Supported by Nuclear DNA–Coded Genes J Mol Evol (1999) 49:729–735
+ J. Mallatt, J. Sullivan (1998) 28S and 18S rDNA sequences support the monophyly of lampreys and hagfishes Molecular Biology and Evolution V 15, Issue 12, pp. 1706–1718
+ Nelson 2006, pp. 4–5.
+ Nelson 2006, p. 3.
+ Goda, M.; R. Fujii (2009). "Blue Chromatophores in Two Species of Callionymid Fish". Zoological Science. 12 (6): 811–813. doi:10.2108/zsj.12.811. S2CID 86385679.
+ Nelson 2006, p. 2.
+ Helfman, Collette & Facey 1997, p. 3.
+ Tree of life web project – Chordates Archived 24 February 2007 at the Wayback Machine.
+ Cleveland P. Hickman Jr.; Larry S. Roberts; Allan L. Larson (2001). Integrated Principles of Zoology. McGraw-Hill Publishing Co. ISBN 978-0-07-290961-6.
+ Helfman, Collette & Facey 1997, p. 103.
+ Helfman, Collette & Facey 1997, pp. 53–57.
+ Helfman, Collette & Facey 1997, pp. 33–36.
+ Martin, K.L.M. (2014). Beach-Spawning Fishes: Reproduction in an Endangered Ecosystem. CRC Press. ISBN 978-1-4822-0797-2.
+ Froese, Rainer; Pauly, Daniel (eds.) (2006). "Periophthalmus barbarus" in FishBase. November 2006 version.
+ Planet Catfish. "Cat-eLog: Heptapteridae: Phreatobius: Phreatobius sp. (1)". Planet Catfish. Archived from the original on 23 October 2006. Retrieved 26 November 2006.
+ Henderson, P.A.; Walker, I. (1990). "Spatial organization and population density of the fish community of the litter banks within a central Amazonian blackwater stream". Journal of Fish Biology. 37 (3): 401–411. doi:10.1111/j.1095-8649.1990.tb05871.x.
+ Aldemaro, R., ed. (2001). The Biology of Hypogean Fishes. Developments in environmental biology of fishes. Vol. 21. ISBN 978-1-4020-0076-8.
+ "Estudo das Espécies Ícticas do Parque Estadual do Cantão". central3.to.gov.br. Archived from the original on 15 August 2022. Retrieved 21 January 2023.
+ "Deepest ever fish caught on camera off Japan". BBC News. 1 April 2023. Retrieved 6 April 2023.
+ Friedman, Matt; Sallan, Lauren Cole (June 2012). "Five hundred million years of extinczion and recovery: A Phanerozoic survey of large-scale diversity patterns in fishes". Palaeontology. 55 (4): 707–742. Bibcode:2012Palgy..55..707F. doi:10.1111/j.1475-4983.2012.01165.x. S2CID 59423401.
+ Brownstein; et al. (27 July 2022). "Hidden species diversity in a living fossil vertebrate" (PDF). Biology Letters. 18 (11). bioRxiv 10.1101/2022.07.25.500718. doi:10.1098/rsbl.2022.0395. PMC 9709656. PMID 36448369. S2CID 251162051.
+ Armbruster, Jonathan W. (1998). "Modifications of the Digestive Tract for Holding Air in Loricariid and Scoloplacid Catfishes" (PDF). Copeia. 1998 (3): 663–675. doi:10.2307/1447796. JSTOR 1447796. Archived from the original (PDF) on 26 March 2009. Retrieved 25 June 2009.
+ Setaro, John F. (1999). Circulatory System. Microsoft Encarta 99.
+ Helfman, Collette & Facey 1997, pp. 48–49.
+ Helfman, Collette & Facey 1997, p. 191.
+ Orr, James (1999). Fish. Microsoft Encarta 99. ISBN 978-0-8114-2346-5.
+ Godfrey-Smith, Peter (10 November 2020). "Kingfish". Metazoa. New York: Farrar, Straus, and Giroux. ISBN 9780374207946.
+ Albert, J.S., and W.G.R. Crampton. 2005. "Electroreception and electrogenesis". pp. 431–472 in The Physiology of Fishes, 3rd ed. D.H. Evans and J.B. Claiborne (eds.). CRC Press.
+ Sciences, Journal of Undergraduate Life. "Appropriate maze methodology to study learning in fish" (PDF). Archived from the original (PDF) on 6 July 2011. Retrieved 28 May 2009.
+ Campbell, Neil A.; Reece, Jane B. (2005). Biology (Seventh ed.). San Francisco: Benjamin Cummings.
+ Ari, Csilla; D’Agostino, Dominic P. (1 May 2016). "Contingency checking and self-directed behaviors in giant manta rays: Do elasmobranchs have self-awareness?". Journal of Ethology. 34 (2): 167–174. doi:10.1007/s10164-016-0462-z. ISSN 1439-5444. S2CID 254134775. Archived from the original on 17 March 2023. Retrieved 21 January 2023.
+ Kohda, Masanori; Hotta, Takashi; Takeyama, Tomohiro; Awata, Satoshi; Tanaka, Hirokazu; Asai, Jun-ya; Jordan, L. Alex (21 August 2018). "Cleaner wrasse pass the mark test. What are the implications for consciousness and self-awareness testing in animals?": 397067. doi:10.1101/397067. S2CID 91375693. Archived from the original on 23 January 2020. Retrieved 26 March 2019. {{cite journal}}: Cite journal requires |journal= (help)
+ "Scientists find some fish can 'recognise themselves' in mirror". the Guardian. 7 February 2019. Archived from the original on 21 January 2023. Retrieved 21 January 2023.
+ Fishes Use Problem-Solving and Invent Tools Archived 17 March 2023 at the Wayback Machine- article at Scientific American Archived 18 May 2020 at the Wayback Machine
+ Dunayer, Joan, "Fish: Sensitivity Beyond the Captor's Grasp," The Animals' Agenda, July/August 1991, pp. 12–18
+ Kirby, Alex (30 April 2003). "Fish do feel pain, scientists say". BBC News. Archived from the original on 15 February 2009. Retrieved 4 January 2010.
+ Grandin, Temple; Johnson, Catherine (2005). Animals in Translation. New York City: Scribner. pp. 183–184. ISBN 978-0-7432-4769-6.
+ "Rose, J.D. 2003. A Critique of the paper: "Do fish have nociceptors: Evidence for the evolution of a vertebrate sensory system"" (PDF). Archived from the original (PDF) on 8 June 2011. Retrieved 21 May 2011.
+ Rose, James D. (2002). "Do Fish Feel Pain?". Archived from the original on 20 January 2013. Retrieved 27 September 2007.
+ Leake, Jonathan (14 March 2004). "Anglers to face RSPCA checks". The Sunday Times. Archived from the original on 1 May 2021. Retrieved 13 December 2020.
+ Laubu, Chloé; Louâpre, Philippe; Dechaume-Moncharmont, François-Xavier (2019). "Pair-bonding influences affective state in a monogamous fish species". Proc. R. Soc. B. 286 (1904). 20190760. doi:10.1098/rspb.2019.0760. PMC 6571461. PMID 31185864.
+ Block, BA; Finnerty, JR (1993). "Endothermy in fishes: a phylogenetic analysis of constraints, predispositions, and selection pressures" (PDF). Environmental Biology of Fishes. 40 (3): 283–302. doi:10.1007/BF00002518. S2CID 28644501. Archived from the original on 6 November 2020. Retrieved 1 October 2018.
+ Wegner, Nicholas C.; Snodgrass, Owyn E.; Dewar, Heidi; Hyde, John R. (15 May 2015). "Whole-body endothermy in a mesopelagic fish, the opah, Lampris guttatus". Science. 348 (6236): 786–789. Bibcode:2015Sci...348..786W. doi:10.1126/science.aaa8902. ISSN 0036-8075. PMID 25977549. S2CID 17412022.
+ "Warm Blood Makes Opah an Agile Predator". Southwest Fisheries Science Center. 12 May 2015. Archived from the original on 20 January 2018. Retrieved 7 March 2018.
+ Guimaraes-Cruz, Rodrigo J.; dos Santos, José E.; Santos, Gilmar B. (July–September 2005). "Gonadal structure and gametogenesis of Loricaria lentiginosa Isbrücker (Pisces, Teleostei, Siluriformes)". Rev. Bras. Zool. 22 (3): 556–564. doi:10.1590/S0101-81752005000300005. ISSN 0101-8175.
+ Brito, M.F.G.; Bazzoli, N. (2003). "Reproduction of the surubim catfish (Pisces, Pimelodidae) in the São Francisco River, Pirapora Region, Minas Gerais, Brazil". Arquivo Brasileiro de Medicina Veterinária e Zootecnia. 55 (5): 624–633. doi:10.1590/S0102-09352003000500018. ISSN 0102-0935.
+ Peter Scott: Livebearing Fishes, p. 13. Tetra Press 1997. ISBN 1-56465-193-2
+ Meisner, A & Burns, J: Viviparity in the Halfbeak Genera Dermogenys and Nomorhamphus (Teleostei: Hemiramphidae)" Journal of Morphology 234, pp. 295–317, 1997
+ Bertucci, F.; Ruppé, L.; Wassenbergh, S.V.; Compère, P.; Parmentier, E. (29 October 2014). "New Insights into the Role of the Pharyngeal Jaw Apparatus in the Sound-Producing Mechanism of Haemulon Flavolineatum (Haemulidae)". Journal of Experimental Biology. 217 (21): 3862–3869. doi:10.1242/jeb.109025. PMID 25355850.
+ Colson, D.J.; Patek, S.N.; Brainerd, E.L.; Lewis, S.M. (February 1998). "Sound production during feeding in Hippocampus seahorses (Syngnathidae)". Environmental Biology of Fishes. 51 (2): 221–229. doi:10.1023/A:1007434714122. S2CID 207648816.
+ Oliveira, T.P.R.; Ladich, F.; Abed-Navandi, D.; Souto, A.S.; Rosa, I.L. (26 June 2014). "Sounds produced by the longsnout seahorse: a study of their structure and functions". Journal of Zoology. 294 (2): 114–121. doi:10.1111/jzo.12160.
+ Fine, L.F.; King, C.B.; Cameron, T.M. (16 October 2009). "Acoustical properties of the swimbladder in the oyster toadfish Opsanus tau". Journal of Experimental Biology. 212 (21): 3542–3552. doi:10.1242/jeb.033423. PMC 2762879. PMID 19837896.
+ Fine, M.L.; Waybright, T.D. (15 October 2015). "Grunt variation in the oyster toadfish Opsanus tau:effect of size and sex". PeerJ. 3 (1330): e1330. doi:10.7717/peerj.1330. PMC 4662586. PMID 26623178.
+ Ricci, S. W.; Bohnenstiehl, D R.; Eggleston, D.B.; Kellogg, M.L.; Lyon, R.P. (8 August 2017). "Oyster toadfish (Opsanus tau) boatwhistle call detection and patterns within a large-scale oyster restoration site". PLOS ONE. 12 (8): e0182757. Bibcode:2017PLoSO..1282757R. doi:10.1371/journal.pone.0182757. PMC 5549733. PMID 28792543.
+ Skoglund, C.R. (1 August 1961). "Functional analysis of swimbladder muscles engaged in sound productivity of the toadfish". Journal of Cell Biology. 10 (4): 187–200. doi:10.1083/jcb.10.4.187. PMC 2225107. PMID 19866593.
+ Parmentier, E.; Tock, J.; Falguière, J.C.; Beauchaud, M. (22 May 2014). "Sound production in Sciaenops ocellatus: Preliminary study for the development of acoustic cues in aquaculture" (PDF). Aquaculture. 432: 204–211. doi:10.1016/j.aquaculture.2014.05.017. Archived (PDF) from the original on 3 June 2021. Retrieved 21 January 2019.
+ Helfman, Collette & Facey 1997, pp. 95–96.
+ R.C. Cipriano; G.L. Bullock (2001). Furunculosis And Other Diseases Caused By Aeromonas salmonicida (PDF) (Report). Fish Disease Leaflet 66. U.S. Department of the Interior. Archived from the original (PDF) on 7 May 2009. Retrieved 3 July 2009.
+ Hartman, K.H.; et al. (2004). "Koi Herpes Virus (KHV) Disease: Fact Sheet VM-149" (PDF). University of Florida Institute of Food and Agricultural Sciences. Archived (PDF) from the original on 6 February 2007.
+ Helfman, Collette & Facey 1997, p. 380.
+ Wyman, Richard L.; Ward, Jack A. (1972). "A Cleaning Symbiosis between the Cichlid Fishes Etroplus maculatus and Etroplus suratensis. I. Description and Possible Evolution". Copeia. 1972 (4): 834–838. doi:10.2307/1442742. JSTOR 1442742.
+ A.G. Zapata, A. Chiba and A. Vara. Cells and tissues of the immune system of fish. In: The Fish Immune System: Organism, Pathogen and Environment. Fish Immunology Series. (eds. G. Iwama and T.Nakanishi,), New York, Academic Press, 1996, pp. 1–55.
+ D.P. Anderson. Fish Immunology. (S.F. Snieszko and H.R. Axelrod, eds), Hong Kong: TFH Publications, Inc. Ltd., 1977.
+ Chilmonczyk, S. (1992). "The thymus in fish: development and possible function in the immune response". Annual Review of Fish Diseases. 2: 181–200. doi:10.1016/0959-8030(92)90063-4.
+ Hansen, J.D.; Zapata, A.G. (1998). "Lymphocyte development in fish and amphibians". Immunological Reviews. 166: 199–220. doi:10.1111/j.1600-065x.1998.tb01264.x. PMID 9914914. S2CID 7965762.
+ Küchler AM, Gjini E, Peterson-Maduro J, Cancilla B, Wolburg H, Schulte-Merker S (2006). "Development of the Zebrafish Lymphatic System Requires Vegfc Signaling" (PDF). Current Biology. 16 (12): 1244–1248. doi:10.1016/j.cub.2006.05.026. PMID 16782017. Archived (PDF) from the original on 6 November 2020. Retrieved 5 June 2020.
+ Flajnik, M. F.; Kasahara, M. (2009). "Origin and evolution of the adaptive immune system: genetic events and selective pressures". Nature Reviews Genetics. 11 (1): 47–59. doi:10.1038/nrg2703. PMC 3805090. PMID 19997068.
+ "Table 1: Numbers of threatened species by major groups of organisms (1996–2004)". iucnredlist.org. Archived from the original on 30 June 2006. Retrieved 18 January 2006.
+ Sobel, J. (1996). "Gadus morhua". IUCN Red List of Threatened Species. 1996: e.T8784A12931575. doi:10.2305/IUCN.UK.1996.RLTS.T8784A12931575.en. Retrieved 11 November 2021.
+ NatureServe (2014). "Cyprinodon diabolis". IUCN Red List of Threatened Species. 2014: e.T6149A15362335. doi:10.2305/IUCN.UK.2014-3.RLTS.T6149A15362335.en. Retrieved 11 November 2021.
+ Musick, J.A. (2000). "Latimeria chalumnae". IUCN Red List of Threatened Species. 2000: e.T11375A3274618. doi:10.2305/IUCN.UK.2000.RLTS.T11375A3274618.en. Retrieved 11 November 2021.
+ Rigby, C.L.; Barreto, R.; Carlson, J.; Fernando, D.; Fordham, S.; Francis, M.P.; Herman, K.; Jabado, R.W.; Liu, K.M.; Lowe, C.G.; Marshall, A.; Pacoureau, N.; Romanov, E.; Sherley, R.B.; Winker, H. (2019). "Carcharodon carcharias". IUCN Red List of Threatened Species. 2019: e.T3855A2878674. Retrieved 19 December 2019.
+ Helfman, Collette & Facey 1997, pp. 449–450.
+ "Call to halt cod 'over-fishing'". BBC News. 5 January 2007. Archived from the original on 17 January 2007. Retrieved 18 January 2006.
+ "Tuna groups tackle overfishing". BBC News. 26 January 2007. Archived from the original on 21 January 2009. Retrieved 18 January 2006.
+ Helfman, Collette & Facey 1997, p. 462.
+ "UK 'must shield fishing industry'". BBC News. 3 November 2006. Archived from the original on 30 November 2006. Retrieved 18 January 2006.
+ "EU fish quota deal hammered out". BBC News. 21 December 2006. Archived from the original on 26 December 2006. Retrieved 18 January 2006.
+ "Ocean study predicts the collapse of all seafood fisheries by 2050". phys.org. Archived from the original on 15 March 2007. Retrieved 13 January 2006.
+ "Atlantic bluefin tuna could soon be commercially extinct". Archived from the original on 30 April 2007. Retrieved 18 January 2006.
+ Helfman, Collette & Facey 1997, p. 463.
+ "Threatened and Endangered Species: Pallid Sturgeon Scaphirhynchus Fact Sheet". Archived from the original on 26 November 2005. Retrieved 18 March 2016.
+ Atlas of Exotic Fishes in the Mediterranean Sea. 2nd Edition. 2021. (F. Briand Ed.) CIESM Publishers, Paris, Monaco 366 p.[1] Archived 6 December 2022 at the Wayback Machine
+ Briand, Frederic and Galil, Bella 2002. Alien marine organisms introduced by ships – An overview https://www.researchgate.net/publication/240305530
+ Spinney, Laura (4 August 2005). "The little fish fight back". The Guardian. London. Archived from the original on 9 November 2020. Retrieved 18 January 2006.
+ "Stop That Fish!". The Washington Post. 3 July 2002. Archived from the original on 3 November 2012. Retrieved 26 August 2007.
+ Spalding, Mark (11 July 2013). "Sustainable Ancient Aquaculture". National Geographic. Archived from the original on 18 May 2015. Retrieved 13 August 2015.
+ Helfman, Gene S. (2007). Fish Conservation: A Guide to Understanding and Restoring Global Aquatic Biodiversity and Fishery Resources. Island Press. p. 11. ISBN 978-1-59726-760-1.
+ "World Review of Fisheries and Aquaculture" (PDF). fao.org. Food and Agriculture Organization of the United Nations. Archived (PDF) from the original on 28 August 2015. Retrieved 13 August 2015.
+ Beard, T. Douglas, ed. (2011). The Angler in the Environment: Social, Economic, Biological, and Ethical Dimensions. Bethesda, MD: American Fisheries Society. p. 365. ISBN 978-1-934874-24-0.
+ Hickley, Phil; Tompkins, Helena, eds. (1998). Recreational Fisheries: Social, Economic and Management Aspects. Wiley-Blackwell. p. 328. ISBN 978-0-852-38248-6.
+ Black, Jeremy; Green, Anthony (1992). Gods, Demons and Symbols of Ancient Mesopotamia: An Illustrated Dictionary. The British Museum Press. pp. 82–83. ISBN 978-0-7141-1705-8. Archived from the original on 20 February 2018.
+ Hyde, Walter Woodburn (2008) [1946]. Paganism to Christianity in the Roman Empire. Eugene, Oregon: Wipf and Stock Publishers. pp. 57–58. ISBN 978-1-60608-349-9. Archived from the original on 17 March 2023. Retrieved 12 December 2020.
+ Coffman, Elesha (8 August 2008). "What is the origin of the Christian fish symbol?". Christianity Today. Archived from the original on 30 January 2016. Retrieved 13 August 2015.
+ Sherwood, Yvonne (2000), A Biblical Text and Its Afterlives: The Survival of Jonah in Western Culture, Cambridge, England: Cambridge University Press, pp. 1–8, ISBN 978-0-521-79561-6, archived from the original on 17 March 2023, retrieved 12 December 2020
+ Ziolkowski, Jan M. (2007). Fairy Tales from Before Fairy Tales: The Medieval Latin Past of Wonderful Lies. Ann Arbor, Michigan: University of Michigan Press. p. 80. ISBN 978-0-472-03379-9. Archived from the original on 17 March 2023. Retrieved 12 December 2020.
+ Gaines, Janet Howe (2003). Forgiveness in a Wounded World: Jonah's Dilemma. Atlanta, Georgia: Society of Biblical Literature. pp. 8–9. ISBN 978-1-58983-077-6. Archived from the original on 17 March 2023. Retrieved 12 December 2020.
+ Band, Arnold J. (2003). Studies in Modern Jewish Literature. JPS Scholar of Distinction Series. Philadelphia, Pennsylvania: The Jewish Publication Society. pp. 106–107. ISBN 978-0-8276-0762-0. Archived from the original on 17 March 2023. Retrieved 12 December 2020.
+ Person, Raymond (1996). In Conversation with Jonah: Conversation Analysis, Literary Criticism, and the Book of Jonah. Sheffield, England: Sheffield Academic Press. p. 155. ISBN 978-1-85075-619-4. Archived from the original on 17 March 2023. Retrieved 12 December 2020.
+ Vicchio, Stephen J. (2008), Biblical Figures in the Islamic Faith, Eugene, Oregon: Wipf & Stock, p. 67, ISBN 978-1-55635-304-8, archived from the original on 17 March 2023, retrieved 12 December 2020
+ Matthew 4:19
+ "Piscis Austrinus". allthesky.com. The Deep Photographic Guide to the Constellations. Archived from the original on 25 November 2015. Retrieved 1 November 2015.
+ Zollinger, Sue Anne (3 July 2009). "Piranha – Ferocious Fighter or Scavenging Softie?". A Moment of Science. Indiana Public Media. Archived from the original on 17 October 2015. Retrieved 1 November 2015.
+ Pauly, Daniel (13 May 2004). "Fish(es)". Darwin's Fishes: An Encyclopedia of Ichthyology, Ecology, and Evolution. Cambridge University Press. p. 77. ISBN 978-1-139-45181-9. Archived from the original on 8 February 2016.
+ Nelson, Joseph S.; Paetz, Martin Joseph (1992). The Fishes of Alberta (PDF). University of Alberta. p. 400. ISBN 978-0-88864-236-3. Archived from the original (PDF) on 7 April 2014.
+ Helfman, Collette & Facey 1997, p. 5.
+ "Fisheries". FAO TERM PORTAL. FAO. Archived from the original on 8 July 2007. Retrieved 15 January 2014.
+ Helfman, Collette & Facey 1997, p. 375.
+ Pitcher, T.J.; Parish, J.K. (1993). "Functions of shoaling behaviour in teleosts". In Pitcher, T.J. (ed.). Behaviour of teleost fishes. New York: Chapman and Hall. pp. 363–440. ISBN 9780412429309. Archived from the original on 5 April 2017.
+References
+Helfman, G.; Collette, B.; Facey, D. (1997). The Diversity of Fishes (1st ed.). Wiley-Blackwell. ISBN 978-0-86542-256-8.
+Nelson, Joseph S. (2006). Fishes of the World (PDF) (4th ed.). John Wiley & Sons. ISBN 978-0-471-75644-6. Archived from the original (PDF) on 5 March 2013. Retrieved 30 April 2013.
+Further reading
+Eschmeyer, William N.; Fong, Jon David (2013). "Catalog of Fishes". California Academy of Sciences. Archived from the original on 21 November 2018. Retrieved 28 February 2013.
+Helfman, G.; Collette, B.; Facey, D.; Bowen, B. (2009). The Diversity of Fishes: Biology, Evolution, and Ecology (2nd ed.). Wiley-Blackwell. ISBN 978-1-4051-2494-2. Archived from the original on 26 August 2021. Retrieved 26 January 2010.
+Moyle, Peter B. (1993) Fish: An Enthusiast's Guide Archived 17 March 2023 at the Wayback Machine University of California Press. ISBN 978-0-520-91665-4 – good lay text.
+Moyle, Peter B.; Cech, Joseph J. (2003). Fishes, An Introduction to Ichthyology (5th ed.). Benjamin Cummings. ISBN 978-0-13-100847-2.
+Scales, Helen (2018). Eye of the shoal: A Fishwatcher's Guide to Life, the Ocean and Everything. Bloomsbury Sigma. ISBN 978-1-4729-3684-4.
+Shubin, Neil (2009). Your inner fish: A journey into the 3.5 billion year history of the human body. Vintage Books. ISBN 978-0-307-27745-9. Archived from the original on 17 March 2023. Retrieved 15 December 2015. UCTV interview Archived 14 January 2021 at the Wayback Machine
+External links
+
+Wikimedia Commons has media related to Fish, Actinopterygii, Marine aquarium fish and Freshwater aquarium fish.
+
+Wikiquote has quotations related to Fish.
+
+Look up fish in Wiktionary, the free dictionary.
+
+Wikispecies has information related to Actinopterygii.
+
+Wikisource has the text of the 1911 Encyclopædia Britannica article "Fish".
+ANGFA – Illustrated database of freshwater fishes of Australia and New Guinea
+Fischinfos.de – Illustrated database of the freshwater fishes of Germany at the Wayback Machine (archived 30 November 2011) (in German)
+FishBase online – Comprehensive database with information on over 29,000 fish species
+Fisheries and Illinois Aquaculture Center – Data outlet for fisheries and aquaculture research center in the central US at archive.today (archived 15 December 2012)
+Philippines Fishes – Database with thousands of Philippine Fishes photographed in natural habitat
+The Native Fish Conservancy – Conservation and study of North American freshwater fishes at the Wayback Machine (archived 12 March 2008)
+United Nation – Fisheries and Aquaculture Department: Fish and seafood utilization
+University of Washington Libraries Digital Collections – Digital collection of freshwater and marine fish images
+Davenport, Charles B.; Ingersoll, Ernest (1905). "Fish" . New International Encyclopedia.
+"Fish". Better Health Channel. Retrieved 26 August 2023. – Health tips from the State government of Victoria, Australia
+vte
+Fish
+About fish	
+DiversityEthnoichthyologyEvolutionDiseases and parasitesFisheriesFishing-as foodFear of-FishBaseFish killHypoxia in-Ichthyology
+Striated frogfish
+Anatomy
+and
+physiology	
+Age determinationAnguilliformityBone dermalintramembranous ossificationCleithrumChromatophoreFins dorsal finGill branchial archgill rakergill slitpharyngeal archpharyngeal slitpseudobranchGlossohyalJaw hyomandibulapharyngeal jawLeydig's organMauthner cellMeristicsOperculum papillarePapillaPhotophoreRoot effectShark cartilageScales ganoineSpiral valveSuckermouthSwim bladder physoclistiphysostomeTeeth pharyngealsharkTeleost leptinsDigital Library
+Sensory
+systems	
+Ampullae of LorenziniBarbelHydrodynamic receptionElectroreception and electrogenesisJamming avoidance responseLateral lineOtolithCapacity for painSchreckstoffSurface wave detectionVisionWeberian apparatus
+Reproduction	
+Bubble nestClasperEgg caseDevelopmentIchthyoplanktonJuvenileLife history theoryMiltMouthbrooderPolyandryPregnancyRoeSequential hermaphroditismSpawning triggers
+Locomotion	
+Fin and flipper locomotionAmphibiousWalkingFlyingUndulatory locomotionTradeoffs for locomotion in air and waterRoboTuna
+Other
+behaviour	
+Aquatic predationAquatic respirationBait ballBottom feedersCleaner fishCorallivoryDiel vertical migrationElectric fishFilter feedersForage fishMigratoryPaedophagyPredatorySalmon runSardine runScale eatersSchooling fishSleepVenomousIntelligence
+By habitat	
+CaveCoastalColdwaterCoral reefDeep seaDemersalEuryhalineFreshwaterGroundfishPelagicTropical
+Other types	
+BaitCoarseDiversityGameGenetically modifiedHallucinogenicOilyPoisonousRoughWhitefish
+Commerce	
+Farming	
+CarpCatfishOctopusSalmonidsTilapia
+Wild fisheries	
+Predatory billfishmackerelsalmontunaForage anchovyherringsardinespratsDemersal codflatfishpollock
+Major groups	
+Jawless hagfishlampreysCartilaginous chimaerassharksraysBony spiny-finnedfleshy-finned
+Lists	
+Aquarium lifeBlindFish common namesFish familiesGlossary of ichthyologyLargestSmallestThreatened rayssharksPrehistoric more lists...
+ Category WikiProject
+vte
+Aquatic ecosystems
+vte
+Marine aquatic ecosystem components
+vte
+Evolution of fish
+vte
+Toxins cardiotoxincytotoxinenterotoxinhemotoxinhepatotoxinneurotoxinphototoxin
+vte
+Brood parasites
+Taxon identifiers	
+Wikidata: Q152Wikispecies: PiscesAFD: PiscesPlazi: 21430E9C-6188-A40A-2DCF-177F0B48AFD2WoRMS: 11676ZooBank: E48F627B-CFB0-4C41-8B2B-2DDA1EEF39D2
+Authority control databases Edit this at Wikidata
+Categories: FishAquatic ecologyFishingIchthyologySeafoodObsolete vertebrate taxaParaphyletic groups
+This page was last edited on 27 November 2023, at 13:55 (UTC).
+Text is available under the Creative Commons Attribution-ShareAlike License 4.0; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+Privacy policyAbout WikipediaDisclaimersContact WikipediaCode of ConductDevelopersStatisticsCookie statementMobile viewWikimedia FoundationPowered by MediaWiki
+Toggle limited content width
