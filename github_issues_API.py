@@ -1,4 +1,5 @@
-# This is basic code to connect with the Github REST APIs. The code works to read text on issues that already exist and also returns the contributors on a project. 
+# This is basic code to connect with the Github REST APIs. 
+# The code works to read text on issues that already exist and also returns the contributors on a project. 
 # For now, to test if it works, I added inputs for the repo name and issue number but we will need to change this.
 
 # TO DO:
@@ -35,7 +36,7 @@ issue_data = get_github_api(f"repos/{owner}/{repo}/issues/{issue_number}")
 print("Issue Title:", issue_data["title"])
 print("Issue Body:", issue_data["body"])
 
-# Example 2: Get contributors for a project
+# Get contributors for a project
 contributors_data = get_github_api(f"repos/{owner}/{repo}/contributors")
 contributors = [contributor["login"] for contributor in contributors_data]
 
