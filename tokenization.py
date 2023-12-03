@@ -49,35 +49,6 @@ def tokenize_file(filepath: str):
         """
         return tokens
 
-
-#  # I wrote this code, but I don't think we actually need it. Because we're using dictionaries instead of vectors for term-frequency, we already know what the tokens are.
-#  # We don't need a lookup dictionary. 
-#  # 
-#  # In the future, we may want to go back from dicts to vectors to make computation more efficient, then, it'll be useful to have a single array which defines what each index means.
-# 
-# 
-# def create_dictionary(filepaths: List[str]) -> List[str]: 
-#     """
-#     Read all the files in given, and create a dictionary which encapsulates all of the tokens present across all files.
-
-#     Args:
-#         filepaths (List[str]): List of filepaths, all the input files in your corpus
-
-#     Returns:
-#         arr of strings, representing all the tokens found in the text
-#     """
-#     tokens_set = set()
-#     for filepath in filepaths:
-#         print(f'Reading file for tokens: {filepath}')
-#         tokens = tokenize_file(filepath)
-#         print(f'Found {len(tokens)} tokens in file')
-#         unique_tokens = set(tokens)
-#         print(f'Found {len(unique_tokens)} unique tokens in file')
-#         tokens_set = tokens_set | unique_tokens
-
-#     return list(tokens_set)  # NOTE to self, as dictionary size grows, we should think about using numpy arrays for dictionaries. Numpy arrays are generally faster and take less memory than lists.
-
-
 def create_term_frequency_dict(filepath: str) -> List[int]:
     """
     Read a file, and convert it into a term-frequency vector based on the given dictionary
@@ -128,8 +99,7 @@ def agglomerative_clustering(similarity_matrix, n_clusters):
     # precompute a distance matrix as inverse of similarity_matrix before passing it into the clustering function
     distance_matrix = 1 - similarity_matrix
     # We can switch back to the default linkage "ward" based on performance
-    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit(
-        distance_matrix)
+    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit(distance_matrix)
     # Cluster labels [0,1]
     return clustering_model.labels_
 
@@ -217,18 +187,13 @@ if __name__ == '__main__':
 
     # Agglomerative clustering
     print('Performing agglomerative clustering with 4 clusters')
-    clustering = agglomerative_clustering(similarity_matrix=sim_matrix, n_clusters=4) # There are 4 authors
-    print('Clustering Results', clustering)
+    clustering = agglomerative_clustering(similarity_matrix=sim_matrix, n_clusters=4) 
+    print('')
+    print('Clustering Results:')
 
     for i, filepath in enumerate(filepaths):
         print(f"File: {filepath}  Cluster: {clustering[i]}")
 
-    # print(sim_matrix)
-
-    # TODO / Next Steps
-    #  - Given a doc, use the reverse index to calculate a tf-idf vector for that document
-    #      - Implement a similarity function between 2 tf-idf vectors
-    #            - Using this similarity function, implement KNN
 
     #  - Given a list of docs in a topic, calculate a unigram LM for that Topic
     #       -  Implement smoothing on the LM, so we get on-zero probabilities for every word in the topic
