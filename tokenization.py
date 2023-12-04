@@ -2,11 +2,12 @@ from typing import List
 import nltk
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
-from sklearn.cluster import AgglomerativeClustering
 import string
 import os
 import numpy as np
 import numpy.typing as npt
+from ml_model_definitions import agglomerative_clustering
+from sklearn.feature_extraction.text import TfidfTransformer
 
 """
 NOTE: Your first time running this script, you will have to install nltk, and run the below in a python interpreter:
@@ -46,6 +47,7 @@ def tokenize_file(filepath: str):
             - convert numbers into placeholders
         """
         return tokens
+
 
 def create_term_frequency_dict(filepath: str) -> List[int]:
     """
@@ -227,24 +229,6 @@ def learn_topics(topic_documents: dict[str, List[str]]):
     return tokens, topic_lms
 
 
-# K-means clustering traditionally requires a euclidean or cosine distance between vectors and not a similarity
-# matrix. Popular python libraries provide k-means implementations that expect standard distance metrics conforming
-# to euclidean/cosine distances.
-
-# Agglomerative Clustering is much better suited for using a similarity function out-of-the-box
-# Although the implementation denotes the use of a distance matrix instead of a similarity matrix,
-# they are simply the inverse of each other.
-# So we can precompute a distance matrix as 1-(similairty matrix) before passing it into the clustering function
-# https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
-
-def agglomerative_clustering(distance_matrix, n_clusters):
-    # precompute a distance matrix as inverse of similarity_matrix before passing it into the clustering function
-    # We can switch back to the default linkage "ward" based on performance
-    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit(distance_matrix)
-    # Cluster labels [0,1]
-    return clustering_model.labels_
-
-
 if __name__ == '__main__':
     # base_dir = './testdata/numpy/issues'
     # base_dir = './testdata/wikipedia'
@@ -360,7 +344,7 @@ if __name__ == '__main__':
 
     # Agglomerative clustering
     print('Performing agglomerative clustering with 4 clusters')
-    clustering = agglomerative_clustering(distance_matrix=distance_matrix, n_clusters=3) 
+    clustering = agglomerative_clustering(distance_matrix=distance_matrix, n_clusters=3)
     print('')
     print('Clustering Results:')
 
