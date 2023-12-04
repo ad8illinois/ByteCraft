@@ -6,8 +6,8 @@ from sklearn.cluster import AgglomerativeClustering
 import string
 import os
 import numpy as np
-from numpy import dot
-from numpy.linalg import norm 
+# from numpy import dot
+# from numpy.linalg import norm 
 import numpy.typing as npt
 
 """
@@ -76,14 +76,33 @@ def get_tf_vector(tf_reverse_index, filepath: str) -> npt.ArrayLike:
     
     return vector
 
-def cosine_similarity(a: npt.ArrayLike, b: npt.ArrayLike) -> npt.ArrayLike:
+def tf_vector_to_unigram_lm(tf_vector) -> npt.ArrayLike:
+    """
+    Convert a term-frequency vector to a Unigram LM probability distribution, using Dirichlet smoothing
+
+    :param tf_vector: A numpy vector respresenting number of occurences for each word
+    :param pseudo_counts: A numpy vector respresenting number of occurences for each word
+    """
+    doc_length = np.sum(tf_vector)
+    lm = tf_vector / doc_length
+    return lm
+
+def cosine_similarity(a: npt.ArrayLike, b: npt.ArrayLike) -> float:
     """
     Calculate the cosine similarity of 2 numpy arrays
 
     Return values range from -1 to 1, where 1 = equal, and -1 = opposite
     """
-    cos_sim = dot(a, b)/(norm(a)*norm(b))
+    cos_sim = np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
     return cos_sim
+
+def euclidian_distance(a: npt.ArrayLike, b: npt.ArrayLike) -> float:
+    """
+    Calculate the euclidian distance between 2 vectors, represented as 2 numpy arrays
+
+    Return values ranging from 0, to the length of the longest vector
+    """
+    return np.linalg.norm(a-b)
 
 # K-means clustering traditionally requires a euclidean or cosine distance between vectors and not a similarity
 # matrix. Popular python libraries provide k-means implementations that expect standard distance metrics conforming
@@ -105,9 +124,9 @@ def agglomerative_clustering(similarity_matrix, n_clusters):
 
 
 if __name__ == '__main__':
-    base_dir = './testdata/numpy/issues'
+    # base_dir = './testdata/numpy/issues'
     # base_dir = './testdata/wikipedia'
-    # base_dir = './testdata/dummy'
+    base_dir = './testdata/dummy'
 
     output_base_dir = './output'
     if not os.path.exists(output_base_dir):
@@ -127,6 +146,8 @@ if __name__ == '__main__':
     # print(f'Parsed dictionary of {len(dictionary)} tokens')
 
     # Stores term frequencies across all files, indexed by token, then filepath, then count
+    print()
+    print('Creating tf reverse index...')
     tf_reverse_index = {
         # Example record in this reverse index:
         # 
@@ -145,24 +166,24 @@ if __name__ == '__main__':
             tf_reverse_index[token][filepath] = count
 
     # Write the reverse index to a text file
-    print('Writing reverse index to file.')
     with open(os.path.join(output_base_dir, 'tf_reverse_index.txt'), 'w') as output_file:
         for token in tf_reverse_index:
             output_file.write(f'{token} - {tf_reverse_index[token]}\n')
+
+
+    print()
+    print('Creating tf-vectors for all files...')
 
     # Go back through each file, and calculate tf-vectors
     # 
     # Because we're using the same tf_reverse_index each time, these vectors will have the same dimensions, 
     # and therefore, can be compared using standard vector similarity algorithms. 
+    collection_tf_vector = np.zeros(())
     tf_vectors = {}
     for filepath in filepaths:
         print(f"Calculating tf-vector for file: {filepath}")
         tf_vector = get_tf_vector(tf_reverse_index, filepath)
         tf_vectors[filepath] = tf_vector
-    
-    """
-    TODO: Apply TF-transformation and IDF to each TF-vector.
-    """
 
     # Write each tf-vector to a file. For debugging and sanity checks.
     for filepath in tf_vectors:
@@ -174,20 +195,48 @@ if __name__ == '__main__':
 
         np.savetxt(output_filepath, tf_vectors[filepath], fmt='%4f', delimiter=', ', newline='\n')
 
-    # Calculate a similarity matrix
+    print()
+    print('Creating unigram LMs for all files...')
+
+    unigram_lms = {}
+    for filepath in filepaths:
+        print(f"Calculating unigram LM for file: {filepath}")
+        tf_vector = tf_vectors[filepath]
+        unigram_lm = tf_vector_to_unigram_lm(tf_vector)
+        unigram_lms[filepath] = unigram_lm
+
+    # Write each unigram_lm to a file. For debugging and sanity checks.
+    for filepath in tf_vectors:
+        relative_filepath = filepath.replace('./', '').replace('.txt', '_lm.txt')
+        output_filepath = os.path.join(output_base_dir, relative_filepath)
+        base_dir = os.path.dirname(output_filepath)
+        if not os.path.exists(base_dir):
+            os.makedirs(base_dir)
+
+        np.savetxt(output_filepath, unigram_lms[filepath], fmt='%4f', delimiter=', ', newline='\n')
+    
+    """
+    TODO: Apply TF-transformation and IDF to each TF-vector.
+    """
+
+    print()
     print('Calculating similarity matrix')
+
+    # Calculate a similarity matrix
     sim_matrix = np.zeros((len(filepaths), len(filepaths)))
     for a, filepath_a in enumerate(filepaths):
         for b, filepath_b in enumerate(filepaths):
             vec_a = tf_vectors[filepath_a]
             vec_b = tf_vectors[filepath_b]
-            sim_matrix[a][b] = cosine_similarity(vec_a, vec_b)
+
+            # sim_matrix[a][b] = cosine_similarity(vec_a, vec_b)
+            sim_matrix[a][b] = euclidian_distance(vec_a, vec_b)
 
     np.savetxt(os.path.join(output_base_dir, './sim_matrix.txt'), sim_matrix, fmt='%4f', delimiter=', ', newline='\n', header=', '.join(filepaths))
 
     # Agglomerative clustering
     print('Performing agglomerative clustering with 4 clusters')
-    clustering = agglomerative_clustering(similarity_matrix=sim_matrix, n_clusters=4) 
+    clustering = agglomerative_clustering(similarity_matrix=sim_matrix, n_clusters=2) 
     print('')
     print('Clustering Results:')
 
