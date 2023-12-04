@@ -6,8 +6,6 @@ from sklearn.cluster import AgglomerativeClustering
 import string
 import os
 import numpy as np
-# from numpy import dot
-# from numpy.linalg import norm 
 import numpy.typing as npt
 
 """
@@ -139,12 +137,6 @@ if __name__ == '__main__':
             if name.endswith('.txt'):
                 filepaths.append(os.path.join(root, name))
 
-    # # See the comment on create_dictionary
-    # 
-    # print('Creating dictionary...')
-    # dictionary = create_dictionary(filepaths)
-    # print(f'Parsed dictionary of {len(dictionary)} tokens')
-
     # Stores term frequencies across all files, indexed by token, then filepath, then count
     print()
     print('Creating tf reverse index...')
@@ -172,18 +164,20 @@ if __name__ == '__main__':
 
 
     print()
-    print('Creating tf-vectors for all files...')
+    print('Creating tf-vectors for all files, and for corpus...')
 
     # Go back through each file, and calculate tf-vectors
     # 
     # Because we're using the same tf_reverse_index each time, these vectors will have the same dimensions, 
     # and therefore, can be compared using standard vector similarity algorithms. 
-    collection_tf_vector = np.zeros(())
+    corpus_tf_vector = np.zeros((len(tf_reverse_index)))
     tf_vectors = {}
     for filepath in filepaths:
         print(f"Calculating tf-vector for file: {filepath}")
         tf_vector = get_tf_vector(tf_reverse_index, filepath)
         tf_vectors[filepath] = tf_vector
+
+        corpus_tf_vector = corpus_tf_vector + tf_vector
 
     # Write each tf-vector to a file. For debugging and sanity checks.
     for filepath in tf_vectors:
@@ -195,8 +189,13 @@ if __name__ == '__main__':
 
         np.savetxt(output_filepath, tf_vectors[filepath], fmt='%4f', delimiter=', ', newline='\n')
 
+    np.savetxt('./output/corpus_tf_vector.txt', corpus_tf_vector, fmt='%4f', delimiter=', ', newline='\n')
+
     print()
-    print('Creating unigram LMs for all files...')
+    print('Creating unigram LMs for all files, and for corpus...')
+
+    corpus_unigram_lm = tf_vector_to_unigram_lm(corpus_tf_vector)
+    np.savetxt('./output/corpus_unigram_lm.txt', corpus_unigram_lm, fmt='%4f', delimiter=', ', newline='\n')
 
     unigram_lms = {}
     for filepath in filepaths:
