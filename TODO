@@ -4,7 +4,6 @@ Yogi:
   - Setting up webhooks?
 
 Ben:
-- Implement euclidean distance. HAve both? And maybe see if we perform any better with one or the other
 - Create some structure for defining a topic, and what docs are in it, creating unigram LM for each topic? (for naive bayes, not for KNN)
 
 
