@@ -10,7 +10,7 @@ def cli():
 @click.option('--project-url', help='Full url to the project on github')
 @click.option('--api-token', help='Github API token ')
 @click.option('--dir', help='Download location')
-def download():
+def download(project_url, api_token, dir):
     """
     TODO: Download all the issues from a github repo, and save them into a local folder
     """
@@ -19,7 +19,7 @@ def download():
 @click.command()
 @click.option('--input-dir', help='Folder with training data')
 @click.option('--output-dir', default='./output', help='Folder to put LMs into')
-def learn(output_dir):
+def learn(input_dir, output_dir):
     """
     Do topic modeling on a set of input text files with known classifications.
 
@@ -79,7 +79,7 @@ def learn(output_dir):
 @click.option('--issue-url', help='Full url to the issue on Github')
 @click.option('--api-token', help='Github API token')
 @click.option('--lm-dir', help='Folder with topic LMs, output of the "learn" step')
-def classify():
+def classify(issue_url, api_token, lm_dir):
     """
     TODO: Download the issue at the given url, classify it using the given topic LMs, then output the result
     """
