@@ -2,11 +2,12 @@ from typing import List
 import nltk
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
-from sklearn.cluster import AgglomerativeClustering
 import string
 import os
 import numpy as np
 import numpy.typing as npt
+from ml_model_definitions import agglomerative_clustering
+from sklearn.feature_extraction.text import TfidfTransformer
 
 """
 NOTE: Your first time running this script, you will have to install nltk, and run the below in a python interpreter:
@@ -46,6 +47,7 @@ def tokenize_file(filepath: str):
             - convert numbers into placeholders
         """
         return tokens
+
 
 def create_term_frequency_dict(filepath: str) -> List[int]:
     """
@@ -128,29 +130,109 @@ def word_vec_to_file(word_dict, vector, filepath):
         for i, token in enumerate(word_dict):
             file.write(f'{token}: {vector[i]}\n')
 
+def learn_topics(topic_documents: dict[str, List[str]]):
+    """
+    Learn Unigram Topic LMs from the given data-set.
+
+    Input should be a dict mapping from topic names, to a list of files which belong to that topic
+    Example:
+    {
+        'animals': ['./data/bird.txt', './data/dog.txt'],
+        'cities': ['./data/chicago.txt', './data/newyork.txt']
+    }
+
+    Returns: ['bird', 'cat', 'weather', ...], {
+            '_corpus': [0.5, 0.0001, 0.0002......],
+            'animals': [0.5, 0.0001, 0.0002......],
+            'cities': [0.5, 0.0001, 0.0002......]
+    }
+    """
+    filepaths = []
+    for topic in topic_documents:
+        for filepath in topic_documents[topic]:
+            filepaths.append(filepath)
+
+    # Stores term frequencies across all files, indexed by token, then filepath, then count.
+    # This dict is also used frequently as the token dictionary, because all tokens must exist in this data structure.
+    print('Creating tf reverse index...')
+    tf_reverse_index = {
+        # Example record in this reverse index:
+        # 
+        # 'token': {
+        #    './testdata/dummy/1.txt': 1,
+        # }
+    }
+    for filepath in filepaths:
+        print(f'  Counting tokens in file: {filepath}')
+        tf_dict = create_term_frequency_dict(filepath)
+
+        for token in tf_dict:
+            count = tf_dict[token]
+            if token not in tf_reverse_index:
+                tf_reverse_index[token] = {}
+            tf_reverse_index[token][filepath] = count
     
-# K-means clustering traditionally requires a euclidean or cosine distance between vectors and not a similarity
-# matrix. Popular python libraries provide k-means implementations that expect standard distance metrics conforming
-# to euclidean/cosine distances.
+    tokens = [token for token in tf_reverse_index]
 
-# Agglomerative Clustering is much better suited for using a similarity function out-of-the-box
-# Although the implementation denotes the use of a distance matrix instead of a similarity matrix,
-# they are simply the inverse of each other.
-# So we can precompute a distance matrix as 1-(similairty matrix) before passing it into the clustering function
-# https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
+    # # Write the reverse index to a text file
+    # with open(os.path.join(output_base_dir, 'tf_reverse_index.txt'), 'w') as output_file:
+    #     for token in tf_reverse_index:
+    #         output_file.write(f'{token} - {tf_reverse_index[token]}\n')
 
-def agglomerative_clustering(distance_matrix, n_clusters):
-    # precompute a distance matrix as inverse of similarity_matrix before passing it into the clustering function
-    # We can switch back to the default linkage "ward" based on performance
-    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit(distance_matrix)
-    # Cluster labels [0,1]
-    return clustering_model.labels_
+
+    # Go back through each file, and calculate tf-vectors
+    # 
+    # Because we're using the same tf_reverse_index each time, these vectors will have the same dimensions, 
+    # and therefore, can be compared using standard vector similarity algorithms. 
+    print('Creating tf-vectors for all files...')
+    doc_tf_vectors = {}
+
+    for filepath in filepaths:
+        print(f"  Calculating tf-vector for file: {filepath}")
+        topic_tf_vector = get_tf_vector(tf_reverse_index, filepath)
+        doc_tf_vectors[filepath] = topic_tf_vector
+
+    # # Write each tf-vector to a file. For debugging and sanity checks.
+    # for filepath in tf_vectors:
+    #     relative_filepath = filepath.replace('./', '').replace('.txt', '_tf.txt')
+    #     output_filepath = os.path.join(output_base_dir, relative_filepath)
+    #     base_dir = os.path.dirname(output_filepath)
+    #     if not os.path.exists(base_dir):
+    #         os.makedirs(base_dir)
+
+    #     word_vec_to_file(tf_reverse_index, tf_vectors[filepath], output_filepath)
+
+    # word_vec_to_file(tf_reverse_index, corpus_tf_vector, './output/corpus_tf_vector.txt')
+
+
+    print('Creating unigram LMs for all topics')
+    topic_lms = {}
+    for topic in topic_documents:
+        print(f"  Calculating unigram LM for topic: {topic}")
+        topic_tf_vector = np.zeros((len(tf_reverse_index))) 
+        for filepath in topic_documents[topic]:
+            topic_tf_vector = topic_tf_vector + doc_tf_vectors[filepath]
+        topic_lms[topic] = tf_vector_to_unigram_lm(topic_tf_vector)
+
+
+    # Write each unigram_lm to a file. For debugging and sanity checks.
+    # for filepath in doc_tf_vectors:
+    #     relative_filepath = filepath.replace('./', '').replace('.txt', '_lm.txt')
+    #     output_filepath = os.path.join(output_base_dir, relative_filepath)
+    #     base_dir = os.path.dirname(output_filepath)
+    #     if not os.path.exists(base_dir):
+    #         os.makedirs(base_dir)
+
+    #     np.savetxt(output_filepath, unigram_lms[filepath], fmt='%4f', delimiter=', ', newline='\n')
+    #     word_vec_to_file(tf_reverse_index, unigram_lms[filepath], output_filepath)
+
+    return tokens, topic_lms
 
 
 if __name__ == '__main__':
-    base_dir = './testdata/numpy/issues'
+    # base_dir = './testdata/numpy/issues'
     # base_dir = './testdata/wikipedia'
-    # base_dir = './testdata/dummy'
+    base_dir = './testdata/dummy'
 
     output_base_dir = './output'
     if not os.path.exists(output_base_dir):
@@ -262,7 +344,7 @@ if __name__ == '__main__':
 
     # Agglomerative clustering
     print('Performing agglomerative clustering with 4 clusters')
-    clustering = agglomerative_clustering(distance_matrix=distance_matrix, n_clusters=3) 
+    clustering = agglomerative_clustering(distance_matrix=distance_matrix, n_clusters=3)
     print('')
     print('Clustering Results:')
 
