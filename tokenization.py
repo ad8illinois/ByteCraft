@@ -63,6 +63,7 @@ def create_term_frequency_dict(filepath: str) -> List[int]:
 def get_tf_vector(tf_reverse_index, filepath: str) -> npt.ArrayLike:
     """
     Create a tf-vector for a given filepath, using the given reverse index.
+    Smooth the vector by adding pseudo counts (1) to each word.
     Guaranteed to give comparable vectors between filepaths AS LONG AS the same reverse index is used.
     """
     num_tokens = len(tf_reverse_index)
@@ -70,9 +71,9 @@ def get_tf_vector(tf_reverse_index, filepath: str) -> npt.ArrayLike:
 
     for i, token in enumerate(tf_reverse_index):
         if filepath in tf_reverse_index[token]:
-            vector[i] = tf_reverse_index[token][filepath]
+            vector[i] = tf_reverse_index[token][filepath] + 1
         else:
-            vector[i] = 0
+            vector[i] = 1
     
     return vector
 
@@ -231,8 +232,8 @@ def learn_topics(topic_documents: dict[str, List[str]]):
 
 if __name__ == '__main__':
     # base_dir = './testdata/numpy/issues'
-    # base_dir = './testdata/wikipedia'
-    base_dir = './testdata/dummy'
+    base_dir = './testdata/wikipedia'
+    # base_dir = './testdata/dummy'
 
     output_base_dir = './output'
     if not os.path.exists(output_base_dir):
@@ -337,8 +338,8 @@ if __name__ == '__main__':
             vec_a = tf_vectors[filepath_a]
             vec_b = tf_vectors[filepath_b]
 
-            # distance_matrix[a][b] =  1 - cosine_similarity(vec_a, vec_b)
-            distance_matrix[a][b] = euclidian_distance(vec_a, vec_b)
+            distance_matrix[a][b] =  1 - cosine_similarity(vec_a, vec_b)
+            # distance_matrix[a][b] = euclidian_distance(vec_a, vec_b)
 
     np.savetxt(os.path.join(output_base_dir, './distance_matrix.txt'), distance_matrix, fmt='%4f', delimiter=', ', newline='\n', header=', '.join(filepaths))
 
