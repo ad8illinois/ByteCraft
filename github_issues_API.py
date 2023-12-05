@@ -1,13 +1,6 @@
 # This is code to connect with the Github REST APIs. 
-# The code takes repository information as an input and returns project details such as contributors and open issue information.
+# The code takes repository information as an input and writes the open issues to a text file.
 # It also polls the GitHub API to check and retreive new issues created in the repo.
-
-# NOTE: We need administrative access to repos to set up webhooks. We can do this by creating a example repo and testing it but 
-# it may be hard for the graders to do this and to show it in the presentation.
-
-# Since we're running this locally, polling should work? We can set it up with whatever intervals we think is good and the function should
-# poll the GitHub API to check for new issues and retrieve information about them.
-
 
 import requests
 import time
@@ -38,7 +31,7 @@ def get_contributors(owner, repo):
     contributors = [contributor["login"] for contributor in contributors_data]
     return contributors
 
-get_contributors(owner, repo)
+#get_contributors(owner, repo)
 
 # Function to retrieve open or closed issues from the project repo as needed
 def retrieve_issues(owner, repo):
@@ -46,67 +39,54 @@ def retrieve_issues(owner, repo):
     #closed_issues = get_github_api(f"repos/{owner}/{repo}/issues", params = {"state": "closed"})
     return open_issues
 
-# Function to store issue data in arrays
-def store_issues(issues):
-    issue_numbers, issue_titles, issue_URLs, issue_details,  = [], [], [], []
+def store_issues(issues, filename="issues.txt"):
+    issue_numbers, issue_titles, issue_URLs, issue_details = [], [], [], []
     if issues:
         for issue in issues:
             issue_numbers.append(issue['number'])
             issue_titles.append(issue['title'])
             issue_URLs.append(issue['html_url'])
             issue_details.append(issue['body'])
+
+        # Write issue data to a text file
+        with open(filename, 'w', encoding='utf-8') as file:
+            for i in range(len(issue_numbers)):
+                file.write(f"Issue #{issue_numbers[i]}: {issue_titles[i]}\n")
+                file.write(f"  URL: {issue_URLs[i]}\n")
+                file.write(f"  Issue details: {issue_details[i]}\n\n")
+    else:
+        with open(filename, 'w', encoding='utf-8') as file:
+            file.write("No open issues")
     return issue_numbers, issue_titles, issue_URLs, issue_details
 
-# Function to display issue data 
-def display_issues(issue_numbers, issue_titles, issue_URLs, issue_details):
-    if issue_numbers:
-        for i in range(len(issue_numbers)):
-            print(f"Issue #{issue_numbers[i]}: {issue_titles[i]}")
-            print(f"  URL: {issue_URLs[i]}")
-            print(f"  Issue details: {issue_details[i]}\n")
-    else:
-        print("No issues to display.")
 
-#display_issues(issue_numbers, issue_titles, issue_URLs, issue_details)
+# Variable to store the timestamp of the last check
+#last_check_timestamp = None
 
+# Function to poll for new issues since the last check
+# def poll_for_new_issues(owner, repo):
+#     global last_check_timestamp
 
-# Function to get new issues since a specific date/time
-def get_new_issues_since(since):
-    endpoint = f"repos/{owner}/{repo}/issues"
-    params = {"state": "open", "since": since}
-    return get_github_api(endpoint, params)
+#     while True:
+#         # Retrieve issues created after the last check timestamp
+#         issues = get_github_api(f"repos/{owner}/{repo}/issues",params={"state": "open", "since": last_check_timestamp})
 
+#         if issues:
+#             # Process and store new issues
+#             issue_numbers, issue_titles, issue_URLs, issue_details = store_issues(issues)
+#             store_issues(issue_numbers, issue_titles, issue_URLs, issue_details)
 
-# Polling function that periodically polls the GitHub API to check for new issues created
-def polling():
-    # setting to get issues created since this time
-    since_timestamp = int(time.time()) - 86400  # Example: 24 hours ago
-    while True:
-        # Get new issues since the last check
-        new_issues = get_new_issues_since(since_timestamp)
-        issue_numbers, issue_titles, issue_URLs, issue_details = store_issues(new_issues)
-        display_issues(issue_numbers, issue_titles, issue_URLs, issue_details)
+#             # Update the last check timestamp to the current time
+#             last_check_timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+#         else:
+#             print("No new issues.")
 
-        # Update the timestamp for the next check
-        since_timestamp = int(time.time())
+#         # Time in between each check
+#         time.sleep(600)  # 30 minutes (maybe longer)
 
-        # Wait for some time before the next poll (ex. this is set to 10 minutes)
-        time.sleep(600)
-
-#polling()
+#poll_for_new_issues(owner, repo)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+issues = retrieve_issues(owner, repo)
+store_issues(issues, filename="open_issues.txt")
