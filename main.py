@@ -90,7 +90,7 @@ def learn(input_dir, output_dir):
     terms = inverted_index.get_terms()
     for filepath in filepaths:
         print(f'Creating tf-vector, prob-dist for file: {filepath}')
-        tf_vector = inverted_index.get_tf_vector(filepath)
+        tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=1)
         prob_dist = vector_to_prob_dist(tf_vector)
 
         output_filename = os.path.basename(filepath)
@@ -106,7 +106,7 @@ def learn(input_dir, output_dir):
 
         files_in_topic = topic_documents[topic]
         for filepath in files_in_topic:
-            tf_vector = inverted_index.get_tf_vector(filepath)
+            tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=1)
             topic_tf_vector = topic_tf_vector + tf_vector
         
         topic_prob_dist = vector_to_prob_dist(topic_tf_vector)
