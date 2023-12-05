@@ -1,6 +1,9 @@
 import click
 import os
-import tokenization as tk
+import numpy as np
+from inverted_index import InvertedIndex
+from prob_dist import vector_to_prob_dist
+from util import term_vec_to_file
 
 @click.group()
 def cli():
@@ -25,54 +28,92 @@ def learn(input_dir, output_dir):
 
     Estimates a ML Unigram LM for each topic given, and writes the LMs to an output directory.
     """
-    # tokens, lms = tk.learn_topics({
-    #     'animals': [
-    #         './testdata/wikipedia/bird.txt',
-    #         './testdata/wikipedia/cat.txt',
-    #         './testdata/wikipedia/dog.txt',
-    #         './testdata/wikipedia/fish.txt',
-    #     ],
-    #     'places': [
-    #         './testdata/wikipedia/champaign.txt',
-    #         './testdata/wikipedia/chicago.txt',
-    #         './testdata/wikipedia/uiuc.txt',
-    #     ],
-    #     'corpus': {
-    #         './testdata/wikipedia/bird.txt',
-    #         './testdata/wikipedia/cat.txt',
-    #         './testdata/wikipedia/dog.txt',
-    #         './testdata/wikipedia/fish.txt',
-    #         './testdata/wikipedia/champaign.txt',
-    #         './testdata/wikipedia/chicago.txt',
-    #         './testdata/wikipedia/uiuc.txt',
-    #     }
-    # })
+    topic_documents = {
+        'animals': [
+            './testdata/wikipedia/bird.txt',
+            './testdata/wikipedia/cat.txt',
+            './testdata/wikipedia/dog.txt',
+            './testdata/wikipedia/fish.txt',
+        ],
+        'places': [
+            './testdata/wikipedia/champaign.txt',
+            './testdata/wikipedia/chicago.txt',
+            './testdata/wikipedia/uiuc.txt',
+        ],
+        'corpus': {
+            './testdata/wikipedia/bird.txt',
+            './testdata/wikipedia/cat.txt',
+            './testdata/wikipedia/dog.txt',
+            './testdata/wikipedia/fish.txt',
+            './testdata/wikipedia/champaign.txt',
+            './testdata/wikipedia/chicago.txt',
+            './testdata/wikipedia/uiuc.txt',
+        }
+    }
 
-    tokens, lms = tk.learn_topics({
-        'corpus': [
-            './testdata/dummy/1.txt',
-            './testdata/dummy/2.txt',
-            './testdata/dummy/3.txt',
-        ],
-        'happy': [
-            './testdata/dummy/1.txt',
-            './testdata/dummy/3.txt',
-        ],
-        'sad': [
-            './testdata/dummy/2.txt',
-        ],
-    })
-
-    # TODO: do some heurustics on input-data
-    #    - Then let users just specify a list of folders. Each folder will become one topic
-    #    - Automatically generate the 'corpus' topic, by combining all files into that topic
+    # topic_documents = {
+    #     'corpus': [
+    #         './testdata/dummy/1.txt',
+    #         './testdata/dummy/2.txt',
+    #         './testdata/dummy/3.txt',
+    #     ],
+    #     'happy': [
+    #         './testdata/dummy/1.txt',
+    #         './testdata/dummy/3.txt',
+    #     ],
+    #     'sad': [
+    #         './testdata/dummy/2.txt',
+    #     ],
+    # }
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+    if not os.path.exists(os.path.join(output_dir, 'documents')):
+        os.makedirs(os.path.join(output_dir, 'documents'))
+    if not os.path.exists(os.path.join(output_dir, 'categories')):
+        os.makedirs(os.path.join(output_dir, 'categories'))
 
-    for topic in lms:
-        filepath = os.path.join(output_dir, f'{topic}.txt')
-        tk.word_vec_to_file(tokens, lms[topic], filepath)
+    filepaths = []
+    for topic in topic_documents:
+        for filepath in topic_documents[topic]:
+            filepaths.append(filepath)
+    
+    # Construct inverted index from all files in corpus
+    inverted_index = InvertedIndex()
+    for filepath in filepaths:
+        inverted_index.add_document(filepath)
+    inverted_index.export_to_file(os.path.join(output_dir, 'inverted_index.txt'))
+
+
+    # Create a tf-vector, prob-dist for each file
+    # NOTE: you could skip this step, it's not needed to calculate the prob-dist for each category
+    terms = inverted_index.get_terms()
+    for filepath in filepaths:
+        print(f'Creating tf-vector, prob-dist for file: {filepath}')
+        tf_vector = inverted_index.get_tf_vector(filepath)
+        prob_dist = vector_to_prob_dist(tf_vector)
+
+        output_filename = os.path.basename(filepath)
+        output_filepath = os.path.join(output_dir, 'documents', output_filename)
+
+        term_vec_to_file(terms, tf_vector, output_filepath.replace('.txt', '_tf.txt'))
+        term_vec_to_file(terms, prob_dist, output_filepath.replace('.txt', '_prob_dist.txt'))
+
+    # Create a tf-vector, prob-dist for each category
+    for topic in topic_documents:
+        print(f'Creating tf-vector, prob-dist for topic: {topic}')
+        topic_tf_vector = np.zeros((len(terms)))
+
+        files_in_topic = topic_documents[topic]
+        for filepath in files_in_topic:
+            tf_vector = inverted_index.get_tf_vector(filepath)
+            topic_tf_vector = topic_tf_vector + tf_vector
+        
+        topic_prob_dist = vector_to_prob_dist(topic_tf_vector)
+
+        output_filepath = os.path.join(output_dir, 'categories', f'{topic}.txt')
+        term_vec_to_file(terms, topic_tf_vector, output_filepath.replace('.txt', '_tf.txt'))
+        term_vec_to_file(terms, topic_prob_dist, output_filepath.replace('.txt', '_prob_dist.txt'))
    
 
 @click.command()
@@ -83,7 +124,7 @@ def classify(issue_url, api_token, lm_dir):
     """
     TODO: Download the issue at the given url, classify it using the given topic LMs, then output the result
     """
-    print('Running classification...')
+    print('TODO: unimplemented')
 
 
 if __name__ == '__main__':
