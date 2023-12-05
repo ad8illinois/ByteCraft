@@ -4,11 +4,9 @@ Yogi:
   - Setting up webhooks?
 
 Ben:
-- Create some structure for defining a topic, and what docs are in it, creating unigram LM for each topic? (for naive bayes, not for KNN)
-
+- Split up the code into different sections, and add a CLI on top of it
 
 - Implement TF-IDF transforms on our TF-vectors (Shivani)
-
 
 - Implement Jelenik-Mercer smoothing, Dirichlet ??? (psuedo counts) (Annamika)
 
@@ -17,12 +15,11 @@ Ben:
   - Naive Bayes?  (Shivani)
 
 
-STRETCH GOALS:
-- Add an issue-duplicate detection CLI. Compares tf-vectors and reutsn any that have similiary > a threshold
-- Deploy this code, and maybe wrap it in an API
-    - Dockerize
-- Add a real database, instead of storing everything in memory / in text file
-
-
-- Make a pretty CLI for taking one or more issues, downloading them, then classifying them
-- Documentation
+Pending Tasks:
+- Test naive bayes
+- Test KNN
+- Dockerize it
+- Add the CLI for teh different steps
+- Add a real database for storing vectors and files
+- Add a polling mode
+- Write documentation
