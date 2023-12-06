@@ -6,7 +6,7 @@ import string
 import os
 import numpy as np
 import numpy.typing as npt
-from ml_model_definitions import agglomerative_clustering
+from ml_model_definitions import agglomerative_clustering, knn_classification, get_knn_training_and_testing
 from sklearn.feature_extraction.text import TfidfTransformer
 
 """
@@ -193,6 +193,8 @@ def learn_topics(topic_documents: dict[str, List[str]]):
         topic_tf_vector = get_tf_vector(tf_reverse_index, filepath)
         doc_tf_vectors[filepath] = topic_tf_vector
 
+    print("DOC", doc_tf_vectors.keys())
+
     # # Write each tf-vector to a file. For debugging and sanity checks.
     # for filepath in tf_vectors:
     #     relative_filepath = filepath.replace('./', '').replace('.txt', '_tf.txt')
@@ -217,23 +219,23 @@ def learn_topics(topic_documents: dict[str, List[str]]):
 
 
     # Write each unigram_lm to a file. For debugging and sanity checks.
-    # for filepath in doc_tf_vectors:
-    #     relative_filepath = filepath.replace('./', '').replace('.txt', '_lm.txt')
-    #     output_filepath = os.path.join(output_base_dir, relative_filepath)
-    #     base_dir = os.path.dirname(output_filepath)
-    #     if not os.path.exists(base_dir):
-    #         os.makedirs(base_dir)
+    for filepath in doc_tf_vectors:
+        relative_filepath = filepath.replace('./', '').replace('.txt', '_lm.txt')
+        output_filepath = os.path.join(output_base_dir, relative_filepath)
+        base_dir = os.path.dirname(output_filepath)
+        if not os.path.exists(base_dir):
+            os.makedirs(base_dir)
 
-    #     np.savetxt(output_filepath, unigram_lms[filepath], fmt='%4f', delimiter=', ', newline='\n')
-    #     word_vec_to_file(tf_reverse_index, unigram_lms[filepath], output_filepath)
+        np.savetxt(output_filepath, unigram_lms[filepath], fmt='%4f', delimiter=', ', newline='\n')
+        word_vec_to_file(tf_reverse_index, unigram_lms[filepath], output_filepath)
 
     return tokens, topic_lms
 
 
 if __name__ == '__main__':
     # base_dir = './testdata/numpy/issues'
-    base_dir = './testdata/wikipedia'
-    # base_dir = './testdata/dummy'
+    # base_dir = './testdata/wikipedia'
+    base_dir = './testdata/dummy'
 
     output_base_dir = './output'
     if not os.path.exists(output_base_dir):
@@ -351,6 +353,33 @@ if __name__ == '__main__':
 
     for i, filepath in enumerate(filepaths):
         print(f"File: {filepath}  Cluster: {clustering[i]}")
+
+    wikipedia_topics = { 
+        'animals': ['./testdata/wikipedia/bird.txt', './testdata/wikipedia/cat.txt', './testdata/wikipedia/dog.txt', './testdata/wikipedia/fish.txt'], 
+        'places': ['./testdata/wikipedia/chicago.txt', './testdata/wikipedia/champaign.txt', './testdata/wikipedia/uiuc.txt']
+    }
+
+    dummy_topics = {
+        'happy': ['./testdata/dummy/1.txt', './testdata/dummy/3.txt'],
+        'sad': ['./testdata/dummy/2.txt']
+    }
+
+    tokens, lm = learn_topics(dummy_topics)
+    # print(tokens, lm)
+
+    X = dummy_topics.values()
+    # y = dummy_topics.keys()
+    X = ['./testdata/dummy/1.txt'], ['./testdata/dummy/3.txt'], ['./testdata/dummy/2.txt']
+    y = ['happy', 'happy', 'sad']
+    print(list(X))
+    print(list(y))
+
+    # KNN Classification
+    print('Performing KNN classification with k=2...')
+    knn = knn_classification(2, X, y)
+    print('')
+    print('Classification Results:')
+    print(knn)
 
 
     #  - Given a list of docs in a topic, calculate a unigram LM for that Topic
