@@ -83,6 +83,33 @@ def create_term_frequency_dict(filepath: str):
 #     for i, filepath in enumerate(filepaths):
 #         print(f"File: {filepath}  Cluster: {clustering[i]}")
 
+    wikipedia_topics = { 
+        'animals': ['./testdata/wikipedia/bird.txt', './testdata/wikipedia/cat.txt', './testdata/wikipedia/dog.txt', './testdata/wikipedia/fish.txt'], 
+        'places': ['./testdata/wikipedia/chicago.txt', './testdata/wikipedia/champaign.txt', './testdata/wikipedia/uiuc.txt']
+    }
+
+    dummy_topics = {
+        'happy': ['./testdata/dummy/1.txt', './testdata/dummy/3.txt'],
+        'sad': ['./testdata/dummy/2.txt']
+    }
+
+    tokens, lm = learn_topics(dummy_topics)
+    # print(tokens, lm)
+
+    X = dummy_topics.values()
+    # y = dummy_topics.keys()
+    X = ['./testdata/dummy/1.txt'], ['./testdata/dummy/3.txt'], ['./testdata/dummy/2.txt']
+    y = ['happy', 'happy', 'sad']
+    print(list(X))
+    print(list(y))
+
+    # KNN Classification
+    print('Performing KNN classification with k=2...')
+    knn = knn_classification(2, X, y)
+    print('')
+    print('Classification Results:')
+    print(knn)
+
 
 #     #  - Given a list of docs in a topic, calculate a unigram LM for that Topic
 #     #       -  Implement smoothing on the LM, so we get on-zero probabilities for every word in the topic
