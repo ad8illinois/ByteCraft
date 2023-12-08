@@ -1,5 +1,6 @@
 from tokenization import create_tf_dict
 import numpy as np
+from sklearn.feature_extraction.text import TfidfTransformer
 import json
 
 class InvertedIndex:
@@ -57,9 +58,10 @@ class InvertedIndex:
 
         for i, term in enumerate(self.term_counts):
             if filepath in self.term_counts[term]:
-                vector[i] = self.term_counts[term][filepath] + pseudo_counts
-            else:
-                vector[i] = pseudo_counts
+                vector[i] = self.term_counts[term][filepath]
+                            # + pseudo_counts
+            # else:
+            #     vector[i] = pseudo_counts
         
         return vector
     
@@ -84,3 +86,8 @@ class InvertedIndex:
                 term_counts_json = line.split(' - ')[1]
                 term_counts = json.loads(term_counts_json)
                 self.term_counts[token] = term_counts
+
+    def apply_tf_idf_transforms(self, term_vectors):
+        tf_idf = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
+        result = tf_idf.fit_transform(term_vectors.reshape(1, -1))
+        return result.toarray().flatten()

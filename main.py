@@ -89,17 +89,23 @@ def learn(output_dir):
         for filepath in files_in_topic:
             doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
+            # apply tf-idf transformation
+            transformed_vector = inverted_index.apply_tf_idf_transforms(topic_tf_vector)
 
         topic_lm = vector_to_prob_dist(topic_tf_vector)
-        
+
         dir = f'./output/categories/{topic}'
         if not os.path.exists(dir):
             os.makedirs(dir)
 
+        topic_prob_dist = vector_to_prob_dist(transformed_vector)
+        output_filepath = os.path.join(output_dir, 'categories', f'{topic}.txt')
+        term_vec_to_file(terms, transformed_vector, output_filepath.replace('.txt', '_tf.txt'))
+        term_vec_to_file(terms, topic_prob_dist, output_filepath.replace('.txt', '_prob_dist.txt'))
         term_vec_to_file(terms, topic_tf_vector, os.path.join(dir, 'tf.txt'))
         np.save(os.path.join(dir, 'lm.npy'), topic_lm)
         np.save(os.path.join(dir, 'tf.npy'), topic_tf_vector)
-   
+
 
 @click.command()
 @click.option('--filepath', help='File to classify')
@@ -109,7 +115,7 @@ def classify(filepath):
         return
 
     # Read the inverted index to get the list of terms (vector dimensions)
-    inverted_index = InvertedIndex() 
+    inverted_index = InvertedIndex()
     inverted_index.load_from_file('./output/inverted_index.txt')
 
     # Parse the input file into a tf-dict, then convert it to a vector with the same dimensions as the inverted index
