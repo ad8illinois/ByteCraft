@@ -87,7 +87,7 @@ class InvertedIndex:
                 term_counts = json.loads(term_counts_json)
                 self.term_counts[token] = term_counts
 
-    def apply_tf_idf_transforms(self, term_vectors):
+    def apply_tf_idf_transformation(self, term_vectors):
         tf_idf = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
         result = tf_idf.fit_transform(term_vectors.reshape(1, -1))
         return result.toarray().flatten()

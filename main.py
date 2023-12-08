@@ -90,7 +90,7 @@ def learn(output_dir):
             doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
             # apply tf-idf transformation
-            transformed_vector = inverted_index.apply_tf_idf_transforms(topic_tf_vector)
+            transformed_vector = inverted_index.apply_tf_idf_transformation(topic_tf_vector)
 
         topic_lm = vector_to_prob_dist(topic_tf_vector)
 
