@@ -6,34 +6,30 @@ from prob_dist import vector_to_prob_dist
 from util import term_vec_to_file
 from tokenization import create_tf_dict
 from similarity import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-topic_documents = {
-    'animals': [
-        './testdata/wikipedia/bird.txt',
-        './testdata/wikipedia/cat.txt',
-        './testdata/wikipedia/dog.txt',
-        './testdata/wikipedia/fish.txt',
-    ],
-    'places': [
-        './testdata/wikipedia/champaign.txt',
-        './testdata/wikipedia/chicago.txt',
-        './testdata/wikipedia/uiuc.txt',
-    ],
-}
 # topic_documents = {
-#     'corpus': [
-#         './testdata/dummy/1.txt',
-#         './testdata/dummy/2.txt',
-#         './testdata/dummy/3.txt',
+#     'animals': [
+#         './testdata/wikipedia/bird.txt',
+#         './testdata/wikipedia/cat.txt',
+#         './testdata/wikipedia/dog.txt',
+#         './testdata/wikipedia/fish.txt',
 #     ],
-#     'happy': [
-#         './testdata/dummy/1.txt',
-#         './testdata/dummy/3.txt',
-#     ],
-#     'sad': [
-#         './testdata/dummy/2.txt',
+#     'places': [
+#         './testdata/wikipedia/champaign.txt',
+#         './testdata/wikipedia/chicago.txt',
+#         './testdata/wikipedia/uiuc.txt',
 #     ],
 # }
+topic_documents = {
+    'happy': [
+        './testdata/dummy/1.txt',
+        './testdata/dummy/3.txt',
+    ],
+    'sad': [
+        './testdata/dummy/2.txt',
+    ],
+}
 
 @click.group()
 def cli():
@@ -64,9 +60,11 @@ def learn(output_dir):
     if not os.path.exists(os.path.join(output_dir, 'categories')):
         os.makedirs(os.path.join(output_dir, 'categories'))
 
+    all_filepaths = []
     filepaths = []
     for topic in topic_documents:
         for filepath in topic_documents[topic]:
+            all_filepaths.append(filepath)
             filepaths.append(filepath)
     
     # Construct inverted index from all files in corpus
@@ -74,11 +72,13 @@ def learn(output_dir):
     for filepath in filepaths:
         inverted_index.add_document(filepath)
     inverted_index.export_to_file(os.path.join(output_dir, 'inverted_index.txt'))
-
-
-    # Create a tf-vector, prob-dist for each file
-    # NOTE: you could skip this step, it's not needed to calculate the prob-dist for each category
     terms = inverted_index.get_terms()
+
+    vectorizer = TfidfVectorizer(input='filename', vocabulary=terms)
+    tf_idf_matrix = vectorizer.fit_transform(all_filepaths)
+    print(tf_idf_matrix)
+        # TODO: Somehow get each row out of tf_idf_matrix, into a numpy array that we can run our other code on
+        # TODO: Also, verify that it's actually working, common words are getting lower weights compared to the raw tf_vectors
 
     # Create a tf-vector, prob-dist for each category
     for topic in topic_documents:
@@ -90,21 +90,25 @@ def learn(output_dir):
             doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
             # apply tf-idf transformation
-            transformed_vector = inverted_index.apply_tf_idf_transformation(topic_tf_vector)
+            topic_tf_idf_vector = inverted_index.apply_tf_idf_transformation(topic_tf_vector)
 
-        topic_lm = vector_to_prob_dist(topic_tf_vector)
+        topic_tf_idf_lm = vector_to_prob_dist(topic_tf_idf_vector)
+        topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
 
         dir = f'./output/categories/{topic}'
         if not os.path.exists(dir):
             os.makedirs(dir)
 
-        topic_prob_dist = vector_to_prob_dist(transformed_vector)
-        output_filepath = os.path.join(output_dir, 'categories', f'{topic}.txt')
-        term_vec_to_file(terms, transformed_vector, output_filepath.replace('.txt', '_tf.txt'))
-        term_vec_to_file(terms, topic_prob_dist, output_filepath.replace('.txt', '_prob_dist.txt'))
+
         term_vec_to_file(terms, topic_tf_vector, os.path.join(dir, 'tf.txt'))
-        np.save(os.path.join(dir, 'lm.npy'), topic_lm)
+        term_vec_to_file(terms, topic_tf_lm, os.path.join(dir, 'tf_lm.txt'))
+        term_vec_to_file(terms, topic_tf_idf_vector, os.path.join(dir, 'tf_idf.txt'))
+        term_vec_to_file(terms, topic_tf_idf_lm, os.path.join(dir, 'tf_idf_lm.txt'))
+
         np.save(os.path.join(dir, 'tf.npy'), topic_tf_vector)
+        np.save(os.path.join(dir, 'tf_lm.npy'), topic_tf_lm)
+        np.save(os.path.join(dir, 'tf_idf.npy'), topic_tf_vector)
+        np.save(os.path.join(dir, 'tf_idf_lm.npy'), topic_tf_lm)
 
 
 @click.command()
@@ -125,7 +129,7 @@ def classify(filepath):
 
     # Compare the tf_vector to all our other vectors
     for topic in topic_documents:
-        topic_prob_dist = np.load(f'./output/categories/{topic}/lm.npy')
+        topic_prob_dist = np.load(f'./output/categories/{topic}/tf_idf.npy')
         sim = cosine_similarity(doc_lm, topic_prob_dist)
 
         print(f'Similarity with topic {topic}: {sim}')
