@@ -8,29 +8,32 @@ from tokenization import create_tf_dict
 from similarity import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
+from scipy.sparse import csr_matrix
 
-# topic_documents = {
-#     'animals': [
-#         './testdata/wikipedia/bird.txt',
-#         './testdata/wikipedia/cat.txt',
-#         './testdata/wikipedia/dog.txt',
-#         './testdata/wikipedia/fish.txt',
-#     ],
-#     'places': [
-#         './testdata/wikipedia/champaign.txt',
-#         './testdata/wikipedia/chicago.txt',
-#         './testdata/wikipedia/uiuc.txt',
-#     ],
-# }
 topic_documents = {
-    'happy': [
-        './testdata/dummy/1.txt',
-        './testdata/dummy/3.txt',
+    'animals': [
+        './testdata/wikipedia/bird.txt',
+        './testdata/wikipedia/cat.txt',
+        './testdata/wikipedia/dog.txt',
+        './testdata/wikipedia/fish.txt',
     ],
-    'sad': [
-        './testdata/dummy/2.txt',
+    'places': [
+        './testdata/wikipedia/champaign.txt',
+        './testdata/wikipedia/chicago.txt',
+        './testdata/wikipedia/uiuc.txt',
     ],
 }
+# topic_documents = {
+#     'happy': [
+#         './testdata/dummy/1.txt',
+#         './testdata/dummy/3.txt',
+#     ],
+#     'sad': [
+#         './testdata/dummy/2.txt',
+#     ],
+#
+# }
+
 
 @click.group()
 def cli():
@@ -91,10 +94,21 @@ def learn(output_dir):
     terms = inverted_index.get_terms()
 
     vectorizer = TfidfVectorizer(input='filename', vocabulary=terms)
-    tf_idf_matrix = vectorizer.fit_transform(all_filepaths)
-    print(tf_idf_matrix)
-        # TODO: Somehow get each row out of tf_idf_matrix, into a numpy array that we can run our other code on
-        # TODO: Also, verify that it's actually working, common words are getting lower weights compared to the raw tf_vectors
+    raw_matrix = vectorizer.fit_transform(all_filepaths)
+
+    # Get each row out of tf_idf_matrix, into a numpy array that we can run our other code on
+    # TODO: Also, verify that it's actually working, common words are getting lower weights compared to the raw tf_vectors
+
+    sparse_matrix = csr_matrix(raw_matrix, dtype=float)
+    dense_tf_idf_matrix = sparse_matrix.toarray()
+
+    print(f'dense_matrix {dense_tf_idf_matrix}')
+
+    tf_idf_matrix_np_rows = [np.array(row) for row in dense_tf_idf_matrix]
+
+    for row in tf_idf_matrix_np_rows:
+        print(f"Row:{row}")
+        topic_tf_idf_lm = vector_to_prob_dist(row)
 
     # Create a tf-vector, prob-dist for each category
     for topic in topic_documents:
@@ -106,15 +120,14 @@ def learn(output_dir):
             doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
             # apply tf-idf transformation
-            topic_tf_idf_vector = inverted_index.apply_tf_idf_transformation(topic_tf_vector)
+            topic_tf_idf_vector = inverted_index.compute_tf_idf_transformation(topic_tf_vector)
 
-        topic_tf_idf_lm = vector_to_prob_dist(topic_tf_idf_vector)
+        # topic_tf_idf_lm = vector_to_prob_dist(topic_tf_idf_vector)
         topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
 
         dir = f'./output/categories/{topic}'
         if not os.path.exists(dir):
             os.makedirs(dir)
-
 
         term_vec_to_file(terms, topic_tf_vector, os.path.join(dir, 'tf.txt'))
         term_vec_to_file(terms, topic_tf_lm, os.path.join(dir, 'tf_lm.txt'))

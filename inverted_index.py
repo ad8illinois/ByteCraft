@@ -89,5 +89,12 @@ class InvertedIndex:
 
     def apply_tf_idf_transformation(self, term_vectors):
         tf_idf = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
-        result = tf_idf.fit_transform(term_vectors.reshape(1, -1))
-        return result.toarray().flatten()
+        result = tf_idf.fit_transform([term_vectors])
+        return result
+
+    def compute_tf_idf_transformation(self, term_vector):
+        tf = term_vector / np.sum(term_vector)
+        idf = np.log(len(term_vector) / (1 + np.count_nonzero(len(term_vector))))
+        tfidf_vector = tf * idf
+        return tfidf_vector
+
