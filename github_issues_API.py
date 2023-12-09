@@ -124,17 +124,10 @@ class GithubClient:
 
         issues_commented_by_top_contributors = []
         for issue in all_issues:
-            issue_number = issue['number']
-            comments_url = f"repos/{owner}/{repo}/issues/{issue_number}/comments"
-            comments_data = self.get_github_api(comments_url)
-
-            for comment in comments_data:
-                commenter_login = comment['user']['login']
-                if commenter_login in top_contributors:
-                    # issues_commented_by_top_contributors.append(issue)
-                    break  # Break once a comment is found by a top contributor for efficiency
+            for commenter in issue['commenters']:
+                if commenter in top_contributors:
+                    issues_commented_by_top_contributors.append(issue)
         
-        self.store_issues(issues_commented_by_top_contributors, folder_path="issues")
         return issues_commented_by_top_contributors
 
 # top_contibutors = get_top_contributors(owner, repo)

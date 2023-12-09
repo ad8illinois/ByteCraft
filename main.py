@@ -41,21 +41,25 @@ def cli():
 @click.option('--api-token', help='Github API token')
 @click.option('--limit', type=click.INT,  help='Max number of issues to download')
 def download(project_url, api_token, limit):
+    if project_url is None or api_token is None or limit is None:
+        print('Please provide all CLI options --project-url --api-token --limit')
+        return
+
     if project_url.endswith('/'): # Remove any trailing slashes
         project_url[:len(project_url)-2]
     
-    user = project_url.split('/')[-2]
-    project = project_url.split('/')[-1]
-    print(f'User: {user}, Project: {project}')
+    owner = project_url.split('/')[-2]
+    repo = project_url.split('/')[-1]
+    print(f'Owner: {owner}, Repo: {repo}')
 
     github = GithubClient(token=api_token)
-    top_contibutors = github.get_top_contributors(user, project)
+    top_contibutors = github.get_top_contributors(owner, repo)
     print(f"Top contributors: {top_contibutors}")
 
-    relevant_issues = github.get_issues_commented_by_top_contributors(user, project, top_contibutors, limit)
+    relevant_issues = github.get_issues_commented_by_top_contributors(owner, repo, top_contibutors, limit)
 
     # print(f"Current open issues: {len(open_issues)}")
-    print(f"Issues that the top 5 contributors have commented on: {len(relevant_issues)}")
+    print(f"Issues that the top 5 contributors have commented on: {[i['number'] for i in relevant_issues]}")
 
 @click.command()
 @click.option('--output-dir', default='./output', help='Folder to put LMs into')
