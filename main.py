@@ -45,8 +45,9 @@ def cli():
 @click.option('--limit', type=click.INT,  help='Max number of issues to download')
 def download(project_url, api_token, limit):
     if project_url is None or api_token is None or limit is None:
-        print('Please provide all CLI options --project-url --api-token --limit')
-        return
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit()
 
     if project_url.endswith('/'): # Remove any trailing slashes
         project_url[:len(project_url)-2]
@@ -144,7 +145,9 @@ def learn(output_dir):
 @click.option('--filepath', help='File to classify')
 def classify(filepath):
     if filepath is None:
-        print("Please give a filepath with --filepath")
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit()
         return
 
     # Read the inverted index to get the list of terms (vector dimensions)

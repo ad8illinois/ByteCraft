@@ -6,15 +6,10 @@
 # https://github.com/nrwl/nx
 
 import requests
-import time
 import os
-import shutil
 
 # GitHub API and repository information
 github_api_url = "https://api.github.com"
-# owner = input("Enter owner name of repository: ") 
-# repo = input("Enter name of repository: ") 
-# token = input("Enter your github personal access token: ")
 
 class GithubClient:
     def __init__(self, token: str):
