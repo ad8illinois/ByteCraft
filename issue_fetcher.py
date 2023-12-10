@@ -30,7 +30,7 @@ def process_issue(api_token, owner, repo, users, issue):
             relevant_user = user
     
     if relevant_user is None:
-        print(f'Ignoring issue {issue_number}. No relevant users')
+        print(f'Ignoring issue {issue_number}. No relevant users in list {issue_users}')
         return None
     
     # Save to file
