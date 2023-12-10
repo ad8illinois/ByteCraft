@@ -3,8 +3,10 @@ import os
 import numpy as np
 from inverted_index import InvertedIndex
 from prob_dist import vector_to_prob_dist
+import json
 from util import term_vec_to_file
 from tokenization import create_tf_dict
+from issue_fetcher import IssueFetcher
 from similarity import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
@@ -56,14 +58,20 @@ def download(project_url, api_token, limit):
     repo = project_url.split('/')[-1]
     print(f'Owner: {owner}, Repo: {repo}')
 
-    github = GithubClient(token=api_token)
-    top_contibutors = github.get_top_contributors(owner, repo)
+    github = GithubClient(token=api_token, owner=owner, repo=repo)
+    top_contibutors = github.get_top_contributors()
     print(f"Top contributors: {top_contibutors}")
 
-    relevant_issues = github.get_issues_commented_by_top_contributors(owner, repo, top_contibutors, limit)
+    fetcher = IssueFetcher(owner=owner, repo=repo, token=api_token)
+    issue_index = fetcher.fetch_issues_for_users(limit, top_contibutors)
 
-    # print(f"Current open issues: {len(open_issues)}")
-    print(f"Issues that the top 5 contributors have commented on: {[i['number'] for i in relevant_issues]}")
+    #  NOTE:
+    #  This issue_index file has the exact same format as our "topic_documents" from earlier
+    #  It should be easy to just parse the JSON file, then perform the 'learn' step
+
+    print(f'Writing issue index to ./issues/issue_index.json')
+    with open('./issues/issue_index.json', 'w') as file:
+        file.write(json.dumps(issue_index, indent=2))
 
 @click.command()
 @click.option('--output-dir', default='./output', help='Folder to put LMs into')
