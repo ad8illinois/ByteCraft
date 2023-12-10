@@ -44,7 +44,8 @@ class GithubClient:
         response = requests.get(f"https://api.github.com/repos/{self.owner}/{self.repo}/issues/{issue_number}/comments", headers=headers)
 
         if response.status_code != 200:
-            raise Exception(f'Non 200 status code from github api {response.status_code}')
+            print(f'Non 200 status code fetching comments for issue {issue_number}: {response.status_code}')
+            return []
         return response.json()
     
     def get_issues(self, page):

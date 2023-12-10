@@ -34,8 +34,8 @@ def process_issue(api_token, owner, repo, users, issue):
         return None
     
     # Save to file
-    folder_path = f'./issues/{relevant_user}'
-    filepath = f"./issues/{relevant_user}/{issue_number}.txt"
+    folder_path = f'./issues/'
+    filepath = f"./issues/{issue_number}.txt"
 
     print(f'Saving issue {issue_number}. User {relevant_user}. Filepath {filepath}')
     if not os.path.exists(folder_path):
