@@ -3,7 +3,7 @@ import multiprocessing
 import os
 
 
-def process_issue(api_token, owner, repo, users, issue):
+def process_issue(output_dir, api_token, owner, repo, users, issue):
     """
     Performs the following tasks:
         - Fetches an issue's comments
@@ -34,12 +34,10 @@ def process_issue(api_token, owner, repo, users, issue):
         return None
     
     # Save to file
-    folder_path = f'./issues/'
-    filepath = f"./issues/{issue_number}.txt"
-
+    filepath = os.path.join(output_dir, f'{issue_number}.txt')
     print(f'Saving issue {issue_number}. User {relevant_user}. Filepath {filepath}')
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     with open(filepath, 'w', encoding='utf-8') as file:
         file.write('----------------\n')
@@ -64,10 +62,11 @@ def process_issue(api_token, owner, repo, users, issue):
     }
 
 class IssueFetcher:
-    def __init__(self, owner, repo, token):
+    def __init__(self, owner, repo, token, output_dir):
         self.owner = owner
         self.repo = repo
         self.token = token
+        self.output_dir = output_dir
     
     def _github_headers(self):
         return {
@@ -100,7 +99,7 @@ class IssueFetcher:
     def fetch_issues_for_users(self, limit, users):
         issues = self._list_issues(limit)
         with multiprocessing.Pool(processes=10) as pool:
-            args = [(self.token, self.owner, self.repo, users, issue) for issue in issues]
+            args = [(self.output_dir, self.token, self.owner, self.repo, users, issue) for issue in issues]
             responses = pool.starmap(process_issue, args)
         
         issue_index = {}

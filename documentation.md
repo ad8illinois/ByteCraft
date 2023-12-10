@@ -7,16 +7,45 @@
 - Documentation of how the software is implemented with sufficient detail so that others can have a basic understanding of your code for future extension or any further improvement. 
 
 ## Usage
+
+### Quick Start - Example
+The 3 commands to download issues, learn categories, and run classification.
+```
+GITHUB_API_TOKEN='replaceme'
+
+# Download issues for users
+python main.py download \
+--output-dir ./issues \
+--api-token $GITHUB_API_TOKEN \
+--project-url 'https://github.com/nrwl/nx' \
+--users 'eladhaim,heike2718' \
+--limit 10
+
+# Learn categories
+python main.py learn \
+--index-file ./issues/index.json \
+--output-dir ./categories
+
+# Classify
+python main.py classify  \
+--learn-dir ./categories \
+--filepath ./issues/20672.txt
+
+```
+For a more detailed explanation of each command, keep reading below.
+
 ### Step 1 - Download training data
 The first step in the classification system is downloading historical issues from a Github repo, which becomes our training dataset. 
 
 To download issues, generate a Github Personal Access Token following the instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 
-The `download` command will perform the folowing actions:
+The download step involves:
 1. Find the top 5 contributors for a repo (if no users  are provided)
 2. Look at the N most recent issues in the repo
 3. Download any issues which are relevant to the given users
 4. Create an `index.json` file, mapping issue txt files to their respective user (category)
+
+To run the download step, use the `download` command:
 ```
 % python main.py download
 Usage: main.py download [OPTIONS]
@@ -56,6 +85,7 @@ Writing issue index to ./issues/index.json
 Issues will be downloaded to the `./issues` folder, with the filename `./issues/<issue_number>.txt`.
 
 Additionally, an index file will be created at `./issues/index.json`, which maps from users to the issues relevant to that user
+
 Example output folder structure:
 ```
 - main.py

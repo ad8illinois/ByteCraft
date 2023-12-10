@@ -18,15 +18,19 @@ def cli():
     pass
 
 @click.command()
+@click.option('--output-dir', help='Folder to store issues in')
 @click.option('--api-token', help='Github API token')
 @click.option('--project-url', help='Full url to the project on github')
 @click.option('--users', help='Comma-separated list of users. Defaults to top 5 contributors')
 @click.option('--limit', type=click.INT, default=500, help='Max number of issues to download. Defaults to 500')
-def download(api_token, project_url, users, limit):
-    if project_url is None or api_token is None:
+def download(output_dir, api_token, project_url, users, limit):
+    if output_dir is None or api_token is None or project_url is None:
         ctx = click.get_current_context()
         click.echo(ctx.get_help())
         ctx.exit()
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     if project_url.endswith('/'): # Remove any trailing slashes
         project_url[:len(project_url)-2]
@@ -43,15 +47,12 @@ def download(api_token, project_url, users, limit):
         relevant_users = github.get_top_contributors()
         print(f"No users provided. Using top 5 contributors: {relevant_users}")
 
-    fetcher = IssueFetcher(owner=owner, repo=repo, token=api_token)
+    fetcher = IssueFetcher(output_dir=output_dir, owner=owner, repo=repo, token=api_token)
     issue_index = fetcher.fetch_issues_for_users(limit, relevant_users)
 
-    #  NOTE:
-    #  This issue_index file has the exact same format as our "topic_documents" from earlier
-    #  It should be easy to just parse the JSON file, then perform the 'learn' step
-
-    print(f'Writing issue index to ./issues/index.json')
-    with open('./issues/index.json', 'w') as file:
+    index_filepath = os.path.join(output_dir, 'index.json')
+    print(f'Writing issue index to {index_filepath}')
+    with open(index_filepath, 'w') as file:
         file.write(json.dumps(issue_index, indent=2))
 
 @click.command()
