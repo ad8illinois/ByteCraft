@@ -193,6 +193,7 @@ def classify(learn_dir, filepath):
         topic_tf_vector = np.zeros((len(inverted_index.get_terms())))
         files_in_topic = topic_documents[topic]
         for f in files_in_topic:
+            # NOTE for Annamika: you can load the tf-idf vector for any file from <learn_dir>/documents/<file_root>_tf_idf.npy
             doc_tf_vector = inverted_index.get_tf_vector(f, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
             X_knn.append(doc_tf_vector)
@@ -203,8 +204,11 @@ def classify(learn_dir, filepath):
     for key, value in topic_documents.items():
         for i in value:
             y.append(list(topic_documents).index(key))
-    test_tf_vector = [inverted_index.get_tf_vector(filepath, pseudo_counts=0)]
-    knn = knn_classification(2, X, y, test_tf_vector)
+    
+    doc_tf_dict = create_tf_dict(filepath)
+    doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0)
+
+    knn = knn_classification(2, X, y, [doc_tf_vector])
     print('KNN Classification Results:')
     pred = []
     for i in knn:
