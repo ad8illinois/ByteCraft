@@ -29,41 +29,32 @@ def learn(input_dir, output_dir):
 
     Estimates a ML Unigram LM for each topic given, and writes the LMs to an output directory.
     """
-    # topic_documents = {
-    #     'animals': [
-    #         './testdata/wikipedia/bird.txt',
-    #         './testdata/wikipedia/cat.txt',
-    #         './testdata/wikipedia/dog.txt',
-    #         './testdata/wikipedia/fish.txt',
-    #     ],
-    #     'places': [
-    #         './testdata/wikipedia/champaign.txt',
-    #         './testdata/wikipedia/chicago.txt',
-    #         './testdata/wikipedia/uiuc.txt',
-    #     ],
-    #     'corpus': {
-    #         './testdata/wikipedia/bird.txt',
-    #         './testdata/wikipedia/cat.txt',
-    #         './testdata/wikipedia/dog.txt',
-    #         './testdata/wikipedia/fish.txt',
-    #         './testdata/wikipedia/champaign.txt',
-    #         './testdata/wikipedia/chicago.txt',
-    #         './testdata/wikipedia/uiuc.txt',
-    #     }
-    # }
-
     topic_documents = {
-        'happy': [
-            './testdata/dummy/1.txt',
-            './testdata/dummy/3.txt',
-            './testdata/dummy/4.txt',
-            './testdata/dummy/6.txt',
+        'animals': [
+            './testdata/wikipedia/bird.txt',
+            './testdata/wikipedia/cat.txt',
+            './testdata/wikipedia/dog.txt',
+            './testdata/wikipedia/fish.txt',
         ],
-        'sad': [
-            './testdata/dummy/2.txt',
-            './testdata/dummy/5.txt',
-        ],
+        'places': [
+            './testdata/wikipedia/champaign.txt',
+            './testdata/wikipedia/chicago.txt',
+            './testdata/wikipedia/uiuc.txt',
+        ]
     }
+
+    # topic_documents = {
+    #     'happy': [
+    #         './testdata/dummy/1.txt',
+    #         './testdata/dummy/3.txt',
+    #         './testdata/dummy/4.txt',
+    #         './testdata/dummy/6.txt',
+    #     ],
+    #     'sad': [
+    #         './testdata/dummy/2.txt',
+    #         './testdata/dummy/5.txt',
+    #     ],
+    # }
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -117,24 +108,21 @@ def learn(input_dir, output_dir):
         term_vec_to_file(terms, topic_prob_dist, output_filepath.replace('.txt', '_prob_dist.txt'))
 
     # KNN Classification
+    print('')
     print('Performing KNN classification with k=2...')
     X = X_knn
-    # print(topic_documents)
     y = []
     for key, value in topic_documents.items():
         for i in value:
             y.append(list(topic_documents).index(key))
-    # print(y)
-    print('Classification Results:')
+
     X_test, knn = knn_classification(2, X, y)
-    # print("x test", X_test, type(X_test))
+    print('Classification Results:')
     files = []
     for filepath in filepaths:
         tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=1)
-        # print("current tf vector", type(tf_vector))
         if np.any(np.all(tf_vector == X_test, axis=1)):
             files.append(filepath)
-    # print("Files", files)
     print("Prediction for files", files, ":")
     pred = []
     for i in knn:

@@ -38,11 +38,9 @@ def naive_bayes_classification(x, y):
     print(tabulate(data, headers='keys'))
 
 def knn_classification(n_neighbors, X, y):
-    # Use the scikit.learn KNN classifier to classify
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=100)
-    print("Train vector and labels", X_train, y_train)
+    # Use the scikit.learn KNN classifier to classify with n_neighbors
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
     knn = KNeighborsClassifier(n_neighbors=n_neighbors)
     knn.fit(X_train, y_train)
     pred = knn.predict(X_test)
-    # print(X_test, pred)
     return X_test, pred
