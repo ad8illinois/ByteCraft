@@ -1,9 +1,12 @@
 {
     "happy": [
         "./testdata/dummy/1.txt",
-        "./testdata/dummy/3.txt"
+        "./testdata/dummy/3.txt",
+        "./testdata/dummy/4.txt",
+        "./testdata/dummy/6.txt"
     ],
     "sad": [
-        "./testdata/dummy/2.txt"
+        "./testdata/dummy/2.txt",
+        "./testdata/dummy/5.txt"
     ]
 }

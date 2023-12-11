@@ -2,6 +2,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_score
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.neighbors import KNeighborsClassifier
 import tabulate
 
 # K-means clustering traditionally requires a euclidean or cosine distance between vectors and not a similarity
@@ -35,3 +36,11 @@ def naive_bayes_classification(x, y):
     print("Metrics:")
     data = [['Precision', 'Recall', "F1", "Accuracy"], [precision, recall, f1, accuracy]]
     print(tabulate(data, headers='keys'))
+
+def knn_classification(n_neighbors, X, y, test_tf_vector):
+    # Use the scikit.learn KNN classifier to classify with n_neighbors
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+    knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+    knn.fit(X_train, y_train)
+    pred = knn.predict(test_tf_vector)
+    return pred

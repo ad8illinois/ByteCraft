@@ -12,6 +12,8 @@ from similarity import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
 from scipy.sparse import csr_matrix
+from ml_model_definitions import knn_classification
+import ast
 
 @click.group()
 def cli():
@@ -184,6 +186,32 @@ def classify(learn_dir, filepath):
 
         We need to replace this with actual KNN or Naive Bayes
     """
+
+    # KNN Classification
+    X_knn = list()
+    for topic in topic_documents:
+        topic_tf_vector = np.zeros((len(inverted_index.get_terms())))
+        files_in_topic = topic_documents[topic]
+        for f in files_in_topic:
+            doc_tf_vector = inverted_index.get_tf_vector(f, pseudo_counts=0)
+            topic_tf_vector = topic_tf_vector + doc_tf_vector
+            X_knn.append(doc_tf_vector)
+
+    print('Performing KNN classification with k=2...')
+    X = X_knn
+    y = []
+    for key, value in topic_documents.items():
+        for i in value:
+            y.append(list(topic_documents).index(key))
+    test_tf_vector = [inverted_index.get_tf_vector(filepath, pseudo_counts=0)]
+    knn = knn_classification(2, X, y, test_tf_vector)
+    print('KNN Classification Results:')
+    pred = []
+    for i in knn:
+        pred.append(list(topic_documents)[i])
+    print("Prediction for file:", filepath, ' --> ', pred[0])
+    print('')
+
     # Compare the tf_vector to all our other vectors
     sim_results = []
     for topic in topic_documents:
