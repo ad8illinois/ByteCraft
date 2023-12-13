@@ -51,6 +51,7 @@ To run the download step, use the `download` command:
 Usage: main.py download [OPTIONS]
 
 Options:
+  --output-dir TEXT   Folder to store issues in
   --api-token TEXT    Github API token
   --project-url TEXT  Full url to the project on github
   --users TEXT        Comma-separated list of users. Defaults to top 5
@@ -62,6 +63,7 @@ Options:
 Example usage, for the nrlw/nx repository:
 ```
 python main.py download \
+--output-dir ./issues \
 --api-token <replaceme> \
 --project-url 'https://github.com/nrwl/nx' \
 --users 'eladhaim,heike2718' \
@@ -166,7 +168,9 @@ Usage: main.py classify [OPTIONS]
 
 Options:
   --learn-dir TEXT  Folder generated from the "learn" step
-  --filepath TEXT   File to classify
+  --output-dir TEXT   Folder where new issue will be stored, should be same as the output_dir used in the "download" step
+  --api-token TEXT    Github API token
+  --github-issue TEXT  GitHub issue URL or issue number to classify
   --help            Show this message and exit.
 ```
 
@@ -174,7 +178,9 @@ Example usage:
 ```
 % python main.py classify  \
 --learn-dir ./output \
---filepath ./issues/20583.txt
+--output-dir ./issues \
+--api-token <replaceme> \
+--github-issue "https://github.com/nrwl/nx/issues/20583"
 
 Similarity with category eladhaim: 0.9325790152296436
 Similarity with category heike2718: 0.7771994252477538
