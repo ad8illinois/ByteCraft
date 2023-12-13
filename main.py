@@ -101,24 +101,13 @@ def learn(index_file, output_dir):
     inverted_index.export_to_file(os.path.join(output_dir, 'inverted_index.txt'))
     terms = inverted_index.get_terms()
 
-    vectorizer = TfidfVectorizer(input='filename', vocabulary=terms)
-    raw_matrix = vectorizer.fit_transform(all_filepaths)
-
-    # Get each row out of tf_idf_matrix, into a numpy array that we can run our other code on
-    # TODO: Also, verify that it's actually working, common words are getting lower weights compared to the raw tf_vectors
-
-    sparse_matrix = csr_matrix(raw_matrix, dtype=float)
-    dense_tf_idf_matrix = sparse_matrix.toarray()
-
-    tf_idf_matrix_np_rows = [np.array(row) for row in dense_tf_idf_matrix]
-
     # Write TF-IDF vectors for each file to the output_dir
-    for i, row in enumerate(tf_idf_matrix_np_rows):
-        original_filepath = all_filepaths[i]
+    for i, original_filepath in enumerate(all_filepaths):
+    # for i, original_filepath in enumerate(all_filepaths):
         stem = Path(original_filepath).stem
 
         doc_tf = inverted_index.get_tf_vector(original_filepath)
-        doc_tf_idf = vector_to_prob_dist(row)
+        doc_tf_idf = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf))
 
         term_vec_to_file(terms, doc_tf, os.path.join(output_dir, 'documents', stem + '_tf.txt'))
         np.save(os.path.join(output_dir, 'documents', stem + '_tf.npy'), doc_tf)
@@ -140,7 +129,8 @@ def learn(index_file, output_dir):
             TODO: This topic_tf_idf_vector is not accurate.
             It doesn't count doc-frequency for the entire corpus, just within this topic
             """
-            topic_tf_idf_vector = inverted_index.compute_tf_idf_transformation(topic_tf_vector)
+            # topic_tf_idf_vector = inverted_index.compute_tf_idf_transformation(topic_tf_vector)
+            topic_tf_idf_vector = inverted_index.apply_idf(doc_tf_vector)
 
         topic_tf_idf_lm = vector_to_prob_dist(topic_tf_idf_vector)
         topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
@@ -162,35 +152,43 @@ def learn(index_file, output_dir):
 
 @click.command()
 @click.option('--learn-dir', help='Folder generated from the "learn" step')
-@click.option('--output-dir', help='Folder where new issue will be stored, should be same as the output_dir used in the "download" step')
 @click.option('--api-token', help='Github API token')
 @click.option('--github-issue', help='GitHub issue URL or issue number to classify')
+@click.option('--filepath', help='File to classify. If given, ignores github-issue and api-token')
 @click.option('--verbose', is_flag=True, type=click.BOOL, default=False, help='If defined, ')
-def classify(learn_dir, output_dir, api_token, github_issue, verbose):
-    if github_issue is None or learn_dir is None:
+def classify(learn_dir, api_token, github_issue, filepath, verbose):
+    if learn_dir is None:
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit()
+    
+    if github_issue is not None and api_token is not None:
+        # Extract owner, repo, and issue number from the GitHub issue URL
+        parsed_url = urlparse(github_issue)
+        path_parts = parsed_url.path.split('/')
+        if len(path_parts) < 3:
+            print('Invalid GitHub issue URL. Please provide a valid GitHub issue URL.')
+            return
+        owner = path_parts[1]
+        repo = path_parts[2]
+        issue_number = path_parts[-1]
+
+        # Download the issue to a temporary file
+        fetcher = IssueFetcher(owner, repo, api_token, output_dir=tempfile.gettempdir())
+        filepath = fetcher.fetch_issue(issue_number)
+
+    if filepath is None:
         ctx = click.get_current_context()
         click.echo(ctx.get_help())
         ctx.exit()
 
-    # Extract owner, repo, and issue number from the GitHub issue URL
-    parsed_url = urlparse(github_issue)
-    path_parts = parsed_url.path.split('/')
-    if len(path_parts) < 3:
-        print('Invalid GitHub issue URL. Please provide a valid GitHub issue URL.')
-        return
-    owner = path_parts[1]
-    repo = path_parts[2]
-    issue_number = path_parts[-1]
-
-    # Download the issue to a temporary file
-    fetcher = IssueFetcher(owner, repo, api_token, output_dir=tempfile.gettempdir())
-    filepath = fetcher.fetch_issue(issue_number)
 
     # Read the inverted index, use it to get a tf-vector for the new input file
     inverted_index = InvertedIndex()
     inverted_index.load_from_file(os.path.join(learn_dir, 'inverted_index.txt'))
     doc_tf_dict = create_tf_dict(filepath)
     doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
+    doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
 
     # Load the vectors from all previously-learned files
     with open(os.path.join(learn_dir, 'index.json'), 'r') as file:
@@ -204,10 +202,13 @@ def classify(learn_dir, output_dir, api_token, github_issue, verbose):
     for topic_index, topic in enumerate(topic_documents):
         topic_index_map[topic_index] = topic
         files_in_topic = topic_documents[topic]
-        for f in files_in_topic:
-            training_doc_tf_vector = inverted_index.get_tf_vector(f, pseudo_counts=0)  # TODO: replace with tf-idf
-            training_doc_filenames.append(f)
-            training_docs.append(training_doc_tf_vector)
+        for training_doc_filename in files_in_topic:
+
+            stem = Path(training_doc_filename).stem
+            training_doc_tfidf_vector = np.load(os.path.join(learn_dir, 'documents', f'{stem}_tf_idf.npy'))
+
+            training_doc_filenames.append(training_doc_filename)
+            training_docs.append(training_doc_tfidf_vector)
             training_labels.append(topic_index)
 
     if verbose:
@@ -217,7 +218,7 @@ def classify(learn_dir, output_dir, api_token, github_issue, verbose):
             distances.append({
                 'filename': training_doc_filenames[i],
                 'topic': topic_index_map[training_labels[i]],
-                'similarity': euclidian_distance(training_doc, doc_tf_vector),
+                'similarity': euclidian_distance(training_doc, doc_tfidf_vector),
             })
         distances = sorted(distances, key=lambda d: d['similarity'])
 
@@ -227,7 +228,7 @@ def classify(learn_dir, output_dir, api_token, github_issue, verbose):
         print('')
     
      # Run KNN
-    knn = knn_classification(3, training_docs, training_labels, [doc_tf_vector])
+    knn = knn_classification(2, training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = knn[0]
     predicted_topic = topic_index_map[predicted_topic_index]
     print('KNN Classification Results:', predicted_topic)

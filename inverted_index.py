@@ -10,6 +10,7 @@ class InvertedIndex:
             #    './filepath.txt': 1,
             # }
         }
+        self.num_docs = 0
     
     def add_document(self, filepath: str):
         """
@@ -26,7 +27,7 @@ class InvertedIndex:
             count = doc_term_counts[term]
             self.term_counts[term][filepath] = count
             
-        self.words = [word for word in self.term_counts]
+        self.num_docs = self.num_docs+1
     
     def get_terms(self):
         """
@@ -70,6 +71,7 @@ class InvertedIndex:
         Write the inverted index to a file, for debugging or demoing
         """
         with open(filepath, 'w') as output_file:
+            output_file.write(f'Num docs:{self.num_docs}\n')
             for token in self.term_counts:
                 term_counts_json = json.dumps(self.term_counts[token])
                 output_file.write(f'{token} - {term_counts_json}\n')
@@ -82,6 +84,9 @@ class InvertedIndex:
         self.term_counts = {}
         with open(filepath, 'r') as file:
             for line in file:
+                if "Num docs" in line:
+                    self.num_docs = int(line.split(':')[1])
+                    continue
                 token = line.split(' - ')[0]
                 term_counts_json = line.split(' - ')[1]
                 term_counts = json.loads(term_counts_json)
@@ -94,7 +99,31 @@ class InvertedIndex:
 
     def compute_tf_idf_transformation(self, term_vector):
         tf = term_vector / np.sum(term_vector)
-        idf = np.log(len(term_vector) / (1 + np.count_nonzero(len(term_vector))))
+        idf = np.log2(len(term_vector) / (1 + np.count_nonzero(len(term_vector))))
         tfidf_vector = tf * idf
         return tfidf_vector
+    
+    def apply_tf_transformation(self, tf_vector):
+        """
+        Applies bm25 tf-transformation, with k=5
+
+        TODO: Investigate performance of different tf-transformation functions, like BM25
+        """
+        # return np.log(tf_vector, out=np.zeros_like(tf_vector), where=(tf_vector==0)) # NOTe: np.log is actually the natural log
+
+        k=5
+        return (tf_vector * (k+1)) / (tf_vector + k)
+    
+    def apply_idf(self, tf_vector):
+        """
+        Applies idf normalization to the given tf-vector
+
+        TODO: pre-compose the idf_vector, because technically it's the same for all tf_vectors.
+        """
+        doc_freq_vector = np.zeros(len(self.term_counts))
+        for i, term in enumerate(self.term_counts):
+            doc_freq_vector[i] = len(self.term_counts[term])
+        
+        idf_vector = np.log((self.num_docs + 1) / doc_freq_vector)
+        return tf_vector * idf_vector
 
