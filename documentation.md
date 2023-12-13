@@ -28,8 +28,10 @@ python main.py learn \
 
 # Classify
 python main.py classify  \
---learn-dir ./categories \
---filepath ./issues/20672.txt
+--learn-dir ./output \
+--output-dir ./issues \
+--api-token <replaceme> \
+--github-issue "https://github.com/nrwl/nx/issues/20583"
 
 ```
 For a more detailed explanation of each command, keep reading below.
