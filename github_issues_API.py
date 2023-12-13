@@ -61,3 +61,14 @@ class GithubClient:
         if response.status_code != 200:
             raise Exception(f'Non 200 status code from github api {response.status_code}')
         return response.json()
+    
+    def get_issue(self, issue_number):
+        headers = {
+            "Authorization": f"Bearer {self.token}",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        response = requests.get(f"https://api.github.com/repos/{self.owner}/{self.repo}/issues/{issue_number}", headers=headers)
+
+        if response.status_code != 200:
+            raise Exception(f'Non 200 status code from github api {response.status_code}')
+        return response.json()

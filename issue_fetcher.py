@@ -3,6 +3,28 @@ import multiprocessing
 import os
 
 
+def write_issue(issue, comments, filepath):
+    dirname = os.path.dirname(filepath)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+    with open(filepath, 'w', encoding='utf-8') as file:
+        file.write('----------------\n')
+        file.write(f"Issue: #{issue['number']}\n")
+        file.write(f"Issue title: {issue['title']}\n")
+        file.write(f"Issue url: {issue['html_url']}\n")
+        file.write(f"Reporter: {issue['user']['login']}\n")
+        file.write('----------------\n')
+        file.write(f"{issue['body']}\n")
+        file.write('\n\n')
+        for comment in comments:
+            file.write('----------------\n')
+            file.write(f'Comment\n')
+            file.write(f"User: {comment['user']['login']}\n")
+            file.write('----------------\n')
+            file.write(f'{comment["body"]}\n')
+            file.write('\n\n')
+
 def process_issue(output_dir, api_token, owner, repo, users, issue):
     """
     Performs the following tasks:
@@ -13,17 +35,16 @@ def process_issue(output_dir, api_token, owner, repo, users, issue):
     
     Implemented as a global function, instead of in a class, so that we can use multiprocessing WorkerPools to run this in parallel
     """
-    issue_number = issue['number']
-
     github = GithubClient(token=api_token, owner=owner, repo=repo)
+
+    issue_number = issue['number']
+    reporter = issue['user']['login']
+
     comments = github.get_comments(issue_number)
+    commenters = [c['user']['login'] for c in comments]
 
     # Determine the relevant user from the reporter and commenters
-    reporter = issue['user']['login']
-    commenters = [c['user']['login'] for c in comments]
     issue_users = [reporter, *commenters]
-    # print(f'Users for issue {issue_number}: {issue_users}')
-
     relevant_user = None
     for user in issue_users:
         if user in users:
@@ -35,26 +56,7 @@ def process_issue(output_dir, api_token, owner, repo, users, issue):
     
     # Save to file
     filepath = os.path.join(output_dir, f'{issue_number}.txt')
-    print(f'Saving issue {issue_number}. User {relevant_user}. Filepath {filepath}')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    with open(filepath, 'w', encoding='utf-8') as file:
-        file.write('----------------\n')
-        file.write(f"Issue: #{issue_number}\n")
-        file.write(f"Issue title: {issue['title']}\n")
-        file.write(f"Issue url: {issue['html_url']}\n")
-        file.write(f"Reporter: {reporter}\n")
-        file.write('----------------\n')
-        file.write(f'{issue["body"]}\n')
-        file.write('\n\n')
-        for comment in comments:
-            file.write('----------------\n')
-            file.write(f'Comment\n')
-            file.write(f"User: {comment['user']['login']}\n")
-            file.write('----------------\n')
-            file.write(f'{comment["body"]}\n')
-            file.write('\n\n')
+    write_issue(issue, comments, filepath)
     
     return {
         'user': relevant_user,
@@ -115,3 +117,12 @@ class IssueFetcher:
             issue_index[issue_user].append(issue_filepath)
         
         return issue_index
+
+    def fetch_issue(self, issue_number):
+        github = GithubClient(token=self.token, owner=self.owner, repo=self.repo)
+        issue = github.get_issue(issue_number)
+        comments = github.get_comments(issue_number)
+
+        write_issue(issue, comments, os.path.join(self.output_dir, f'{issue["number"]}.txt'))
+        return os.path.join(self.output_dir, f'{issue["number"]}.txt')
+    
