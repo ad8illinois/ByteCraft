@@ -53,6 +53,8 @@ def process_issue(output_dir, api_token, owner, repo, users, issue):
     if relevant_user is None:
         print(f'Ignoring issue {issue_number}. No relevant users in list {issue_users}')
         return None
+
+    print(f'Saving issue {issue_number}. Relevant user {relevant_user}')
     
     # Save to file
     filepath = os.path.join(output_dir, f'{issue_number}.txt')
