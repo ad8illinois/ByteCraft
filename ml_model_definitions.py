@@ -18,10 +18,9 @@ import tabulate
 def agglomerative_clustering(distance_matrix, n_clusters):
     # precompute a distance matrix as inverse of similarity_matrix before passing it into the clustering function
     # We can switch back to the default linkage "ward" based on performance
-    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit(
+    clustering_model = AgglomerativeClustering(metric="precomputed", linkage="average", n_clusters=n_clusters).fit_predict(
         distance_matrix)
-    # Cluster labels [0,1]
-    return clustering_model.labels_
+    return clustering_model
 
 
 def naive_bayes_classification(x, y):

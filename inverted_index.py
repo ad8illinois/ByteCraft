@@ -1,6 +1,8 @@
-from tokenization import create_tf_dict
+import math
+
+from tokenization import create_tf_dict, count_total_tokens_in_doc
 import numpy as np
-from sklearn.feature_extraction.text import TfidfTransformer
+import pandas as pd
 import json
 
 class InvertedIndex:
@@ -11,7 +13,9 @@ class InvertedIndex:
             # }
         }
         self.num_docs = 0
-    
+        self.total_terms_in_doc = {}
+        self.file_paths = []
+
     def add_document(self, filepath: str):
         """
         Add a document to the inverted index, tokenizes the document, and adds counts to the index.
@@ -59,10 +63,9 @@ class InvertedIndex:
 
         for i, term in enumerate(self.term_counts):
             if filepath in self.term_counts[term]:
-                vector[i] = self.term_counts[term][filepath]
-                            # + pseudo_counts
-            # else:
-            #     vector[i] = pseudo_counts
+                vector[i] = self.term_counts[term][filepath]+ pseudo_counts
+            else:
+                vector[i] = pseudo_counts
         
         return vector
     
@@ -91,18 +94,42 @@ class InvertedIndex:
                 term_counts_json = line.split(' - ')[1]
                 term_counts = json.loads(term_counts_json)
                 self.term_counts[token] = term_counts
+                # term_counts = {
+                #illinoisuniversity : {"./testdata/wikipedia/uiuc.txt": 2, ...},
+                # 20:35 : {"./testdata/wikipedia/uiuc.txt": 1}
+                # }
 
-    def apply_tf_idf_transformation(self, term_vectors):
-        tf_idf = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
-        result = tf_idf.fit_transform([term_vectors])
-        return result
+    def compute_tf_idf_vector(self):
 
-    def compute_tf_idf_transformation(self, term_vector):
-        tf = term_vector / np.sum(term_vector)
-        idf = np.log2(len(term_vector) / (1 + np.count_nonzero(len(term_vector))))
-        tfidf_vector = tf * idf
-        return tfidf_vector
-    
+        # Create a data frame to clearly see words mapped to their term frequencies
+        # Each column is the word and each row is the doc index
+
+        unique_words_in_corpus = self.get_terms()
+        idf = {}
+        tf_data_frame = pd.DataFrame(np.zeros((self.num_docs,
+                                              len(self.term_counts.items()))), columns=unique_words_in_corpus)
+
+        fps = ["./testdata/wikipedia/bird.txt", "./testdata/wikipedia/cat.txt", "./testdata/wikipedia/dog.txt",
+        "./testdata/wikipedia/fish.txt", "./testdata/wikipedia/champaign.txt", "./testdata/wikipedia/chicago.txt",
+        "./testdata/wikipedia/uiuc.txt"]
+
+        print(self.file_paths) #empty?
+        for doc_id, file in enumerate(self.file_paths):
+            for i, word in enumerate(unique_words_in_corpus):
+                tf_data_frame[word][doc_id] = self.term_counts[word].get(file, 0)/self.total_terms_in_doc[file]
+                idf[word] = np.log10(self.num_docs/len(self.term_counts[word])+1)
+
+        tf_idf_data_frame = tf_data_frame.copy()
+        print(tf_idf_data_frame)
+
+        for word in unique_words_in_corpus:
+            for i in range(self.num_docs):
+                tf_idf_data_frame[word][i] = tf_data_frame[word][i] * idf[word]
+
+        tf_idf_vector = tf_idf_data_frame.sum(axis=0)
+        print(tf_idf_vector.to_numpy())
+        return tf_idf_vector.to_numpy()
+
     def apply_tf_transformation(self, tf_vector):
         """
         Applies bm25 tf-transformation, with k=5

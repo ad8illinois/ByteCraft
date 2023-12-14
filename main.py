@@ -7,13 +7,13 @@ from inverted_index import InvertedIndex
 from prob_dist import vector_to_prob_dist
 import json
 from util import term_vec_to_file
-from tokenization import create_tf_dict
+from tokenization import create_tf_dict, count_total_tokens_in_doc
 from issue_fetcher import IssueFetcher
 from similarity import euclidian_distance
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
 from scipy.sparse import csr_matrix
-from ml_model_definitions import knn_classification
+from ml_model_definitions import knn_classification, agglomerative_clustering
 import ast
 from urllib.parse import urlparse
 
@@ -87,23 +87,24 @@ def learn(index_file, output_dir):
     with open(os.path.join(output_dir, 'index.json'), 'w') as file:
         file.write(json.dumps(topic_documents, indent=2))
 
+    # Construct inverted index from all files in corpus
+    inverted_index = InvertedIndex()
+
     all_filepaths = []
-    filepaths = []
     for topic in topic_documents:
         for filepath in topic_documents[topic]:
             all_filepaths.append(filepath)
-            filepaths.append(filepath)
-    
-    # Construct inverted index from all files in corpus
-    inverted_index = InvertedIndex()
-    for filepath in filepaths:
+            inverted_index.file_paths.append(filepath)
+    print(inverted_index.file_paths)
+
+    for filepath in inverted_index.file_paths:
         inverted_index.add_document(filepath)
+        inverted_index.total_terms_in_doc[filepath] = count_total_tokens_in_doc(filepath)
     inverted_index.export_to_file(os.path.join(output_dir, 'inverted_index.txt'))
     terms = inverted_index.get_terms()
 
     # Write TF-IDF vectors for each file to the output_dir
     for i, original_filepath in enumerate(all_filepaths):
-    # for i, original_filepath in enumerate(all_filepaths):
         stem = Path(original_filepath).stem
 
         doc_tf = inverted_index.get_tf_vector(original_filepath)
@@ -119,8 +120,18 @@ def learn(index_file, output_dir):
     for topic in topic_documents:
         print(f'Creating tf-vector, prob-dist for topic: {topic}')
         topic_tf_vector = np.zeros((len(terms)))
-
+        total_docs = 0
         files_in_topic = topic_documents[topic]
+
+        # Count the document frequency for the entire corpus
+        doc_freq_vector = np.zeros((len(terms)))
+        for filepath in files_in_topic:
+            doc_freq_vector = doc_freq_vector + inverted_index.get_tf_vector(filepath, pseudo_counts=0)
+            total_docs += 1
+
+        # Compute IDF based on the entire corpus
+        # topic_idf_vector = inverted_index.compute_idf_vector(doc_freq_vector, total_docs)
+
         for filepath in files_in_topic:
             doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
             topic_tf_vector = topic_tf_vector + doc_tf_vector
@@ -129,20 +140,23 @@ def learn(index_file, output_dir):
             TODO: This topic_tf_idf_vector is not accurate.
             It doesn't count doc-frequency for the entire corpus, just within this topic
             """
-            # topic_tf_idf_vector = inverted_index.compute_tf_idf_transformation(topic_tf_vector)
-            topic_tf_idf_vector = inverted_index.apply_idf(doc_tf_vector)
-
-        topic_tf_idf_lm = vector_to_prob_dist(topic_tf_idf_vector)
-        topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
+            # topic_tf_idf_vector = inverted_index.apply_idf(doc_tf_vector)
 
         dir = os.path.join(output_dir, 'categories', topic)
         if not os.path.exists(dir):
             os.makedirs(dir)
 
+        doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
+        print("Writing tf-idf vector to npy file.....")
+        np.save(os.path.join(output_dir, 'tf-idf-transformation-vector.npy'), doc_tfidf_vector)
+
+        doc_tfidf_vector = vector_to_prob_dist(doc_tfidf_vector)
+        topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
+
         term_vec_to_file(terms, topic_tf_vector, os.path.join(dir, 'tf.txt'))
         term_vec_to_file(terms, topic_tf_lm, os.path.join(dir, 'tf_lm.txt'))
-        term_vec_to_file(terms, topic_tf_idf_vector, os.path.join(dir, 'tf_idf.txt'))
-        term_vec_to_file(terms, topic_tf_idf_lm, os.path.join(dir, 'tf_idf_lm.txt'))
+        term_vec_to_file(terms, doc_tfidf_vector, os.path.join(dir, 'tf_idf.txt'))
+        # term_vec_to_file(terms, topic_tf_idf_lm, os.path.join(dir, 'tf_idf_lm.txt'))
 
         np.save(os.path.join(dir, 'tf.npy'), topic_tf_vector)
         np.save(os.path.join(dir, 'tf_lm.npy'), topic_tf_lm)
@@ -182,13 +196,16 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
         click.echo(ctx.get_help())
         ctx.exit()
 
-
     # Read the inverted index, use it to get a tf-vector for the new input file
     inverted_index = InvertedIndex()
     inverted_index.load_from_file(os.path.join(learn_dir, 'inverted_index.txt'))
+
     doc_tf_dict = create_tf_dict(filepath)
-    doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
-    doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
+    # doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
+    # doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
+    doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
+    print("Compute tf idf called")
+
 
     # Load the vectors from all previously-learned files
     with open(os.path.join(learn_dir, 'index.json'), 'r') as file:
@@ -232,6 +249,11 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
     predicted_topic_index = knn[0]
     predicted_topic = topic_index_map[predicted_topic_index]
     print('KNN Classification Results:', predicted_topic)
+
+    # # Run Agglomerative Clustering
+    # tfidf_matrix = np.vstack(doc_tfidf_vector)
+    # clustering_labels = agglomerative_clustering(tfidf_matrix, 3)
+    # print('Agglomerative Clustering Results:', clustering_labels)
 
 
 if __name__ == '__main__':
