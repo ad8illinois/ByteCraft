@@ -52,38 +52,9 @@ def create_tf_dict(filepath: str):
 
     return tf_dict
 
-# if __name__ == '__main__':
-#     """
-#     """
-
-#     print()
-#     print('Calculating similarity matrix')
-
-#     # Calculate a similarity matrix
-#     distance_matrix = np.zeros((len(filepaths), len(filepaths)))
-#     for a, filepath_a in enumerate(filepaths):
-#         for b, filepath_b in enumerate(filepaths):
-#             vec_a = tf_vectors[filepath_a]
-#             vec_b = tf_vectors[filepath_b]
-
-#             # distance_matrix[a][b] =  1 - cosine_similarity(vec_a, vec_b)
-#             distance_matrix[a][b] = euclidian_distance(vec_a, vec_b)
-
-#     np.savetxt(os.path.join(output_base_dir, './distance_matrix.txt'), distance_matrix, fmt='%4f', delimiter=', ', newline='\n', header=', '.join(filepaths))
-
-#     # Agglomerative clustering
-#     print('Performing agglomerative clustering with 4 clusters')
-#     clustering = agglomerative_clustering(distance_matrix=distance_matrix, n_clusters=3)
-#     print('')
-#     print('Clustering Results:')
-
-#     for i, filepath in enumerate(filepaths):
-#         print(f"File: {filepath}  Cluster: {clustering[i]}")
-
-
-#     #  - Given a list of docs in a topic, calculate a unigram LM for that Topic
-#     #       -  Implement smoothing on the LM, so we get on-zero probabilities for every word in the topic
-#     #       -  Implement the Naive Bayes scoring function, given a topic LM and a doc, what's the log likelihood of generating that doc with that LM, usign bayes rule to account for the distribution of topics themselves
-#     #       -  Use the Naive bayes to classify any new doc into one of the pre-defined topics
-
-
+def count_total_tokens_in_doc(filepath: str):
+    """
+    Read a file, and compute the total number of terms in a given document
+    """
+    tokens = tokenize_file(filepath)
+    return len(tokens)
