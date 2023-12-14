@@ -23,6 +23,7 @@ class InvertedIndex:
         NOTE: this function is idempotent, there is no harm in indexing a document multiple times.
         """
         print(f'Adding document to inverted index: {filepath}')
+        self.file_paths.append(filepath)
         doc_term_counts = create_tf_dict(filepath)
         for term in doc_term_counts:
             if term not in self.term_counts:
@@ -109,11 +110,7 @@ class InvertedIndex:
         tf_data_frame = pd.DataFrame(np.zeros((self.num_docs,
                                               len(self.term_counts.items()))), columns=unique_words_in_corpus)
 
-        fps = ["./testdata/wikipedia/bird.txt", "./testdata/wikipedia/cat.txt", "./testdata/wikipedia/dog.txt",
-        "./testdata/wikipedia/fish.txt", "./testdata/wikipedia/champaign.txt", "./testdata/wikipedia/chicago.txt",
-        "./testdata/wikipedia/uiuc.txt"]
-
-        print(self.file_paths) #empty?
+        print(self.file_paths)
         for doc_id, file in enumerate(self.file_paths):
             for i, word in enumerate(unique_words_in_corpus):
                 tf_data_frame[word][doc_id] = self.term_counts[word].get(file, 0)/self.total_terms_in_doc[file]

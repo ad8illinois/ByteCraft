@@ -1,3 +1,5 @@
+import random
+from collections import Counter
 import click
 import tempfile
 from pathlib import Path
@@ -9,7 +11,7 @@ import json
 from util import term_vec_to_file
 from tokenization import create_tf_dict, count_total_tokens_in_doc
 from issue_fetcher import IssueFetcher
-from similarity import euclidian_distance
+from similarity import euclidian_distance, cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
 from scipy.sparse import csr_matrix
@@ -81,89 +83,95 @@ def learn(index_file, output_dir):
     if not os.path.exists(os.path.join(output_dir, 'categories')):
         os.makedirs(os.path.join(output_dir, 'categories'))
     
+    # Create training and evaluation datasets. 80% in training, 20% in evaluation.
     with open(index_file, 'r') as file:
         topic_documents = json.loads(file.read())
 
-    with open(os.path.join(output_dir, 'index.json'), 'w') as file:
-        file.write(json.dumps(topic_documents, indent=2))
+    training_topic_documents = {}
+    evaluation_topic_documents = {}
+    for topic in topic_documents:
+        docs = topic_documents[topic]
+        training = random.sample(docs, k=int(len(docs) * .8))
+        evaluation = [d for d in docs if d not in training]
 
+        training_topic_documents[topic] = training
+        evaluation_topic_documents[topic] = evaluation
+
+    with open(os.path.join(output_dir, 'training.json'), 'w') as file:
+        file.write(json.dumps(training_topic_documents, indent=2))
+    with open(os.path.join(output_dir, 'evaluation.json'), 'w') as file:
+        file.write(json.dumps(evaluation_topic_documents, indent=2))
+
+    training_filepaths = []
+    for topic in training_topic_documents:
+        for filepath in training_topic_documents[topic]:
+            training_filepaths.append(filepath)
+    
     # Construct inverted index from all files in corpus
     inverted_index = InvertedIndex()
-
-    all_filepaths = []
-    for topic in topic_documents:
-        for filepath in topic_documents[topic]:
-            all_filepaths.append(filepath)
-            inverted_index.file_paths.append(filepath)
-    print(inverted_index.file_paths)
-
-    for filepath in inverted_index.file_paths:
+    for filepath in training_filepaths:
         inverted_index.add_document(filepath)
         inverted_index.total_terms_in_doc[filepath] = count_total_tokens_in_doc(filepath)
     inverted_index.export_to_file(os.path.join(output_dir, 'inverted_index.txt'))
     terms = inverted_index.get_terms()
 
     # Write TF-IDF vectors for each file to the output_dir
-    for i, original_filepath in enumerate(all_filepaths):
-        stem = Path(original_filepath).stem
+    for filepath in training_filepaths:
+        print(f'Generating tf-idf for doc {filepath}')
+        stem = Path(filepath).stem
 
-        doc_tf = inverted_index.get_tf_vector(original_filepath)
+        doc_tf = inverted_index.get_tf_vector(filepath)
         doc_tf_idf = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf))
 
         term_vec_to_file(terms, doc_tf, os.path.join(output_dir, 'documents', stem + '_tf.txt'))
         np.save(os.path.join(output_dir, 'documents', stem + '_tf.npy'), doc_tf)
         
+        # Ben's manual naive tf-idf
         term_vec_to_file(terms, doc_tf_idf, os.path.join(output_dir, 'documents', stem + '_tf_idf.txt'))
         np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tf_idf)
 
-    # Create a tf-vector, prob-dist for each category
+        # Shivani's vectorized tf-idf
+        # @Shivani, this seems to run super slowly on real datasets. Is there any way to optimize it?
+        # doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
+        # np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
+
     for topic in topic_documents:
-        print(f'Creating tf-vector, prob-dist for topic: {topic}')
-        topic_tf_vector = np.zeros((len(terms)))
-        total_docs = 0
         files_in_topic = topic_documents[topic]
 
-        # Count the document frequency for the entire corpus
-        doc_freq_vector = np.zeros((len(terms)))
         for filepath in files_in_topic:
-            doc_freq_vector = doc_freq_vector + inverted_index.get_tf_vector(filepath, pseudo_counts=0)
-            total_docs += 1
-
-        # Compute IDF based on the entire corpus
-        # topic_idf_vector = inverted_index.compute_idf_vector(doc_freq_vector, total_docs)
-
-        for filepath in files_in_topic:
-            doc_tf_vector = inverted_index.get_tf_vector(filepath, pseudo_counts=0)
-            topic_tf_vector = topic_tf_vector + doc_tf_vector
-
-            """
-            TODO: This topic_tf_idf_vector is not accurate.
-            It doesn't count doc-frequency for the entire corpus, just within this topic
-            """
-            # topic_tf_idf_vector = inverted_index.apply_idf(doc_tf_vector)
-
-        dir = os.path.join(output_dir, 'categories', topic)
-        if not os.path.exists(dir):
-            os.makedirs(dir)
-
-        doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
-        print("Writing tf-idf vector to npy file.....")
-        np.save(os.path.join(output_dir, 'tf-idf-transformation-vector.npy'), doc_tfidf_vector)
-
-        doc_tfidf_vector = vector_to_prob_dist(doc_tfidf_vector)
-        topic_tf_lm = vector_to_prob_dist(topic_tf_vector)
-
-        term_vec_to_file(terms, topic_tf_vector, os.path.join(dir, 'tf.txt'))
-        term_vec_to_file(terms, topic_tf_lm, os.path.join(dir, 'tf_lm.txt'))
-        term_vec_to_file(terms, doc_tfidf_vector, os.path.join(dir, 'tf_idf.txt'))
-        # term_vec_to_file(terms, topic_tf_idf_lm, os.path.join(dir, 'tf_idf_lm.txt'))
-
-        np.save(os.path.join(dir, 'tf.npy'), topic_tf_vector)
-        np.save(os.path.join(dir, 'tf_lm.npy'), topic_tf_lm)
-        # np.save(os.path.join(dir, 'tf_idf.npy'), topic_tf_idf_vector)
-        # np.save(os.path.join(dir, 'tf_idf_lm.npy'), topic_tf_idf_lm)
-
-
+            print("Writing tf-idf vector to npy file.....")
+    
+    print('-----------')
+    print('Evaluation')
+    print('-----------')
+    correct = 0
+    total = 0
+    topic_results = {}
+    for topic in evaluation_topic_documents:
+        topic_results[topic]={
+            'correct': 0,
+            'total': 0,
+        }
+        for filepath in evaluation_topic_documents[topic]:
+            predicted_topic = classify_file(
+                learn_dir=output_dir,
+                filepath=filepath,
+                verbose=False
+            )
+            print(f'{filepath} - User {topic} - Predicted User {predicted_topic}')
+            if topic == predicted_topic:
+                correct = correct + 1
+                topic_results[topic]['correct']+= 1
+            total = total + 1
+            topic_results[topic]['total']+= 1
+    print('-----------')
+    print('Evaluation Accuracy')
+    for t in topic_results:
+        t_correct=topic_results[t]['correct']
+        t_total=topic_results[t]['total']
+        print(f"  {t}: {t_correct} / {t_total} = {t_correct / t_total}")
+    print(f'  overall: {correct} / {total} = {correct / total}')
+    print('-----------')
 
 @click.command()
 @click.option('--learn-dir', help='Folder generated from the "learn" step')
@@ -197,19 +205,68 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
         click.echo(ctx.get_help())
         ctx.exit()
 
-    # Read the inverted index, use it to get a tf-vector for the new input file
+    predicted_topic = classify_file(learn_dir, filepath, verbose)
+    print('Classification Results:', predicted_topic)
+
+    # Issue duplication detection
+    duplicates = find_duplicates(learn_dir, filepath,)
+    print('Duplicate docs: ', duplicates)
+   
+
+def find_duplicates(learn_dir, filepath):
+    inverted_index = InvertedIndex()
+    inverted_index.load_from_file(os.path.join(learn_dir, 'inverted_index.txt'))
+    doc_tf_dict = create_tf_dict(filepath)
+    doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
+    doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
+
+    similarity_threshold = 0.90  # Adjust the threshold as needed
+    duplicate_found = False
+    duplicate_issue = None
+
+    # Load the vectors from all previously-learned files
+    with open(os.path.join(learn_dir, 'training.json'), 'r') as file:
+        topic_documents = json.loads(file.read()) 
+
+    # Shape input data into KNN-compatible format
+    training_doc_filenames = []
+    training_docs = []
+    topic_index_map = {}  # Maps from the topic index back to the topic itself
+    for topic_index, topic in enumerate(topic_documents):
+        topic_index_map[topic_index] = topic
+        files_in_topic = topic_documents[topic]
+        for training_doc_filename in files_in_topic:
+            stem = Path(training_doc_filename).stem
+            training_doc_tfidf_vector = np.load(os.path.join(learn_dir, 'documents', f'{stem}_tf_idf.npy'))
+
+            training_doc_filenames.append(training_doc_filename)
+            training_docs.append(training_doc_tfidf_vector)
+
+    duplicate_docs = []
+    for i, training_doc in enumerate(training_docs):
+        similarity_score = cosine_similarity(training_doc, doc_tfidf_vector)
+        if similarity_score > similarity_threshold:
+            duplicate_issue = training_doc_filenames[i]
+            duplicate_docs.append(duplicate_issue)
+
+    return duplicate_docs
+
+def classify_file(learn_dir, filepath, verbose=False):
+     # Read the inverted index, use it to get a tf-vector for the new input file
     inverted_index = InvertedIndex()
     inverted_index.load_from_file(os.path.join(learn_dir, 'inverted_index.txt'))
 
     doc_tf_dict = create_tf_dict(filepath)
-    # doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
-    # doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
-    doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
+    doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
+    doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
+
+    # NOTE: @shivani, we can't load this from a file, not all docs evaluated will be in the training set
+    # doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
     print("Compute tf idf called")
 
 
     # Load the vectors from all previously-learned files
-    with open(os.path.join(learn_dir, 'index.json'), 'r') as file:
+    with open(os.path.join(learn_dir, 'training.json'), 'r') as file:
         topic_documents = json.loads(file.read()) 
 
     # Shape input data into KNN-compatible format
@@ -244,31 +301,31 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
         for s in distances:
             print(f"{s['filename']} {s['similarity']} - {s['topic']}")
         print('')
-
-    # Issue duplication detection
-    similarity_threshold = 0.99  # Adjust the threshold as needed
-    duplicate_found = False
-    duplicate_issue = None
-
-    print(doc_tfidf_vector)
-    print("training docs")
-    print(training_docs[0])
-    for i, training_doc in enumerate(training_docs):
-        similarity_score = euclidian_distance(training_doc, doc_tfidf_vector)
-        if similarity_score > similarity_threshold:
-            duplicate_found = True
-            duplicate_issue = training_doc_filenames[i]
-            break
-
-    if duplicate_found:
-        print(f'Similar issue found! Similar to: {duplicate_issue}')
-
     
-    # Run KNN
-    knn = knn_classification(2, training_docs, training_labels, [doc_tfidf_vector])
+
+    # Basic KNN using cosine similarity
+    distances = []
+    for i, training_doc in enumerate(training_docs):
+        distances.append({
+            'filename': training_doc_filenames[i],
+            'topic': topic_index_map[training_labels[i]],
+            'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
+        })
+    distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
+    top_n = distances[:5]
+    top_n_topics = [d['topic'] for d in top_n]
+    most_common = Counter(top_n_topics).most_common()
+    topic = most_common[0][0]
+    return topic
+    
+    # NOTE: This is our old implementation of KNN, using the scipy library
+    # NOTE: But after testing, it gives us really bad results compared to using our basic implementation above...
+    knn = knn_classification(5, training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = knn[0]
     predicted_topic = topic_index_map[predicted_topic_index]
-    print('KNN Classification Results:', predicted_topic)
+    return predicted_topic
+
+
 
     nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = nb[0]
