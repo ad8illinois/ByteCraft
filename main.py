@@ -13,7 +13,7 @@ from similarity import euclidian_distance
 from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
 from scipy.sparse import csr_matrix
-from ml_model_definitions import knn_classification, agglomerative_clustering
+from ml_model_definitions import knn_classification, agglomerative_clustering, naive_bayes_classification
 import ast
 from urllib.parse import urlparse
 
@@ -160,8 +160,8 @@ def learn(index_file, output_dir):
 
         np.save(os.path.join(dir, 'tf.npy'), topic_tf_vector)
         np.save(os.path.join(dir, 'tf_lm.npy'), topic_tf_lm)
-        np.save(os.path.join(dir, 'tf_idf.npy'), topic_tf_idf_vector)
-        np.save(os.path.join(dir, 'tf_idf_lm.npy'), topic_tf_idf_lm)
+        # np.save(os.path.join(dir, 'tf_idf.npy'), topic_tf_idf_vector)
+        # np.save(os.path.join(dir, 'tf_idf_lm.npy'), topic_tf_idf_lm)
 
 
 @click.command()
@@ -250,10 +250,10 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
     predicted_topic = topic_index_map[predicted_topic_index]
     print('KNN Classification Results:', predicted_topic)
 
-    # # Run Agglomerative Clustering
-    # tfidf_matrix = np.vstack(doc_tfidf_vector)
-    # clustering_labels = agglomerative_clustering(tfidf_matrix, 3)
-    # print('Agglomerative Clustering Results:', clustering_labels)
+    nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
+    predicted_topic_index = nb[0]
+    predicted_topic = topic_index_map[predicted_topic_index]
+    print('Naive Bayes Classification Results:', predicted_topic)
 
 
 if __name__ == '__main__':
