@@ -150,6 +150,7 @@ def learn(index_file, output_dir):
         np.save(os.path.join(dir, 'tf_idf_lm.npy'), topic_tf_idf_lm)
 
 
+
 @click.command()
 @click.option('--learn-dir', help='Folder generated from the "learn" step')
 @click.option('--api-token', help='Github API token')
@@ -226,8 +227,27 @@ def classify(learn_dir, api_token, github_issue, filepath, verbose):
         for s in distances:
             print(f"{s['filename']} {s['similarity']} - {s['topic']}")
         print('')
+
+    # Issue duplication detection
+    similarity_threshold = 0.99  # Adjust the threshold as needed
+    duplicate_found = False
+    duplicate_issue = None
+
+    print(doc_tfidf_vector)
+    print("training docs")
+    print(training_docs[0])
+    for i, training_doc in enumerate(training_docs):
+        similarity_score = euclidian_distance(training_doc, doc_tfidf_vector)
+        if similarity_score > similarity_threshold:
+            duplicate_found = True
+            duplicate_issue = training_doc_filenames[i]
+            break
+
+    if duplicate_found:
+        print(f'Similar issue found! Similar to: {duplicate_issue}')
+
     
-     # Run KNN
+    # Run KNN
     knn = knn_classification(2, training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = knn[0]
     predicted_topic = topic_index_map[predicted_topic_index]
