@@ -14,7 +14,7 @@ The 3 commands to download issues, learn categories, and run classification.
 GITHUB_API_TOKEN='replaceme'
 
 # Download issues for users
-python main.py download \
+python ./src/main.py download \
 --output-dir ./issues \
 --api-token $GITHUB_API_TOKEN \
 --project-url 'https://github.com/nrwl/nx' \
@@ -22,12 +22,12 @@ python main.py download \
 --limit 10
 
 # Learn categories
-python main.py learn \
+python ./src/main.py learn \
 --index-file ./issues/index.json \
 --output-dir ./categories
 
 # Classify
-python main.py classify  \
+python ./src/main.py classify  \
 --learn-dir ./output \
 --output-dir ./issues \
 --api-token <replaceme> \
@@ -42,14 +42,14 @@ The first step in the classification system is downloading historical issues fro
 To download issues, generate a Github Personal Access Token following the instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 
 The download step involves:
-1. Find the top 5 contributors for a repo (if no users  are provided)
+1. Find the top 5 contributors for a repo (if no users are provided)
 2. Look at the N most recent issues in the repo
 3. Download any issues which are relevant to the given users
 4. Create an `index.json` file, mapping issue txt files to their respective user (category)
 
 To run the download step, use the `download` command:
 ```
-% python main.py download
+% python ./src/main.py download
 Usage: main.py download [OPTIONS]
 
 Options:
@@ -64,7 +64,7 @@ Options:
 
 Example usage, for the nrlw/nx repository:
 ```
-python main.py download \
+python ./src/main.py download \
 --output-dir ./issues \
 --api-token <replaceme> \
 --project-url 'https://github.com/nrwl/nx' \
@@ -110,7 +110,7 @@ The second step in classification is learning what each category looks like.  In
 
 To run the learning step, use the `learn` command
 ```
-% python main.py learn
+% python ./src/main.py learn
 Usage: main.py learn [OPTIONS]
 
   Do topic modeling on a set of input text files with known classifications.
@@ -126,7 +126,7 @@ Options:
 
 Example usage:
 ```
-% python main.py learn \
+% python ./src/main.py learn \
 --index-file ./issues/index.json \
 --output-dir ./output
 
@@ -165,7 +165,7 @@ Now, the final step of classification is to:
   
 For this step, we have the `classify` command:
 ```
-% python main.py classify
+% python ./src/main.py classify
 Usage: main.py classify [OPTIONS]
 
 Options:
@@ -178,7 +178,7 @@ Options:
 
 Example usage:
 ```
-% python main.py classify  \
+% python ./src/main.py classify  \
 --learn-dir ./output \
 --output-dir ./issues \
 --api-token <replaceme> \
