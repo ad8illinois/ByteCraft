@@ -90,6 +90,7 @@ We used Python for our project, because of the availability of libraries common 
       - Naive Bayes
     
   The output should look like:
+  ```
   Filepath: ./data/issues/503.txt  Topic: NetanelBasal  Similarity: 1.0
   Filepath: ./data/issues/496.txt  Topic: NetanelBasal  Similarity: 0.0915722322675805
   Filepath: ./data/issues/493.txt  Topic: EricPoul  Similarity: 0.08406253459296453
@@ -97,6 +98,7 @@ We used Python for our project, because of the availability of libraries common 
   Classification Results: NetanelBasal
   Duplicate issue found: ./data/issues/503.txt 1.0
   Duplicate docs:  ['./data/issues/503.txt']
+  ```
 
 ## Usage
 
@@ -308,9 +310,10 @@ Example usage:
     --api-token $GITHUB_API_TOKEN \
     --github-issue  https://github.com/ngneat/elf/issues/503 \
     --verbose
+```
 
 The output should look like:
-
+```
 Filepath: ./data/issues/503.txt  Topic: NetanelBasal  Similarity: 1.0
 Filepath: ./data/issues/496.txt  Topic: NetanelBasal  Similarity: 0.0915722322675805
 Filepath: ./data/issues/493.txt  Topic: EricPoul  Similarity: 0.08406253459296453
