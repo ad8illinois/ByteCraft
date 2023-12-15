@@ -6,16 +6,13 @@ from pathlib import Path
 import os
 import numpy as np
 from inverted_index import InvertedIndex
-from prob_dist import vector_to_prob_dist
 import json
 from util import term_vec_to_file
 from tokenization import create_tf_dict, count_total_tokens_in_doc
 from issue_fetcher import IssueFetcher
 from similarity import euclidian_distance, cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
 from github_issues_API import GithubClient
-from scipy.sparse import csr_matrix
-from ml_model_definitions import knn_classification, agglomerative_clustering, naive_bayes_classification
+from ml_model_definitions import knn_classification, naive_bayes_classification
 import ast
 from urllib.parse import urlparse
 
@@ -131,9 +128,10 @@ def learn(index_file, output_dir):
         np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tf_idf)
 
         # Shivani's vectorized tf-idf
-        # @Shivani, this seems to run super slowly on real datasets. Is there any way to optimize it?
-        # doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
-        # np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
+        # TODO: @Shivani, this seems to run super slowly on real datasets. Is there any way to optimize it?
+        # 
+        doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
+        np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
 
     for topic in topic_documents:
         files_in_topic = topic_documents[topic]
@@ -220,7 +218,7 @@ def find_duplicates(learn_dir, filepath):
     doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
     doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
 
-    similarity_threshold = 0.90  # Adjust the threshold as needed
+    similarity_threshold = 0.9  # Adjust the threshold as needed
     duplicate_found = False
     duplicate_issue = None
 
@@ -248,6 +246,7 @@ def find_duplicates(learn_dir, filepath):
         if similarity_score > similarity_threshold:
             duplicate_issue = training_doc_filenames[i]
             duplicate_docs.append(duplicate_issue)
+            print(f"Duplicate issue found: {duplicate_issue} {similarity_score}")
 
     return duplicate_docs
 
@@ -261,8 +260,7 @@ def classify_file(learn_dir, filepath, verbose=False):
     doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
 
     # NOTE: @shivani, we can't load this from a file, not all docs evaluated will be in the training set
-    # doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
-    print("Compute tf idf called")
+    doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
 
 
     # Load the vectors from all previously-learned files
@@ -304,33 +302,31 @@ def classify_file(learn_dir, filepath, verbose=False):
     
 
     # Basic KNN using cosine similarity
-    distances = []
-    for i, training_doc in enumerate(training_docs):
-        distances.append({
-            'filename': training_doc_filenames[i],
-            'topic': topic_index_map[training_labels[i]],
-            'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
-        })
-    distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
-    top_n = distances[:5]
-    top_n_topics = [d['topic'] for d in top_n]
-    most_common = Counter(top_n_topics).most_common()
-    topic = most_common[0][0]
-    return topic
+    # distances = []
+    # for i, training_doc in enumerate(training_docs):
+    #     distances.append({
+    #         'filename': training_doc_filenames[i],
+    #         'topic': topic_index_map[training_labels[i]],
+    #         'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
+    #     })
+    # distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
+    # top_n = distances[:5]
+    # top_n_topics = [d['topic'] for d in top_n]
+    # most_common = Counter(top_n_topics).most_common()
+    # predicted_topic = most_common[0][0]
     
-    # NOTE: This is our old implementation of KNN, using the scipy library
-    # NOTE: But after testing, it gives us really bad results compared to using our basic implementation above...
-    knn = knn_classification(5, training_docs, training_labels, [doc_tfidf_vector])
-    predicted_topic_index = knn[0]
-    predicted_topic = topic_index_map[predicted_topic_index]
-    return predicted_topic
-
+    # # NOTE: This is our old implementation of KNN, using the scipy library
+    # # NOTE: But after testing, it gives us really bad results compared to using our basic implementation above...
+    # knn = knn_classification(5, training_docs, training_labels, [doc_tfidf_vector])
+    # predicted_topic_index = knn[0]
+    # predicted_topic = topic_index_map[predicted_topic_index]
 
 
     nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = nb[0]
     predicted_topic = topic_index_map[predicted_topic_index]
-    print('Naive Bayes Classification Results:', predicted_topic)
+
+    return predicted_topic
 
 
 if __name__ == '__main__':
