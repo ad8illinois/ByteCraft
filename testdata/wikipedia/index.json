@@ -1,13 +1,13 @@
 {
     "animals": [
-        "./testdata/wikipedia/bird.txt",
-        "./testdata/wikipedia/cat.txt",
-        "./testdata/wikipedia/dog.txt",
-        "./testdata/wikipedia/fish.txt"
+        "./testdata/wikipedia/pages/bird.txt",
+        "./testdata/wikipedia/pages/cat.txt",
+        "./testdata/wikipedia/pages/dog.txt",
+        "./testdata/wikipedia/pages/fish.txt"
     ],
     "places": [
-        "./testdata/wikipedia/champaign.txt",
-        "./testdata/wikipedia/chicago.txt",
-        "./testdata/wikipedia/uiuc.txt"
+        "./testdata/wikipedia/pages/champaign.txt",
+        "./testdata/wikipedia/pages/chicago.txt",
+        "./testdata/wikipedia/pages/uiuc.txt"
     ]
 }

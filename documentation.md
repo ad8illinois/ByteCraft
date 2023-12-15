@@ -8,40 +8,62 @@
 
 ## Usage
 
+### Setup and dependencies
+Native python (recommended)
+```
+python -m venv venv
+source venv/bin/activate
+
+pip install -r ./requirements.txt
+python -c "import nltk; nltk.download('popular')"
+```
+
+Docker
+```
+docker build -t github-triage .
+
+# In any further docs in this file, instead of:
+  python src/main.py <command> --data-dir ./data ...
+
+# Write:
+  docker run -v $PWD/data:/data github-triage <command> --data-dir /data ...
+```
+
 ### Quick Start - Example
-The 3 commands to download issues, learn categories, and run classification.
+Before you start, you will need to generate a Github Personal Access Token. Docs can be found here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 ```
 GITHUB_API_TOKEN='replaceme'
-
-# Download issues for users
-python ./src/main.py download \
---output-dir ./issues \
---api-token $GITHUB_API_TOKEN \
---project-url 'https://github.com/nrwl/nx' \
---users 'eladhaim,heike2718' \
---limit 10
-
-# Learn categories
-python ./src/main.py learn \
---index-file ./issues/index.json \
---output-dir ./categories
-
-# Classify
-python ./src/main.py classify  \
---learn-dir ./output \
---output-dir ./issues \
---api-token <replaceme> \
---github-issue "https://github.com/nrwl/nx/issues/20583"
-
 ```
-For a more detailed explanation of each command, keep reading below.
+
+Step 1: Download issues from Github
+```
+$ python ./src/main.py download \
+    --data-dir ./data \
+    --api-token $GITHUB_API_TOKEN \
+    --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
+    --project-url 'https://github.com/ngneat/elf'
+```
+
+Step 2: Preprocess training dataset
+```
+python src/main.py learn --data-dir ./data
+```
+
+Step 3: Classify new issues (also looks for duplicate issues)
+```
+python ./src/main.py classify \
+    --data-dir ./data \
+    --api-token $GITHUB_API_TOKEN \
+    --github-issue  https://github.com/ngneat/elf/issues/503
+```
+For a more detailed explanation of what each command does, keep reading below.
 
 ### Step 1 - Download training data
 The first step in the classification system is downloading historical issues from a Github repo, which becomes our training dataset. 
 
 To download issues, generate a Github Personal Access Token following the instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 
-The download step involves:
+The download step performs these tasks:
 1. Find the top 5 contributors for a repo (if no users are provided)
 2. Look at the N most recent issues in the repo
 3. Download any issues which are relevant to the given users
@@ -53,7 +75,7 @@ To run the download step, use the `download` command:
 Usage: main.py download [OPTIONS]
 
 Options:
-  --output-dir TEXT   Folder to store issues in
+  --data-dir TEXT     Folder to store issues, vectors
   --api-token TEXT    Github API token
   --project-url TEXT  Full url to the project on github
   --users TEXT        Comma-separated list of users. Defaults to top 5
@@ -65,11 +87,11 @@ Options:
 Example usage, for the nrlw/nx repository:
 ```
 python ./src/main.py download \
---output-dir ./issues \
---api-token <replaceme> \
---project-url 'https://github.com/nrwl/nx' \
---users 'eladhaim,heike2718' \
---limit 10
+  --data-dir ./data \
+  --api-token $GITHUB_API_TOKEN \
+  --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
+  --project-url 'https://github.com/ngneat/elf' \
+  --limit 10
 
 Owner: nrwl, Repo: nx
 Fetching issues, page: 1
@@ -92,73 +114,80 @@ Additionally, an index file will be created at `./issues/index.json`, which maps
 
 Example output folder structure:
 ```
-- main.py
-- issues/
-    - 20670.txt
-    - 20672.txt
-    - 20676.txt
-    - 20678.txt
-    - index.json
+$data_dir/
+  - issues/
+      - 20670.txt  # Full text and comments of issue 20670
+      - 20672.txt
+      - 20676.txt
+      - 20678.txt
+  - index.json  # Index of all issue files, maps each file to a relevant user
 ```
 
 ### Step 2 - Learn categories
-The second step in classification is learning what each category looks like.  In the learning step, we:
+The second step in classification is mapping documents into vector representations which we can compare.  In the learning step, we:
 1. Tokenize all input files, and initialize bag-of-words vector dimensions
 2. Create a term-frequency inverted-index for all files in the corpus
-3. Calculate maximum-likelihood estimator LM's for each document and category
-3. Calculate TF-IDF vectors for each document and category
+3. Calculate TF-IDF vectors for each document
+4. Trial-run our classification algorithms, calculate accuracy for our training data-set
+
+This learning step ONLY indexes 80% of the files in the corpus (selected randomly). The remaining 20% are used as an evaluation dataset.
 
 To run the learning step, use the `learn` command
 ```
 % python ./src/main.py learn
 Usage: main.py learn [OPTIONS]
 
-  Do topic modeling on a set of input text files with known classifications.
+  Index 80% of the files in the corpus, and create tf-idf vector
+  representations for all files.
 
-  Estimates a ML Unigram LM for each topic given, and writes the LMs to an
-  output directory.
+  Run classification on 20% of the files, calculate accuracy.
 
 Options:
-  --index-file TEXT  Path to index file
-  --output-dir TEXT  Folder to store output files
-  --help             Show this message and exit.
+  --data-dir TEXT  Folder to store issues, vectors
+  --help           Show this message and exit.
 ```
 
 Example usage:
 ```
-% python ./src/main.py learn \
---index-file ./issues/index.json \
---output-dir ./output
+% python ./src/main.py learn --data-dir ./data
 
-Adding document to inverted index: ./issues/20676.txt
-Adding document to inverted index: ./issues/20672.txt
-Creating tf-vector, prob-dist for topic: heike2718
-Creating tf-vector, prob-dist for topic: eladhaim
+Adding document to inverted index: ./data/issues/490.txt
+Adding document to inverted index: ./data/issues/496.txt
+Adding document to inverted index: ./data/issues/503.txt
+Adding document to inverted index: ./data/issues/493.txt
+Generating tf-idf for doc ./data/issues/490.txt
+Generating tf-idf for doc ./data/issues/496.txt
+Generating tf-idf for doc ./data/issues/503.txt
+Generating tf-idf for doc ./data/issues/493.txt
+-----------
+Evaluation
+-----------
+./data/issues/487.txt - User NetanelBasal - Predicted User NetanelBasal
+./data/issues/492.txt - User EricPoul - Predicted User NetanelBasal
+-----------
+Evaluation Accuracy
+  NetanelBasal: 1 / 1 = 1.0
+  EricPoul: 0 / 1 = 0.0
+  overall: 1 / 2 = 0.5
 ```
 
 The output files generated should look like:
 ```
-- main.py
-- $output_dir/
-    - categories/
-        - $category/
-            - tf.txt          # Count of all terms in this category's documents
-            - tf_lm.txt       # Probability distribution generated from tf.txt
-            - tf_idf.txt      # Count of all terms in this category, with IDF weighting applied
-            - tf_idf_lm.txt   # Probability distribution generated from tf_idf.txt
-            - $filename.npy   # numpy-compatible serialization of the .txt file with the same name
-    - documents/
-      - $filename_tf.txt      # Count of all terms in this document
-      - $filename_tf_idf.txt  # Count of terms, with IDF weighting applied
-      - $filename.npy         # numpy-compatible serialization of the .txt file with the same name
-    - inverted_index.txt      # Term-Frequency inverted index used internally for learning
+$DATA_DIR/
+  - documents/
+    - $ISSUE_NUMBER_tf.txt      # Count of all terms in this issue
+    - $ISSUE_NUMBER_tf_idf.txt  # Count of terms, with IDF weighting applied
+    ...
+    - $FILENAME.npy             # Numpy-compatible serialization of the .txt file with the same name
+  - inverted_index.txt          # Term-Frequency inverted index
+  - training.json               # Index of files used for training
+  - evaluation.json             # Index of files used for evaluation
 ```
 
 ### Step 3 - Classify new Documents
-
 Now, the final step of classification is to:
-1. Read a new input file
-2. Tokenize the input file, create a bag-of-words vector with the same dimensions as our training data
+1. Download a new github issue
+2. Tokenize the issue, create a bag-of-words vector with the same dimensions as our training data
 3. Use any classification algorithm to classify it into one of the learned categories
     - KNN
     - Naive Bayes
@@ -169,23 +198,32 @@ For this step, we have the `classify` command:
 Usage: main.py classify [OPTIONS]
 
 Options:
-  --learn-dir TEXT  Folder generated from the "learn" step
-  --output-dir TEXT   Folder where new issue will be stored, should be same as the output_dir used in the "download" step
-  --api-token TEXT    Github API token
+  --data-dir TEXT      Folder to store issues, vectors
+  --api-token TEXT     Github API token
   --github-issue TEXT  GitHub issue URL or issue number to classify
-  --help            Show this message and exit.
+  --filepath TEXT      File to classify. If given, ignores github-issue and
+                       api-token
+  --verbose            If defined,
+  --help               Show this message and exit.
 ```
 
 Example usage:
 ```
-% python ./src/main.py classify  \
---learn-dir ./output \
---output-dir ./issues \
---api-token <replaceme> \
---github-issue "https://github.com/nrwl/nx/issues/20583"
+% python ./src/main.py classify \
+    --data-dir ./data \
+    --api-token $GITHUB_API_TOKEN \
+    --github-issue  https://github.com/ngneat/elf/issues/503 \
+    --verbose
 
-Similarity with category eladhaim: 0.9325790152296436
-Similarity with category heike2718: 0.7771994252477538
+Euclidean distances: 
+./data/issues/503.txt 0.0 - NetanelBasal
+./data/issues/496.txt 22.148671156102935 - NetanelBasal
+./data/issues/490.txt 24.302510198043095 - NetanelBasal
+./data/issues/493.txt 27.928345601321087 - EricPoul
+
+Classification Results: NetanelBasal
+Duplicate issue found: ./data/issues/503.txt 1.0
+Duplicate docs:  ['./data/issues/503.txt']
 ```
 
 ## Team Member Contributions

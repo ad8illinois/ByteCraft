@@ -12,31 +12,6 @@ Yogi Patel (ypatel55)
 ## Usage
 Complete usage directions and details can be found here: [documentation.md](https://github.com/ad8illinois/ByteCraft/blob/master/documentation.md) 
 
-### Docker
-The easiest way to get started is to use the included docker container
-```
-docker build -t github-triage .
-
-GITHUB_API_TOKEN='replaceme'
-
-# Step 1: Download past issues
-docker run -v $PWD/data:/data github-triage download \
-    --output-dir /data/issues \
-    --api-token $GITHUB_API_TOKEN \
-    --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
-    --project-url 'https://github.com/ngneat/elf'
-
-# Step 2: Learn issue categories (users)
-docker run -v $PWD/data:/data github-triage learn \
-    --index-file /data/issues/index.json \
-    --output-dir /data/output
-
-# Step 3: Run classification on new issues
-docker run -v $PWD/data:/data github-triage classify \
-    --learn-dir /data/output \
-    --api-token $GITHUB_API_TOKEN \
-    --github-issue  https://github.com/ngneat/elf/issues/503
-```
 
 ### Native (without Docker)
 Create a python venv, install dependencies:
@@ -52,19 +27,36 @@ Then run the commands below:
 ```
 GITHUB_API_TOKEN='replaceme'
 
-# Step 1: Download issues from Github
-python ./src/main.py download \
+python src/main.py download \
     --data-dir ./data \
+    --api-token $GITHUB_API_TOKEN \
+    --project-url 'https://github.com/keras-team/keras'
+
+python src/main.py learn --data-dir ./data
+
+python src/main.py classify \
+    --data-dir ./data \
+    --api-token $GITHUB_API_TOKEN \
+    --github-issue https://github.com/keras-team/keras/issues/18943
+```
+
+### Docker
+We also provide a dockerfile, so you can run these commands in docker.
+
+```
+GITHUB_API_TOKEN='replaceme'
+
+docker build -t github-triage .
+
+docker run -v $PWD/data:/data github-triage download \
+    --data-dir /data \
     --api-token $GITHUB_API_TOKEN \
     --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
     --project-url 'https://github.com/ngneat/elf'
 
-# Step 2: Learn issue categories (users)
-python ./src/main.py learn --data-dir ./data
+docker run -v $PWD/data:/data github-triage learn --data-dir /data
 
-# Step 3: Classify an issue from Github
-python ./src/main.py classify \
-    --data-dir ./data \
+docker run -v $PWD/data:/data github-triage classify \
+    --data-dir /data \
     --api-token $GITHUB_API_TOKEN \
     --github-issue  https://github.com/ngneat/elf/issues/503
-```

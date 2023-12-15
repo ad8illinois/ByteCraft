@@ -64,9 +64,9 @@ def download(data_dir, api_token, project_url, users, limit):
 @click.option('--data-dir', help='Folder to store issues, vectors')
 def learn(data_dir):
     """
-    Do topic modeling on a set of input text files with known classifications.
+    Index 80% of the files in the corpus, and create tf-idf vector representations for all files.
 
-    Estimates a ML Unigram LM for each topic given, and writes the LMs to an output directory.
+    Run classification on 20% of the files, calculate accuracy.
     """
     if data_dir is None:
         ctx = click.get_current_context()
