@@ -17,7 +17,7 @@ We used Python for our project, because of the availability of libraries common 
 
 ## Usage
 
-### Setup and dependencies
+### Setup and Dependencies
 Native python (recommended)
 ```
 python -m venv venv
@@ -193,7 +193,7 @@ $DATA_DIR/
   - evaluation.json             # Index of files used for evaluation
 ```
 
-### Step 3 - Classify new Documents
+### Step 3 - Classify new documents
 Now, the final step of classification is to:
 1. Download a new github issue
 2. Tokenize the issue, create a bag-of-words vector with the same dimensions as our training data
