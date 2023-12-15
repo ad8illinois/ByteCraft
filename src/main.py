@@ -123,15 +123,8 @@ def learn(index_file, output_dir):
         term_vec_to_file(terms, doc_tf, os.path.join(output_dir, 'documents', stem + '_tf.txt'))
         np.save(os.path.join(output_dir, 'documents', stem + '_tf.npy'), doc_tf)
         
-        # Ben's manual naive tf-idf
         term_vec_to_file(terms, doc_tf_idf, os.path.join(output_dir, 'documents', stem + '_tf_idf.txt'))
         np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tf_idf)
-
-        # Shivani's vectorized tf-idf
-        # TODO: @Shivani, this seems to run super slowly on real datasets. Is there any way to optimize it?
-        # 
-        # doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
-        # np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
 
     for topic in topic_documents:
         files_in_topic = topic_documents[topic]
@@ -251,17 +244,13 @@ def find_duplicates(learn_dir, filepath):
     return duplicate_docs
 
 def classify_file(learn_dir, filepath, verbose=False):
-     # Read the inverted index, use it to get a tf-vector for the new input file
+    # Read the inverted index, use it to get a tf-vector for the new input file
     inverted_index = InvertedIndex()
     inverted_index.load_from_file(os.path.join(learn_dir, 'inverted_index.txt'))
 
     doc_tf_dict = create_tf_dict(filepath)
     doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
     doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
-
-    # # NOTE: @shivani, we can't load this from a file, not all docs evaluated will be in the training set
-    # doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
-
 
     # Load the vectors from all previously-learned files
     with open(os.path.join(learn_dir, 'training.json'), 'r') as file:
@@ -299,28 +288,6 @@ def classify_file(learn_dir, filepath, verbose=False):
         for s in distances:
             print(f"{s['filename']} {s['similarity']} - {s['topic']}")
         print('')
-    
-
-    # Basic KNN using cosine similarity
-    # distances = []
-    # for i, training_doc in enumerate(training_docs):
-    #     distances.append({
-    #         'filename': training_doc_filenames[i],
-    #         'topic': topic_index_map[training_labels[i]],
-    #         'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
-    #     })
-    # distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
-    # top_n = distances[:5]
-    # top_n_topics = [d['topic'] for d in top_n]
-    # most_common = Counter(top_n_topics).most_common()
-    # predicted_topic = most_common[0][0]
-    
-    # # NOTE: This is our old implementation of KNN, using the scipy library
-    # # NOTE: But after testing, it gives us really bad results compared to using our basic implementation above...
-    # knn = knn_classification(5, training_docs, training_labels, [doc_tfidf_vector])
-    # predicted_topic_index = knn[0]
-    # predicted_topic = topic_index_map[predicted_topic_index]
-
 
     nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
     predicted_topic_index = nb[0]

@@ -1,10 +1,6 @@
 # This is code to connect with the Github REST APIs. 
 # The code takes repository information as an input and writes the issues to a text file.
 
-# Example repos: keras and nx
-# https://github.com/keras-team/keras
-# https://github.com/nrwl/nx
-
 import requests
 
 # GitHub API and repository information
