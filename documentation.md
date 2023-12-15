@@ -1,10 +1,19 @@
 # ByteCraft Documentation
 
 ## Overview of the Function of the Code
-- An overview of the function of the code (i.e., what it does and what it can be used for).
+VCS platforms like Github and Gitlab serve a variety of key functions in the open source community - code versioning, issue tracking, project documentation, communication, automation, and more. 
+However, the size and scope of many open source projects today creates significant challenges in the area of task management and issue tracking.
+
+This project is a command-line utility for triage of github issues.
+
+The function of the code is to use Text Retrieval algorithms to triage new Github issues to the project maintainer who has the most knowledge on that issue, while also detecting duplicate or high-similarity issues in a large project. 
 
 ## Implementation
 - Documentation of how the software is implemented with sufficient detail so that others can have a basic understanding of your code for future extension or any further improvement. 
+
+We used Python for our project, because of the availability of libraries common in NLP and TR (like numpy, metapy, etc).
+
+...
 
 ## Usage
 
