@@ -1,5 +1,4 @@
 import math
-
 from tokenization import create_tf_dict, count_total_tokens_in_doc
 import numpy as np
 import pandas as pd
@@ -95,10 +94,6 @@ class InvertedIndex:
                 term_counts_json = line.split(' - ')[1]
                 term_counts = json.loads(term_counts_json)
                 self.term_counts[token] = term_counts
-                # term_counts = {
-                #illinoisuniversity : {"./testdata/wikipedia/uiuc.txt": 2, ...},
-                # 20:35 : {"./testdata/wikipedia/uiuc.txt": 1}
-                # }
 
     def compute_tf_idf_vector(self):
 
@@ -130,19 +125,13 @@ class InvertedIndex:
     def apply_tf_transformation(self, tf_vector):
         """
         Applies bm25 tf-transformation, with k=5
-
-        TODO: Investigate performance of different tf-transformation functions, like BM25
         """
-        # return np.log(tf_vector, out=np.zeros_like(tf_vector), where=(tf_vector==0)) # NOTe: np.log is actually the natural log
-
         k=5
         return (tf_vector * (k+1)) / (tf_vector + k)
     
     def apply_idf(self, tf_vector):
         """
         Applies idf normalization to the given tf-vector
-
-        TODO: pre-compose the idf_vector, because technically it's the same for all tf_vectors.
         """
         doc_freq_vector = np.zeros(len(self.term_counts))
         for i, term in enumerate(self.term_counts):
