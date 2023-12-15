@@ -1,8 +1,14 @@
 # Bytecraft - Github issue triage
-Final presentation can be found here: [add video title and link]() \
+Final presentation can be found here: [add video title and link]() 
+
+## Team Members
+Ben Sivoravong (bs62) 
+Shivani Mangaleswaran (sm131)
+Annamika Dua (ad8)
+Yogi Patel (ypatel55):
 
 ## Usage
-Complete usage directions can be found here: [documentation.md](https://github.com/ad8illinois/ByteCraft/blob/master/documentation.md) \
+Complete usage directions can be found here: [documentation.md](https://github.com/ad8illinois/ByteCraft/blob/master/documentation.md) 
 
 Create a python venv, install dependencies:
 ```
