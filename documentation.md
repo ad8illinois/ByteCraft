@@ -23,19 +23,19 @@ The function of the code is to use Text Retrieval algorithms to triage new Githu
 We used Python for our project, because of the availability of libraries common in NLP and TR.
 
 ### Packages used: 
-- numpy [NumPy](https://numpy.org/doc/)
-- nltk [NLTK](https://www.nltk.org/index.html)
-- sklearn [Scikit-learn](https://scikit-learn.org/stable/)
-- requests [Requests](https://pypi.org/project/requests/)
-- click [Click](https://click.palletsprojects.com/en/8.1.x/)
-- pathlib [pathlib](https://docs.python.org/3/library/pathlib.html)
-- urllib [urllib](https://docs.python.org/3/library/urllib.html)
+- [NumPy](https://numpy.org/doc/)
+- [NLTK](https://www.nltk.org/index.html)
+- [Scikit-learn](https://scikit-learn.org/stable/)
+- [Requests](https://pypi.org/project/requests/)
+- [Click](https://click.palletsprojects.com/en/8.1.x/)
+- [pathlib](https://docs.python.org/3/library/pathlib.html)
+- [urllib](https://docs.python.org/3/library/urllib.html)
 
 ### Classification Algorithms used:
-- KNN [KNN](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
-- Naive Bayes [Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html)
+- [KNN](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+- [Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html)
 
-### Features
+### Features:
 
 #### Download: The first step in the classification system is downloading historical issues from a Github repo, which becomes our training dataset.
   The download step performs these tasks:
