@@ -4,10 +4,10 @@ A command-line utility for triage of github issues.
 Final presentation can be found here: [add video title and link]() 
 
 ## Team Members
-Ben Sivoravong (bs62) 
-Shivani Mangaleswaran (sm131)
-Annamika Dua (ad8)
-Yogi Patel (ypatel55)
+Ben Sivoravong (bs62)\ 
+Shivani Mangaleswaran (sm131)\
+Annamika Dua (ad8)\
+Yogi Patel (ypatel55)\
 
 ## Usage
 Complete usage directions and details can be found here: [documentation.md](https://github.com/ad8illinois/ByteCraft/blob/master/documentation.md) 
