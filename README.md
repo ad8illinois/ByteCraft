@@ -54,19 +54,17 @@ GITHUB_API_TOKEN='replaceme'
 
 # Step 1: Download issues from Github
 python ./src/main.py download \
-    --output-dir ./issues \
+    --data-dir ./data \
     --api-token $GITHUB_API_TOKEN \
     --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
     --project-url 'https://github.com/ngneat/elf'
 
 # Step 2: Learn issue categories (users)
-python src/main.py learn \
-    --index-file ./issues/index.json \
-    --output-dir ./output
+python src/main.py learn --data-dir ./data
 
 # Step 3: Classify an issue from Github
 python ./src/main.py classify \
-    --learn-dir ./output \
+    --data-dir ./data \
     --api-token $GITHUB_API_TOKEN \
     --github-issue  https://github.com/ngneat/elf/issues/503
 ```
