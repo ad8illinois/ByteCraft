@@ -130,8 +130,8 @@ def learn(index_file, output_dir):
         # Shivani's vectorized tf-idf
         # TODO: @Shivani, this seems to run super slowly on real datasets. Is there any way to optimize it?
         # 
-        doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
-        np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
+        # doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
+        # np.save(os.path.join(output_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
 
     for topic in topic_documents:
         files_in_topic = topic_documents[topic]
@@ -259,8 +259,8 @@ def classify_file(learn_dir, filepath, verbose=False):
     doc_tf_vector = inverted_index.tf_dict_to_vector(doc_tf_dict, pseudo_counts=0) # TODO: replace with tf-idf
     doc_tfidf_vector = inverted_index.apply_idf(inverted_index.apply_tf_transformation(doc_tf_vector))
 
-    # NOTE: @shivani, we can't load this from a file, not all docs evaluated will be in the training set
-    doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
+    # # NOTE: @shivani, we can't load this from a file, not all docs evaluated will be in the training set
+    # doc_tfidf_vector = np.load(os.path.join(learn_dir, 'tf-idf-transformation-vector.npy'))
 
 
     # Load the vectors from all previously-learned files
