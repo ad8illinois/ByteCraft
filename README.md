@@ -60,7 +60,7 @@ python ./src/main.py download \
     --project-url 'https://github.com/ngneat/elf'
 
 # Step 2: Learn issue categories (users)
-python src/main.py learn --data-dir ./data
+python ./src/main.py learn --data-dir ./data
 
 # Step 3: Classify an issue from Github
 python ./src/main.py classify \
