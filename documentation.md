@@ -227,7 +227,12 @@ Duplicate docs:  ['./data/issues/503.txt']
 ```
 
 ## Team Member Contributions
-Ben Sivoravong (bs62): 
-Shivani Mangaleswaran (sm131):
-Annamika Dua (ad8):
-Yogi Patel (ypatel55): 
+| Main Tasks      | Estimated Time Cost (hours) |
+| ----------- | ----------- |
+| GitHub API code - Research and implement code to pull information from a GitHub repository (Yogi)   | 20 hours       |
+| Tokenization, LM initialization - read project source code, issues to instantiate bag-of-words vector dimensions. Then transform issue descriptions into vectors. (Ben, Annamika, Shivani)|20 hours |
+| User Profiles - Use git commit history and user-provided data to assign bag-of-words vectors to each maintainer of the project.  (Ben)    | 20 hours       |
+| Similarity and Ranking - Implement ranking functions to generate a ranked list of maintainers for each Issue. (Annamika, Shivani, Ben) | 10 hours        |
+| Integration and polish - Bring all these components together into a unified system that can actually be used by people.  (All)    | 10 hours       |
+| (Stretch goal) Duplicate, similarity detection - use similarity between queries to automatically label duplicate or related issues. (Ben, Yogi)  | 10 hours        |
+| **Total**      | **90 hours (10 stretch)**       |
