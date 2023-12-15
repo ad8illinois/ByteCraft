@@ -1,7 +1,9 @@
 # Bytecraft - Github issue triage
-
+Final presentation can be found here: [add video title and link]() \
 
 ## Usage
+Complete usage directions can be found here: [documentation.md](https://github.com/ad8illinois/ByteCraft/blob/master/documentation.md) \
+
 Create a python venv, install dependencies:
 ```
 python -m venv venv
