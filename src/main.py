@@ -317,7 +317,7 @@ def classify_file(learn_dir, filepath, verbose=False):
     
     # # NOTE: This is our old implementation of KNN, using the scipy library
     # # NOTE: But after testing, it gives us really bad results compared to using our basic implementation above...
-    # knn = knn_classification(5, training_docs, training_labels, [doc_tfidf_vector])
+    # knn = knn_classification(12, training_docs, training_labels, [doc_tfidf_vector])
     # predicted_topic_index = knn[0]
     # predicted_topic = topic_index_map[predicted_topic_index]
 

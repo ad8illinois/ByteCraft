@@ -31,8 +31,8 @@ def naive_bayes_classification(X, y, test_tf_vector):
 
 def knn_classification(n_neighbors, X, y, test_tf_vector):
     # Use the scikit.learn KNN classifier to classify with n_neighbors
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-    knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+    knn = KNeighborsClassifier(n_neighbors=n_neighbors, weights='distance')
     knn.fit(X_train, y_train)
     pred = knn.predict(test_tf_vector)
     return pred
