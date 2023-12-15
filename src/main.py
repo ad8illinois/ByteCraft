@@ -142,6 +142,7 @@ def learn(data_dir):
             predicted_topic = classify_file(
                 data_dir=data_dir,
                 filepath=filepath,
+                method='knn',
                 verbose=False
             )
             print(f'{filepath} - User {topic} - Predicted User {predicted_topic}')
@@ -161,12 +162,13 @@ def learn(data_dir):
 
 @click.command()
 @click.option('--data-dir', help='Folder to store issues, vectors')
+@click.option('--method', help='Either "knn" or "naivebayes"')
 @click.option('--api-token', help='Github API token')
 @click.option('--github-issue', help='GitHub issue URL or issue number to classify')
 @click.option('--filepath', help='File to classify. If given, ignores github-issue and api-token')
 @click.option('--verbose', is_flag=True, type=click.BOOL, default=False, help='If defined, ')
-def classify(data_dir, api_token, github_issue, filepath, verbose):
-    if data_dir is None:
+def classify(data_dir, method, api_token, github_issue, filepath, verbose):
+    if data_dir is None or method is None:
         ctx = click.get_current_context()
         click.echo(ctx.get_help())
         ctx.exit()
@@ -191,7 +193,7 @@ def classify(data_dir, api_token, github_issue, filepath, verbose):
         click.echo(ctx.get_help())
         ctx.exit()
 
-    predicted_topic = classify_file(data_dir, filepath, verbose)
+    predicted_topic = classify_file(data_dir, filepath, method, verbose)
     print('Classification Results:', predicted_topic)
 
     # Issue duplication detection
@@ -238,7 +240,7 @@ def find_duplicates(data_dir, filepath):
 
     return duplicate_docs
 
-def classify_file(data_dir, filepath, verbose=False):
+def classify_file(data_dir, filepath, method, verbose=False):
     # Read the inverted index, use it to get a tf-vector for the new input file
     inverted_index = InvertedIndex()
     inverted_index.load_from_file(os.path.join(data_dir, 'inverted_index.txt'))
@@ -251,7 +253,6 @@ def classify_file(data_dir, filepath, verbose=False):
     with open(os.path.join(data_dir, 'training.json'), 'r') as file:
         topic_documents = json.loads(file.read()) 
 
-    # Shape input data into KNN-compatible format
     training_doc_filenames = []
     training_docs = []
     training_labels = []
@@ -268,27 +269,32 @@ def classify_file(data_dir, filepath, verbose=False):
             training_docs.append(training_doc_tfidf_vector)
             training_labels.append(topic_index)
 
-    if verbose:
-        # For debugging, print cosine similarity with each file in the training data
+    if method == 'knn':
         distances = []
         for i, training_doc in enumerate(training_docs):
             distances.append({
                 'filename': training_doc_filenames[i],
                 'topic': topic_index_map[training_labels[i]],
-                'similarity': euclidian_distance(training_doc, doc_tfidf_vector),
+                'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
             })
-        distances = sorted(distances, key=lambda d: d['similarity'])
+        distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
+        top_n = distances[:5]
+        top_n_topics = [d['topic'] for d in top_n]
+        most_common = Counter(top_n_topics).most_common()
+        predicted_topic = most_common[0][0]
 
-        print('Euclidean distances: ')
-        for s in distances:
-            print(f"{s['filename']} {s['similarity']} - {s['topic']}")
-        print('')
+        if verbose:
+            for d in top_n:
+                print(f"Filepath: {d['filename']}  Topic: {d['topic']}  Similarity: {d['similarity']}")
 
-    nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
-    predicted_topic_index = nb[0]
-    predicted_topic = topic_index_map[predicted_topic_index]
+        return predicted_topic
+    
+    if method == 'naivebayes':
+        nb = naive_bayes_classification(training_docs, training_labels, [doc_tfidf_vector])
+        predicted_topic_index = nb[0]
+        predicted_topic = topic_index_map[predicted_topic_index]
+        return predicted_topic
 
-    return predicted_topic
 
 
 if __name__ == '__main__':

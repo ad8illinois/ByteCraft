@@ -84,9 +84,9 @@ Options:
   --help              Show this message and exit.
 ```
 
-Example usage, for the nrlw/nx repository:
+Example usage, for the ngneat/elf repository:
 ```
-python ./src/main.py download \
+% python ./src/main.py download \
   --data-dir ./data \
   --api-token $GITHUB_API_TOKEN \
   --users NetanelBasal,shaharkazaz,ido-golan,EricPoul \
@@ -114,7 +114,7 @@ Additionally, an index file will be created at `./issues/index.json`, which maps
 
 Example output folder structure:
 ```
-$data_dir/
+$DATA_DIR/
   - issues/
       - 20670.txt  # Full text and comments of issue 20670
       - 20672.txt
@@ -188,7 +188,7 @@ $DATA_DIR/
 Now, the final step of classification is to:
 1. Download a new github issue
 2. Tokenize the issue, create a bag-of-words vector with the same dimensions as our training data
-3. Use any classification algorithm to classify it into one of the learned categories
+3. Use one of our classification algorithms to classify it into one of the learned categories
     - KNN
     - Naive Bayes
   
@@ -199,6 +199,7 @@ Usage: main.py classify [OPTIONS]
 
 Options:
   --data-dir TEXT      Folder to store issues, vectors
+  --method TEXT        Either "knn" or "naivebayes"
   --api-token TEXT     Github API token
   --github-issue TEXT  GitHub issue URL or issue number to classify
   --filepath TEXT      File to classify. If given, ignores github-issue and
@@ -211,16 +212,15 @@ Example usage:
 ```
 % python ./src/main.py classify \
     --data-dir ./data \
+    --method knn \
     --api-token $GITHUB_API_TOKEN \
     --github-issue  https://github.com/ngneat/elf/issues/503 \
     --verbose
 
-Euclidean distances: 
-./data/issues/503.txt 0.0 - NetanelBasal
-./data/issues/496.txt 22.148671156102935 - NetanelBasal
-./data/issues/490.txt 24.302510198043095 - NetanelBasal
-./data/issues/493.txt 27.928345601321087 - EricPoul
-
+Filepath: ./data/issues/503.txt  Topic: NetanelBasal  Similarity: 1.0
+Filepath: ./data/issues/496.txt  Topic: NetanelBasal  Similarity: 0.0915722322675805
+Filepath: ./data/issues/493.txt  Topic: EricPoul  Similarity: 0.08406253459296453
+Filepath: ./data/issues/490.txt  Topic: NetanelBasal  Similarity: 0.014407300373578137
 Classification Results: NetanelBasal
 Duplicate issue found: ./data/issues/503.txt 1.0
 Duplicate docs:  ['./data/issues/503.txt']

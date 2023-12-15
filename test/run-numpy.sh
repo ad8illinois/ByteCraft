@@ -10,5 +10,6 @@ python src/main.py learn --data-dir ./data
 
 python src/main.py classify \
     --data-dir ./data \
+    --method knn \
     --api-token $GITHUB_API_TOKEN \
     --github-issue https://github.com/numpy/numpy/issues/25396

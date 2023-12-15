@@ -1,0 +1,8 @@
+{
+  "animals": [
+    "./testdata/wikipedia/pages/cat.txt"
+  ],
+  "places": [
+    "./testdata/wikipedia/pages/uiuc.txt"
+  ]
+}

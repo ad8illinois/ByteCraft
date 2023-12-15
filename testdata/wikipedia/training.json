@@ -1,0 +1,11 @@
+{
+  "animals": [
+    "./testdata/wikipedia/pages/bird.txt",
+    "./testdata/wikipedia/pages/fish.txt",
+    "./testdata/wikipedia/pages/dog.txt"
+  ],
+  "places": [
+    "./testdata/wikipedia/pages/chicago.txt",
+    "./testdata/wikipedia/pages/champaign.txt"
+  ]
+}
