@@ -1,7 +1,7 @@
 # Github-Triage
 A command-line utility for triage of github issues.
 
-Final presentation can be found here: [CS437-Final-Presentation.mp4](https://drive.google.com/file/d/14yhRimtBtPc53wgQaaRtcMfeQYcE5Z9c/view?usp=sharing)
+Final presentation can be found here: [CS410-Final-Presentation.mp4](https://drive.google.com/file/d/14yhRimtBtPc53wgQaaRtcMfeQYcE5Z9c/view?usp=sharing)
 
 ## Team Members
 Ben Sivoravong (bs62) <br />
