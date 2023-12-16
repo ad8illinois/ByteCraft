@@ -124,13 +124,13 @@ def learn(data_dir):
         term_vec_to_file(terms, doc_tf, os.path.join(data_dir, 'documents', stem + '_tf.txt'))
         np.save(os.path.join(data_dir, 'documents', stem + '_tf.npy'), doc_tf)
 
-        doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
-        np.save(os.path.join(data_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
-        np.save(os.path.join(data_dir, 'tf-idf-transformation-vector.npy'), doc_tfidf_vector)
+        # doc_tfidf_vector = inverted_index.compute_tf_idf_vector()
+        # np.save(os.path.join(data_dir, 'documents', stem + '_tf_idf.npy'), doc_tfidf_vector)
+        # np.save(os.path.join(data_dir, 'tf-idf-transformation-vector.npy'), doc_tfidf_vector)
 
         # Use this for the naive implementation of tf-idf
-        # term_vec_to_file(terms, doc_tf_idf, os.path.join(documents_dir, stem + '_tf_idf.txt'))
-        # np.save(os.path.join(data_dir, 'documents', stem + '_tf_idf.npy'), doc_tf_idf)
+        term_vec_to_file(terms, doc_tf_idf, os.path.join(documents_dir, stem + '_tf_idf.txt'))
+        np.save(os.path.join(data_dir, 'documents', stem + '_tf_idf.npy'), doc_tf_idf)
 
     print('-----------')
     print('Evaluation')
@@ -283,9 +283,9 @@ def classify_file(data_dir, filepath, method, verbose=False):
                 'topic': topic_index_map[training_labels[i]],
                 'similarity': cosine_similarity(training_doc, doc_tfidf_vector),
             })
-        distances = sorted(distances, key=lambda d: d['similarity'][0], reverse=True)
+        # distances = sorted(distances, key=lambda d: d['similarity'][0], reverse=True)
         # Comment the line above and use this for the other naive implementation of tf-idf
-        # distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
+        distances = sorted(distances, key=lambda d: d['similarity'], reverse=True)
         top_n = distances[:5]
         top_n_topics = [d['topic'] for d in top_n]
         most_common = Counter(top_n_topics).most_common()
