@@ -1,7 +1,5 @@
-import math
-from tokenization import create_tf_dict, count_total_tokens_in_doc
+from tokenization import create_tf_dict
 import numpy as np
-import pandas as pd
 import json
 
 class InvertedIndex:
@@ -97,30 +95,20 @@ class InvertedIndex:
 
     def compute_tf_idf_vector(self):
 
-        # Create a data frame to clearly see words mapped to their term frequencies
-        # Each column is the word and each row is the doc index
-
         unique_words_in_corpus = self.get_terms()
         idf = {}
-        tf_data_frame = pd.DataFrame(np.zeros((self.num_docs,
-                                              len(self.term_counts.items()))), columns=unique_words_in_corpus)
+        tf_np = np.zeros((self.num_docs, len(unique_words_in_corpus)))
 
-        print(self.file_paths)
+        for i, word in enumerate(unique_words_in_corpus):
+            idf[word] = np.log10(self.num_docs/len(self.term_counts[word])+1)
+
         for doc_id, file in enumerate(self.file_paths):
             for i, word in enumerate(unique_words_in_corpus):
-                tf_data_frame[word][doc_id] = self.term_counts[word].get(file, 0)/self.total_terms_in_doc[file]
-                idf[word] = np.log10(self.num_docs/len(self.term_counts[word])+1)
+                tf_np[doc_id, i] = self.term_counts[word].get(file, 0)/self.total_terms_in_doc[file]
 
-        tf_idf_data_frame = tf_data_frame.copy()
-        print(tf_idf_data_frame)
+        tf_idf_vector = tf_np * np.array(list(idf.values()))
 
-        for word in unique_words_in_corpus:
-            for i in range(self.num_docs):
-                tf_idf_data_frame[word][i] = tf_data_frame[word][i] * idf[word]
-
-        tf_idf_vector = tf_idf_data_frame.sum(axis=0)
-        print(tf_idf_vector.to_numpy())
-        return tf_idf_vector.to_numpy()
+        return tf_idf_vector
 
     def apply_tf_transformation(self, tf_vector):
         """
